@@ -1,0 +1,47 @@
+
+<style type="text/css">
+    <!--
+    #toolTipBox {
+    display:none;
+    padding:4px;
+    font-size:12px;
+    border:black solid 1px;
+    font-family:verdana;
+    position:absolute;
+    background-color:#AADDFF;
+    color:#000000;
+    }
+    //-->
+    </style>
+    
+    <script type="text/javascript">
+    <!--
+    var theObj="";
+    
+    function toolTip(me) {
+    theObj=me
+    theObj.onmousemove=updatePos;
+    document.getElementById('toolTipBox').innerHTML=window.event.offsetX +" - "+ window.event.offsetY;
+    document.getElementById('toolTipBox').style.display="block";
+    window.onscroll=updatePos;
+    }
+    
+    function updatePos() {
+    var ev=arguments[0]?arguments[0]:event;
+    var x=ev.clientX;
+    var y=ev.clientY;
+    diffX=8;
+    diffY=8;
+    document.getElementById('toolTipBox').style.top = y-2+diffY+document.body.scrollTop+ "px";
+    document.getElementById('toolTipBox').style.left = x-2+diffX+document.body.scrollLeft+"px";
+    theObj.onmouseout=hideMe;
+    }
+    function hideMe() {
+    document.getElementById('toolTipBox').style.display="none";
+    }
+    //-->
+    </script>
+    
+    <span id="toolTipBox" width="200"></span>
+    <img src="image.jpg" border="0" style="cursor:crosshair" onclick="toolTip(this);return false">
+    
