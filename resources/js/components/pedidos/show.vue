@@ -31,7 +31,7 @@
                   <div class="col-md-6 mb-3">
                     <h4>N. Pax</h4>
                     <div class="form-group">
-                      <input v-model="form.numpax_wordpress" disabled class="form-control form-control-solid">
+                      <input v-model="form.numpax" disabled class="form-control form-control-solid">
                     </div> 
                   </div>
                   

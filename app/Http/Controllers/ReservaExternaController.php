@@ -46,14 +46,14 @@ class ReservaExternaController extends Controller
         }
 
 
-        if (is_file($request->cupon)) {
-            $file = $request->cupon;        
-            $filename = uniqid() . '-' .$file->getClientOriginalName(); 
-            $path_file = $this->folder.'/'.$filename;  
-            $path_server = getcwd().$this->folder;  
-            $request->file('cupon')->move($path_server, $filename); 
-            $data['url_cupon'] = $path_file;
-        }
+        // if (is_file($request->cupon)) {
+        //     $file = $request->cupon;        
+        //     $filename = uniqid() . '-' .$file->getClientOriginalName(); 
+        //     $path_file = $this->folder.'/'.$filename;  
+        //     $path_server = getcwd().$this->folder;  
+        //     $request->file('cupon')->move($path_server, $filename); 
+        //     $data['url_cupon'] = $path_file;
+        // }
       
       	try {
 
@@ -61,7 +61,7 @@ class ReservaExternaController extends Controller
                 $data['pedido_id'] = $pedido->id ?? null;
                 $data['zona'] = Zones::where('id',$data['zona_id'])->first()->nombre ?? null;
                 $data['estatus'] = 'pendiente';
-                $data['privado'] = ($data['privado']=="1") ? true : false;
+                // $data['privado'] = ($data['privado']=="1") ? true : false;
                 $ReservasExternas = ReservasExternas::create($data);   
 
                 

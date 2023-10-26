@@ -24,7 +24,7 @@ class ReservasExternasController extends Controller
      
     public function index(){
         
-        $records = ModeloPrincipal::get();
+        $records = ModeloPrincipal::orderBy('id','desc')->get();
     
         foreach ($records as $key => $value) {             
             if(is_null($value->pedido_id)){

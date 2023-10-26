@@ -207,7 +207,7 @@
                   return (value==1) ? 'Si' : 'No';
                 },
                 // variant: 'danger'
-              },     
+              },       
               {
                 key: "nombre_contacto",
                 label: "Contacto",
@@ -240,6 +240,13 @@
                 },
                 // variant: 'danger'
               },
+              {
+                key: "agrupadox",
+                label: "Agrupado",
+                formatter: (value, key, item) => {
+                  return (item.parent_id==null) ? 'No' : 'Si';
+                }, 
+              },   
               { key: 'actions_go', label: 'Acciones' }
 
               // { key: 'actions_go', label: 'Acciones' }

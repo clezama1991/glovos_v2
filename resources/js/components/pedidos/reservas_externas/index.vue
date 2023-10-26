@@ -58,29 +58,26 @@
         data() {
           return {
             fields: [ 
-              { key: 'orden_wordpress', label: 'Pedido', sortable: true, sortDirection: 'desc' }, 
+              { key: 'orden_wordpress', label: 'Pedido', sortable: true }, 
               {
                 key: "numpax",
                 label: "N. Pax",
                 sortable: true,
-                sortDirection: "desc"
               },              
-              { key: 'nombre_contacto', label: 'Nombre Completo', sortable: true, sortDirection: 'desc' },              
+              { key: 'nombre_contacto', label: 'Nombre Completo', sortable: true },              
              {
                 key: "fecha_reserva",
                 label: "Fecha",
                 sortable: true,
-                sortDirection: "desc",
                 formatter: (value) => {
                   return moment(value).format("DD/MM/YYYY");
                 },
               },
-              { key: 'zona', label: 'Zona', sortable: true, sortDirection: 'desc' },              
+              { key: 'zona', label: 'Zona', sortable: true },              
               {
                 key: "estatus",
                 label: "Estatus",
                 sortable: true,
-                sortDirection: "desc",
                 formatter: (value) => {
                   return value.toUpperCase();
                 },

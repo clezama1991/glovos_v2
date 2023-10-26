@@ -21,7 +21,7 @@
         >
           <div class="card-body">
             <div class="row">
-              <div class="col-md-4 mb-3">
+              <div class="col-md-3 mb-3">
                 <div class="form-group">
                   <label for="orden_wordpress">Nro de Pedido</label>
                   <input
@@ -31,28 +31,12 @@
                     class="form-control"
                     required
                   />
+                    
+                <span class="h5 text-success" v-if="form.pedido"> <i class="fa fa-check text-success" aria-hidden="true"></i> Pedido: <router-link :to="'/pedidos/consultar/'+form.pedido.orden_wordpress"># {{form.pedido.orden_wordpress}} </router-link></span>
+                <span class="h5 text-warning" v-else> <i class="fa fa-exclamation-triangle text-warning" aria-hidden="true"></i> Pedido No Existe </span>
                 </div>
               </div>
-              <div class="col-md-4 mb-3">
-                <div class="form-group">
-                  <label for="privado">Tipo de vuelo</label>
-                  <select class="form-control" v-model="form.privado">
-                    <option value="">Selecciona</option>
-                    <option value="0">Vuelo estándar</option>
-                    <option value="1">Vuelo privado</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-4 mb-3">
-                <div class="form-group">
-                  <label for="zona">Zona</label>
-                  <select class="form-control selectpicker" id="selectpicker_zonas" required data-live-search="true" v-model="form.zona_id">
-                    <option value="">Seleccione</option>
-                    <option :value="item.id" v-for="(item, index) in Zonas" :key="index">{{item.nombre}}</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-4 mb-3">
+              <div class="col-md-3 mb-3">  
                 <div class="form-group">
                   <label for="numpax">Nro de pasajeros</label>
                   <select class="form-control" v-model="form.numpax">
@@ -69,10 +53,24 @@
                     <option value="10">10</option>
                     <option value="11">11</option>
                     <option value="12">11 o más - Consultar</option>
+                  </select>                 
+                  <span class="h5"  v-if="form.pedido" :class="{'text-warning':form.pedido.numpax!=form.numpax,'text-success':form.pedido.numpax==form.numpax}">
+                    <span v-if="form.pedido.numpax!=form.numpax"><i class="fa fa-exclamation-triangle" :class="{'text-warning':form.pedido.numpax!=form.numpax}" aria-hidden="true"></i></span>
+                    <span v-else><i class="fa fa-check" :class="{'text-success':form.pedido.numpax==form.numpax}" aria-hidden="true"></i></span>
+                    Pedido: {{form.pedido.numpax=='' || form.pedido.numpax==null ? 'Sin Información' : form.pedido.numpax}} 
+                  </span> 
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <div class="form-group">
+                  <label for="zona">Zona</label>
+                  <select class="form-control selectpicker" id="selectpicker_zonas" required data-live-search="true" v-model="form.zona_id">
+                    <option value="">Seleccione</option>
+                    <option :value="item.id" v-for="(item, index) in Zonas" :key="index">{{item.nombre}}</option>
                   </select>
                 </div>
               </div>
-              <div class="col-md-4 mb-3">
+              <div class="col-md-3 mb-3">
                 <div class="form-group">
                   <label for="fecha_reserva">Fecha de reserva</label>
                   <input
@@ -83,19 +81,7 @@
                     required
                   />
                 </div>
-              </div>
-              <div class="col-md-4 mb-3">
-                <div class="form-group">
-                  <label for="cupon">Cupón de vuelo</label>
-                  <input
-                    v-model="form.cupon"
-                    id="cupon"
-                    type="text"
-                    class="form-control"
-                    required
-                  />
-                </div>
-              </div>
+              </div>  
               <div class="col-md-4 mb-3">
                 <div class="form-group">
                   <label for="nombre_contacto">Nombre Completo</label>
@@ -106,6 +92,11 @@
                     class="form-control"
                     required
                   />
+                  <span class="h5"  v-if="form.pedido" :class="{'text-warning':form.pedido.nombre_contacto!=form.nombre_contacto,'text-success':form.pedido.nombre_contacto==form.nombre_contacto}">
+                    <span v-if="form.pedido.nombre_contacto!=form.nombre_contacto"><i class="fa fa-exclamation-triangle" :class="{'text-warning':form.pedido.nombre_contacto!=form.nombre_contacto}" aria-hidden="true"></i></span>
+                    <span v-else><i class="fa fa-check" :class="{'text-success':form.pedido.nombre_contacto==form.nombre_contacto}" aria-hidden="true"></i></span>
+                    Pedido: {{form.pedido.nombre_contacto=='' || form.pedido.nombre_contacto==null ? 'Sin Información' : form.pedido.nombre_contacto}} 
+                  </span>
                 </div>
               </div>
               <div class="col-md-4 mb-3">
@@ -118,6 +109,11 @@
                     class="form-control"
                     required
                   />
+                  <span class="h5" v-if="form.pedido" :class="{'text-warning':form.pedido.email_contacto!=form.email_contacto,'text-success':form.pedido.email_contacto==form.email_contacto}">
+                    <span v-if="form.pedido.email_contacto!=form.email_contacto"><i class="fa fa-exclamation-triangle" :class="{'text-warning':form.pedido.email_contacto!=form.email_contacto}" aria-hidden="true"></i></span>
+                    <span v-else><i class="fa fa-check" :class="{'text-success':form.pedido.email_contacto==form.email_contacto}" aria-hidden="true"></i></span>
+                    Pedido: {{form.pedido.email_contacto=='' || form.pedido.email_contacto==null ? 'Sin Información' : form.pedido.email_contacto}} 
+                  </span>
                 </div>
               </div>
               <div class="col-md-4 mb-3">
@@ -129,7 +125,12 @@
                     type="text"
                     class="form-control"
                     required
-                  />
+                  />                  
+                  <span class="h5"  v-if="form.pedido" :class="{'text-warning':form.pedido.telefono_contacto!=form.telefono_contacto,'text-success':form.pedido.telefono_contacto==form.telefono_contacto}">
+                    <span v-if="form.pedido.telefono_contacto!=form.telefono_contacto"><i class="fa fa-exclamation-triangle" :class="{'text-warning':form.pedido.telefono_contacto!=form.telefono_contacto}" aria-hidden="true"></i></span>
+                    <span v-else><i class="fa fa-check" :class="{'text-success':form.pedido.telefono_contacto==form.telefono_contacto}" aria-hidden="true"></i></span>
+                    Pedido: {{form.pedido.telefono_contacto=='' || form.pedido.telefono_contacto==null ? 'Sin Información' : form.pedido.telefono_contacto}} 
+                  </span>
                 </div>
               </div>
               <div class="col-md-12 mb-3">

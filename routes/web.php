@@ -37,6 +37,7 @@ use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PermissionRolesController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReservaExternaController;
 
 
 /*
@@ -295,32 +296,16 @@ Route::group([ 'middleware' => 'auth'], function () {
 		
 
     });
-
-	 
-
-	Route::get('/buscarClientes', 'Dashboard\ClientesController@index');
-	Route::post('/updateOrCreatedCliente/instalacion', 'Dashboard\ClientesController@updateOrCreatedClienteInstalacion');
-
-	Route::resource('resource_clientes', 'Dashboard\ClientesController');
-	Route::resource('ramos', 'RamosController');
-	Route::resource('polizas', 'PolizasController');
-	Route::resource('empleados', 'EmpleadosController');
-	Route::resource('aseguradoras', 'AseguradorasController');
-	Route::resource('admin_usuarios', 'Administrador\usuariosController');
-
-
-	Route::post('/CambiarEstadoCliente', 'Dashboard\ClientesController@CambiarEstadoCliente');
-	Route::post('/EliminarCliente', 'Dashboard\ClientesController@EliminarCliente');
-	Route::get('/ConsultarClientes/{id}', 'Dashboard\ClientesController@ConsultarClientes');
-
-
+ 
 });
 
-Route::post('saved_reserve', 'ReservaExternaController@store');
-Route::post('completed_reserve', 'ReservaExternaController@update');
-Route::get('/completed_register_reserve/{id}', 'ReservaExternaController@edit');
-
-Route::get('register_reserve', 'ReservaExternaController@register_reserve');
+Route::controller(ReservaExternaController::class)->group(function () {
+    Route::post('/saved_reserve', 'store'); 
+    Route::post('/completed_reserve', 'update'); 
+    Route::get('/completed_register_reserve/{id}', 'edit'); 
+    Route::get('/register_reserve', 'register_reserve'); 
+});
+ 
 Route::get('/reserva_externa_completed', function () {
 	return view('reserva_externa_completed');
 });
