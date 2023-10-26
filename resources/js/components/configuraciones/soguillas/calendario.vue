@@ -12,6 +12,10 @@
           </div>
         </div>        
         
+        <div class="alert alert-danger" role="alert">
+            <strong>Para eliminar soguilla del calendario</strong> presione encima del calendario el soguilla que desea eliminar y confirme!
+          </div>
+          
         <FullCalendar :options="calendarOptions" />
       </div>
     </div>
@@ -27,7 +31,6 @@
                 <span aria-hidden="true">&times;</span>
               </button>
           </div>
-          
     <form @submit="RegistarForm" method="POST" enctype="multipart/form-data" class="form" id="GuardarServiciosSolucionLimpieza">
        
           <div class="modal-body">
@@ -201,6 +204,29 @@
               });                
 
         }, 
+          DeleteRecord(id) {
+              console.log('estamos borradno');
+               var url = '/admin/configuracion/soguillas_disponibilidad/'+id;
+
+              axios.delete(url,{
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }, 
+              }).then(response=>{ 
+                  this.GuardandoCambios = !this.GuardandoCambios;
+                  if(!response.data.result){
+                    this.$toastr.error('Ocurrio un error al registrar', 'Error en Proceso...');       
+                  }else{                
+                  this.$toasted.success('Información Registrada Correctamente');                  
+                  this.reset();
+                }     
+
+
+              }).catch(error => {
+                  this.errors = error.response.data
+              });                
+
+        }, 
           BuscarDisponibilida() {
             var url = '/admin/configuracion/soguillas_disponibilidad';
                 axios.get(url).then(response=>{
@@ -209,7 +235,7 @@
                         .map(function (items) {
 
                         var nombre = items.asistente.full_name;
-                        
+                         
                         if (screen.width < 1024) {
                             var nombre = items.asistente.nombre_corto;
                         }
@@ -240,11 +266,11 @@
           },
           BuscarTurnos() {
             var url = '/admin/configuracion/turnos';
-                axios.get(url).then(response=>{
-                    this.turnos = response.data.records;   
-                }).catch(error => {
-                    this.errors = error.response.data
-                });
+            axios.get(url).then(response=>{
+                this.turnos = response.data.records;   
+            }).catch(error => {
+                this.errors = error.response.data
+            });
           },
         },
   computed: {
@@ -286,9 +312,13 @@
         defaultAllDay: true,
         initialDate: TODAY,
         eventClick: function (info) {
-          _this.vuelo_seleccionado = info.event.extendedProps.fullData; 
-          $(".BtnVerVuelo").click();   
-          info.el.style.borderColor = "red";
+          console.log(info.event.extendedProps.fullData);
+          alert(info.event.title + " turno:" + (info.event.extendedProps.fullData.turno.nombre ?? null));
+
+          if (confirm("Esta seguro que desea eliminar soguilla del calendario?")) {
+            _this.DeleteRecord(info.event.extendedProps.fullData.id);
+          }
+ 
         },
       };
     },

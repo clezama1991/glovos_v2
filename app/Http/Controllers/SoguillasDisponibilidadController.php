@@ -29,7 +29,7 @@ class SoguillasDisponibilidadController extends Controller
    
     public function index(){
         
-        $records = ModeloPrincipal::with('asistente')->get();
+        $records = ModeloPrincipal::with('asistente','turno')->get();
     
         return response(['records' => $records]);
      
