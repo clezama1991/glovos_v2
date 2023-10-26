@@ -25,10 +25,10 @@
         <div class="card-body">
     
           <div class="row">
-            <div class="col-md-4 mb-3">
+            <div class="col-md-4 mb-3 d-none">
               <div class="form-group">
                 <label for="dni">Dni</label>
-                <input v-model="form.dni" id="dni" type="text" class="form-control" required>
+                <input v-model="form.dni" id="dni" type="text" class="form-control">
               </div> 
             </div>    
             <div class="col-md-4 mb-3">

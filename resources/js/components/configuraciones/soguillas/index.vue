@@ -64,8 +64,7 @@
         data() {
           return {
             fields: [ 
-              { key: 'dni', label: 'Dni', sortable: true, sortDirection: 'desc' },
-              { key: 'nombres', label: 'Nombre', sortable: true, sortDirection: 'desc' },
+               { key: 'nombres', label: 'Nombre', sortable: true, sortDirection: 'desc' },
               { key: 'apellidos', label: 'Apellidos', sortable: true, sortDirection: 'desc' },
               { key: 'telefono', label: 'Teléfono', sortable: true, sortDirection: 'desc' },
               { key: 'activo', label: 'Activo', sortable: true, sortDirection: 'desc',
