@@ -107,6 +107,7 @@ Route::controller(PedidosExternoController::class)->group(function () {
     Route::get('/completed_form/{token}', 'index');
     Route::get('/listado_globos_extern', 'listado_globos_extern');
     Route::post('/saved_completed_form', 'store');
+    Route::post('/update_data_passanger', 'update_data_passanger');
     Route::get('/descargar_multimedias/{vuelo_id}/{pedido_id}', 'descargar_multimedias');
     Route::get('/download_multimedia/{vuelo_id}', 'download_multimedia');
     Route::get('/test_correos', 'test_correos');

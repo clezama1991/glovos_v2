@@ -451,6 +451,9 @@
                                                         <th>
                                                             Peso
                                                         </th>
+                                                        @if ($pedido->vuelo->estatus != 'Volado')
+                                                            <td>Editar</td>
+                                                        @endif
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -465,6 +468,65 @@
                                                             <td>
                                                                 {{ $item->pasajero->peso }}
                                                             </td>
+                                                            
+                                                            @if ($pedido->vuelo->estatus != 'Volado')
+                                                                <td>
+                                                                    <!-- Button trigger modal -->
+                                                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modelId{{$item->pasajero->id}}">
+                                                                    Editar
+                                                                    </button>
+                                                                    
+                                                                    <!-- Modal -->
+                                                                    <div class="modal fade" id="modelId{{$item->pasajero->id}}" tabindex="-1" role="dialog" aria-labelledby="modelTitleId{{$item->pasajero->id}}" aria-hidden="true">
+                                                                        <div class="modal-dialog" role="document">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title">Actualizar Datos</h5>
+                                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                            <span aria-hidden="true">&times;</span>
+                                                                                        </button>
+                                                                                </div>
+                                                                                <form action="/update_data_passanger" method="post" id="update_data_passanger">
+                                                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                                                    <input type="hidden" name="pasajero_id" value="{{ $item->pasajero->id }}">
+
+                                                                                    <div class="modal-body"> 
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-12">
+                                                                                                <div class="form-group ">
+                                                                                                    <label for="">Nombre *</label>
+                                                                                                    <input type="text" name="nombre_pasajero"
+                                                                                                        class="form-control" placeholder="Nombre" required value="{{ $item->pasajero->nombres }}">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-md-12">
+                                                                                                <div class="form-group ">
+                                                                                                    <label for="">Apellido *</label>
+                                                                                                    <input type="text" name="apellidos_pasajero"
+                                                                                                        class="form-control" placeholder="Apellido" required value="{{ $item->pasajero->apellidos }}">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-md-12">
+                                                                                                <div class="form-group ">
+                                                                                                    <label for="">Peso Kgs *</label>
+                                                                                                    <input type="text" name="peso_pasajero"
+                                                                                                        class="form-control float-number" placeholder="Peso"
+                                                                                                        required value="{{ $item->pasajero->peso }}">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                                                        <button type="submit" class="btn btn-warning">Actualizar</button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            @endif
+
                                                         </tr>
                                                         <?php $nro++; ?>
                                                     @endforeach

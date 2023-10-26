@@ -592,4 +592,35 @@ class PedidosExternoController extends Controller
         return response(['records' => $records]);
      
     }
+
+    
+    public function update_data_passanger(Request $request)
+    {
+    
+      	try {
+
+            DB::beginTransaction();
+   
+                $pasajero = Pasajeros::whereId($request->pasajero_id)->update([
+                    'nombres' => $request->nombre_pasajero,
+                    'apellidos' => $request->apellidos_pasajero,
+                    'peso' => preg_replace("/[^0-9]/", "", $request->peso_pasajero), 
+                ]);   
+                                     
+            DB::commit();
+
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            session()->flash('error', $e->getMessage());
+            return redirect()->back();
+        }
+  
+        session()->flash('success', $request->pasajero_id);
+        return redirect()->back();
+     
+    }
+    
+
 }
