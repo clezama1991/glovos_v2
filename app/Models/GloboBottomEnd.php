@@ -20,7 +20,7 @@ class GloboBottomEnd extends Model
         'compatibilidad_globos_ids',
         'cesta_id',
         'quemador_id',
-        'botella_id',
+        'botella_id'
     ];
 
     protected $casts = [        
@@ -37,11 +37,6 @@ class GloboBottomEnd extends Model
         return $data;
     }
 
-    public function botellas_pivot()
-    {
-        return $this->hasMany(GloboBottomEndBotellas::class, "id", "bottom_end_id");
-    }
- 
     public function cesta()
     {
         return $this->belongsTo(GloboCestas::class, 'cesta_id', 'id')->withTrashed();
@@ -57,15 +52,13 @@ class GloboBottomEnd extends Model
         return $this->belongsTo(GloboBotellas::class, 'botella_id', 'id')->withTrashed();
     }
     
-
-    public function botellas_d(){
+    public function botellas(){
         $data = [];        
         if(!is_null($this->botella_id)){
             $data = GloboBotellas::whereIn('id',$this->botella_id)->get();
         }
         return $data;
     }
-
     public function botellas_rowVariant(){
         $result = false;        
         if(!is_null($this->botella_id)){
@@ -98,7 +91,7 @@ class GloboBottomEnd extends Model
     public function getPesoBotellasAttribute()
     {   
         $suma_peso = 0;
-        foreach ($this->botellas as $key => $value) {
+        foreach ($this->botellas() as $key => $value) {
             $suma_peso += $value->peso;
         }
         return $suma_peso;    

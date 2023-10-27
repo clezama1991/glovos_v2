@@ -127,7 +127,7 @@ Route::group([ 'middleware' => 'auth'], function () {
         Route::post('/test', 'test');
     });
 
-	Route::get('pedidos_enviar_formulario/{pedido_id}', 'PedidosController@pedidos_enviar_formulario');
+	Route::get('pedidos_enviar_formulario/{pedido_id}', [PedidosController::class,'pedidos_enviar_formulario']);
 
  
     Route::prefix('admin')->group(function () {

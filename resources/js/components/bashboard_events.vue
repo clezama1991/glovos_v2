@@ -2590,7 +2590,7 @@ console.log(pedido_id);
 
 <style>
 
-.pasajeros_completos>.fc-event-main>.fc-event-main-frame>.fc-event-title-container>.fc-event-title:after {
+.pasajeros_completos>.fc-event-main>.fc-content:after {
   font-family: "Font Awesome 5 Free";
   content: "\f4fc";
   display: inline-block;
