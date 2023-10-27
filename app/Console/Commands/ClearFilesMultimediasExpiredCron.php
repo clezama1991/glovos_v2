@@ -42,10 +42,10 @@ class ClearFilesMultimediasExpiredCron extends Command
     {    
         $date = date('Y-m-d'); 
         $real_now = Carbon::create($date); 
-
+ 
         try {
             $vuelos = ModeloPrincipal::where('multimedia_caduca','<',$real_now)->where('multimedia_archivos_borrados',false)->get();
-            
+            // dd($vuelos[0]->id);
             foreach ($vuelos as $key => $vuelo) { 
     
                 foreach ($vuelo->multimedias as $key_multimedias => $multimedia) {
@@ -55,13 +55,18 @@ class ClearFilesMultimediasExpiredCron extends Command
                     }
                 }
     
-                $folder = 'public/uploads/multimedia/vuelo_'.$vuelo->id;            
-                
-                rmdir($folder);
-    
+                $folder = 'public/uploads/multimedia/vuelo_'.$vuelo->id; 
+                $this->delete_all( $folder );
+  
+
+                $zipFileName = 'MultimediasVuelo'.$vuelo->id.'.zip';
+                if(\File::exists(public_path($zipFileName))){
+                    \File::delete(public_path($zipFileName));
+                }
+                  
                 $vuelo->multimedia_archivos_borrados = true;
                 $vuelo->save();
-            } 
+            }  
         } catch (\Throwable $th) {
             BitacorasCron::create([
                 'fecha' => date('Y-m-d'),
@@ -77,10 +82,28 @@ class ClearFilesMultimediasExpiredCron extends Command
             'hora' => date('H:i'),
             'estatus' => 'exitoso',
             'tipo' => 'Limpiar Archivos Caducados',
-            'nota' => $vuelos->pluck('id')->toArray(),
+            'nota' => count($vuelos),
         ]);
 
 
     }
+
+    
+    // Elimina todos los archivos y carpetas dentro del directorio
+    public  function delete_all( $dir ) {
+        if( is_dir($dir) ) { 
+            $objects = array_diff( scandir($dir), array('..', '.') );
+            foreach ($objects as $object) { 
+              $objectPath = $dir."/".$object;
+              if( is_dir($objectPath) )
+                $this->delete_all($objectPath);
+              else
+                unlink($objectPath); 
+            } 
+            rmdir($dir); 
+          } 
+    }
+
+
 
 }
