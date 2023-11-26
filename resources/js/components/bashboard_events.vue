@@ -1384,7 +1384,7 @@
                       <h4>Confirmar Vuelo Volado</h4>
                     </div>
                   </div>
-                  <form @submit="EnterPin" method="POST" enctype="multipart/form-data" class="form" id="GuardarServiciosSolucionLimpieza">
+                  <form @submit="EnterPin" method="POST" enctype="multipart/form-data" class="form">
                     <div class="row">
                       <div class="col-md-2 mb-3">
                         <div class="form-group">
@@ -1459,7 +1459,7 @@
                             
                       <div class="col-md-12 pb-3"> 
                         <div class="col-md-12 py-5 text-right">
-                          <button type="submit" class="btn btn-danger btn-sm">
+                          <button type="submit" class="btn btn-danger btn-sm"  id="BtnConfirmarVueloVolado">
                             Confirmar vuelo realizado
                           </button>
                           <button class="btn btn-light-danger btn-sm" @click="cambiar_fecha_vuelo='',vista='vuelo'">
@@ -1488,7 +1488,7 @@
                     </div>
 
                     <div class="row d-flex justify-content-center">                    
-                      <div class="col-md-2 mb-3 text-center" v-if="PinValidate=='1'">
+                      <div class="col-md-2 mb-3 text-center d-none" v-if="PinValidate=='1'">
                         <i class="flaticon-user-ok text-success icon-4x"></i>
                         <span class="d-block"> PIN Verificado </span>
                       </div> 
@@ -1504,7 +1504,7 @@
                           <button  v-if="PinValidate=='0' || PinValidate=='2'" type="submit" class="btn btn-danger btn-sm">
                             Validar PIN
                           </button>
-                          <button @click="vista='vuelo_realizado'" v-if="PinValidate=='1'" class="btn btn-success btn-sm">
+                          <button @click="vista='vuelo_realizado'" v-if="PinValidate=='1'" class="btn btn-success btn-sm d-none">
                             Continuar
                           </button>
                           <button class="btn btn-light-danger btn-sm" @click="cambiar_fecha_vuelo='',vista='vuelo'">
@@ -2351,7 +2351,12 @@ console.log(pedido_id);
               pin : this.pin,
               token         :   this.token
           }).then(response=>{            
+            if(response.data.result=='1'){
+              this.ValidarCamposMarcaComoVolado(evt);
+            }
             this.PinValidate = response.data.result;
+ 
+
           }).catch(error => {
               console.log(error);
               this.errors = error.response

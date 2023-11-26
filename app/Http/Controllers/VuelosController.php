@@ -850,6 +850,8 @@ class VuelosController extends Controller
                 $vuelo->estatus = 'Cancelado';
                 $vuelo->save();
 
+                VuelosRealizados::where('vuelo->id', $request->id)->delete();
+
             DB::commit();
 
         } catch (\Throwable $e) {

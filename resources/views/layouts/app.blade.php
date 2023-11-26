@@ -52,6 +52,13 @@
         .tox-statusbar{
             display: none !important;
         }
+
+        .bootstrap-select .dropdown-menu li.disabled a{
+            background: rgb(255 133 133 / 67%);
+        }
+        .bootstrap-select .dropdown-menu.inner > li.disabled:hover > a{
+            background: rgb(255 133 133 / 67%);
+        }
     </style>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">

@@ -149,12 +149,13 @@
             :fields="fields" 
             :listado="recordsFiltros" 
             titulo="Vuelo realizado"
-            acciones_tabla="sp"
+            acciones_tabla="sp-view sp-delete"
             selected_tabla=true
             exportar_datos=true
             return_array_id=true
             @returnArrayIds='returnArrayIds'
             @ButtonGo='ButtonGo'
+            @ButtonDelete="ButtonDelete"
             @Seleccion='Seleccion'
           ></tabla-component> 
 <!-- 
@@ -251,7 +252,59 @@
                     this.errors = error.response.data
                 });
           },
+          
+          ButtonDelete(data) {
+            console.log(data.data);
+            this.Borrar(data);
+          },
         
+    Borrar(data) {
+      var _this = this;
+      var registro = data.data;
+
+      Swal.fire({
+        title: "Confirmar!",
+        text: "Confirme que desea Cancelar el Vuelo N°: " + registro.vuelo.id,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Si, Confirmar!",
+        cancelButtonText: "No, Cancelar!",
+        reverseButtons: true,
+      }).then(function (result) {
+        if (result.value) {
+          var url = "/admin/confirmar_cancelacion_vuelo";
+
+          axios
+
+          axios.post(url,{
+              id: registro.vuelo.id,    
+              mensaje_cancelacion_vuelo: 'Vuelo realizado, posteriormente cancelado',             
+              token         :   _this.token
+          }).then(response=>{
+
+              if (!response.data.result) {
+                Swal.fire(
+                  "Ha ocurrido algún error!",
+                  "Se le notificará al equipo de soporte!" +
+                    response.data.mensaje_error,
+                  "error"
+                );
+                _this.$toasted.error("Ha ocurrido algún error!");
+              } else {
+                _this.$toasted.success(
+                  "Vuelo Cancelado Correctamente"
+                );
+              }
+
+              _this.Buscar();
+            })
+            .catch((error) => {
+              console.log(error);
+              this.errors = error.response;
+            });
+        }
+      });
+    },
       },
       
       computed: {  

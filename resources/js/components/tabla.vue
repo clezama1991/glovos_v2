@@ -137,10 +137,13 @@
                 <!-- sm == show modal / ver en modal -->
                 <!-- sp == show page / ver en pagina -->
 
-                <button v-b-tooltip v-if="acciones_tabla.includes('sp')" class="btn btn-sm btn-icon btn-warning" @click="ButtonGo(row.item)">
+                <button v-b-tooltip v-if="acciones_tabla.includes('sp-view')" class="btn btn-sm btn-icon btn-warning" @click="ButtonGo(row.item)"  :title="'Ver '+titulo">
                     <i class="flaticon-search"></i>
                 </button>
                 
+                <button v-b-tooltip v-if="acciones_tabla.includes('sp-delete')" class="btn btn-danger btn-sm btn-icon"  @click="ButtonDelete(row.item)"  :title="'Cancelar '+titulo">
+                        <i class="flaticon-close"></i>
+                </button>
             </template>
              
             <template #cell(actions)="row">

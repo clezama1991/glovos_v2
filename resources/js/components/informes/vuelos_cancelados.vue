@@ -110,7 +110,7 @@
             :fields="fields" 
             :listado="recordsFiltros" 
             titulo="Vuelo cancelado"
-            acciones_tabla="sp"
+            acciones_tabla="sp-view "
             selected_tabla=false
             exportar_datos=true
             return_array_id=true

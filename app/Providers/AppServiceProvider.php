@@ -58,7 +58,7 @@ class AppServiceProvider extends ServiceProvider
                     }
                 }
                 
-                $multimedias_caducados = Vuelos::whereMultimedia(1)->where('multimedia_caduca','<', $date)->orderBy('multimedia_caduca','ASC')->get();
+                $multimedias_caducados = Vuelos::whereMultimedia(1)->where('multimedia_archivos_borrados',false)->where('multimedia_caduca','<', $date)->orderBy('multimedia_caduca','ASC')->get();
 
                 $view->with('pilotos_fechas_caducadas', $pilotos_fechas_caducadas);
                 $view->with('riesgos', $riesgos);
