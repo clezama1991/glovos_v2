@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Vuelos as ModeloPrincipal;
 use App\Models\Pedidos;
+use App\Models\PedidosMovimientos;
 use App\Models\Globos;
 use App\Models\VuelosRealizados;
 use App\Models\VuelosCancelados;
@@ -819,7 +820,9 @@ class VuelosController extends Controller
 
                 ModeloPrincipal::whereId($request->id)->update(['estatus'=>'Cancelado','notas_cancelacion'=>$request->mensaje_cancelacion_vuelo]);
 
-                $vuelo = ModeloPrincipal::whereId($request->id)->first();
+                $vuelo = ModeloPrincipal::whereId($request->id)->withTrashed()->first();
+                // dd($vuelo->Pedidos);
+
                 if(isset($vuelo->globo) && isset($vuelo->globo->bottom_end)){
                     $vuelo->globo->bottom_end = $vuelo->globo->bottom_end; 
                     $vuelo->globo->bottom_end->cesta = $vuelo->globo->bottom_end->cesta; 
@@ -843,8 +846,22 @@ class VuelosController extends Controller
                     $value->vuelo_id = null;
                     $value->agrupacion = null;
                     $value->parent_id = null;
-                    $value->estatus = 'Creado';
+                    if($value->estatus_pedido=='Pendiente'){
+                        $value->estatus = 'Creado';
+                    }else if($value->estatus_pedido=='Completado'){
+                        $value->estatus = 'Formulario Completado';
+                    }else{
+                        $value->estatus = 'Formulario Enviado'; 
+                    }
                     $value->save();
+
+                    PedidosMovimientos::create([
+                        'pedido_id' => $value->id,
+                        'vuelo_id' =>  $vuelo->vuelo_id,
+                        'fecha'=>date('Y-m-d'),
+                        'observacion'=> (($value->vuelo)?$value->vuelo->name_vuelo():'')." - Vuelo Cancelado"
+                    ]);
+ 
                 }
                 
                 $vuelo->estatus = 'Cancelado';

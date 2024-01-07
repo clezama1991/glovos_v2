@@ -190,17 +190,30 @@ class InformesController extends Controller
 
         // Loop the data items
         foreach($horas as $item){
-            $temp = explode(":", $item); // Explode by the seperator :
-            $total+= (int) $temp[0] * 3600; // Convert the hours to seconds and add to our total
-            $total+= (int) $temp[1] * 60;  // Convert the minutes to seconds and add to our total
-            $total+= (int) isset($temp[2]) ? $temp[2] : '00'; // Add the seconds to our total
+            $temp = explode(":", $item);
+            if(isset($temp[0])){
+                $total+= (int) $temp[0] * 3600; // Convert the hours to seconds and add to our total
+            }
+            if(isset($temp[1])){
+                $total+= (int) $temp[1] * 60;  // Convert the minutes to seconds and add to our total
+            }
+            if(isset($temp[2])){
+                $total+= (int) isset($temp[2]) ? $temp[2] : '00'; // Add the seconds to our total
+            }
+ 
         } 
         // Loop the data items
         foreach($horas_totales as $item){
             $temp = explode(":", $item); // Explode by the seperator :
-            $total_horas+= (int) $temp[0] * 3600; // Convert the hours to seconds and add to our total_horas
-            $total_horas+= (int) $temp[1] * 60;  // Convert the minutes to seconds and add to our total_horas
-            $total_horas+= (int) isset($temp[2]) ? $temp[2] : '00'; // Add the seconds to our total
+            if(isset($temp[0])){
+                $total_horas+= (int) $temp[0] * 3600; // Convert the hours to seconds and add to our total
+            }
+            if(isset($temp[1])){
+                $total_horas+= (int) $temp[1] * 60;  // Convert the minutes to seconds and add to our total
+            }
+            if(isset($temp[2])){
+                $total_horas+= (int) isset($temp[2]) ? $temp[2] : '00'; // Add the seconds to our total
+            } 
         }
         
         $total = sprintf('%02d:%02d', ($total / 3600),($total / 60 % 60), $total % 60);
