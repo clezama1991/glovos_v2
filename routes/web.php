@@ -231,6 +231,7 @@ Route::group([ 'middleware' => 'auth'], function () {
             Route::get('/actualizar_telefonos_pedidos/{pagina}', 'actualizar_telefonos_pedidos');
             Route::get('/update_info_pedidos/{page}', 'update_info_pedidos');
             Route::get('/funcion_test_woocommerce', 'funcion_test');
+            Route::get('/sincronizar_plataforma_woocommerce/{estatus}', 'sincronizar_plataforma_woocommerce');
             Route::get('/pedidos_lista_de_espera', 'pedidos_lista_de_espera');
             Route::get('/pedidos_lista_espera/{vuelo}', 'pedidos_lista_espera');
             Route::post('/buscardor_numero_nombre_tlf_pedidos', 'buscardor_numero_nombre_tlf_pedidos');

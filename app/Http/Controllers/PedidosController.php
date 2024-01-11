@@ -1286,4 +1286,34 @@ class PedidosController extends Controller
 
     }
 
+
+    public function sincronizar_plataforma_woocommerce($estatus){
+        
+        $status = null;
+
+        switch ($estatus) {
+            case 'vuelo-realizado':
+                $status = 'Vuelo Realizado';
+                break;
+            default:
+                # code...
+                break;
+        }
+
+        $records = ModeloPrincipal::where('estatus', $status)->orderBy('orden_wordpress','DESC')->get();
+    
+        $data = [
+            'status' => $estatus
+        ];
+
+        foreach ($records as $key => $value) {
+         
+            $this->woocomerce_update_order($value->orden_wordpress, $data);
+    
+        }
+    
+        return response(['records' => $records]);
+    
+    }
+
 }

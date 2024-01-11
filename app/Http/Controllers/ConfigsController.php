@@ -212,7 +212,7 @@ class ConfigsController extends Controller
     
     public function crons()
     { 
-        $records = BitacorasCron::orderBy('id','DESC')->get();  
+        $records = BitacorasCron::whereYear('created_at', date('Y'))->orderBy('id','DESC')->get();
         return response(['records' => $records]);
     }
     

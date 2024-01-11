@@ -409,16 +409,16 @@ class VuelosController extends Controller
                     $value->estatus = 'Vuelo Realizado';
                     $value->save();
 
-                    // $data = [
-                    //     'status' => 'vuelo-realizado'
-                    // ];
+                    $data = [
+                        'status' => 'vuelo-realizado'
+                    ];
                      
-                    // $this->woocomerce_update_order($value->orden_wordpress, $data);
+                    $this->woocomerce_update_order($value->orden_wordpress, $data);
 
                     foreach ($value->agrupaciones as $key_agrupacion => $agrupacion) {                        
                         $agrupacion->hanvolado = $vuelo->fecha;
                         $agrupacion->estatus = 'Vuelo Realizado';
-                        // $this->woocomerce_update_order($agrupacion->orden_wordpress, $data);
+                        $this->woocomerce_update_order($agrupacion->orden_wordpress, $data);
                         $agrupacion->save();
                     }
 
@@ -820,6 +820,12 @@ class VuelosController extends Controller
 
                 ModeloPrincipal::whereId($request->id)->update(['estatus'=>'Cancelado','notas_cancelacion'=>$request->mensaje_cancelacion_vuelo]);
 
+                
+                $data = [
+                    'status' => 'completado'
+                ];
+                 
+
                 $vuelo = ModeloPrincipal::whereId($request->id)->withTrashed()->first();
                 // dd($vuelo->Pedidos);
 
@@ -841,7 +847,10 @@ class VuelosController extends Controller
 
                 VuelosCancelados::Create($dataVuelosRealizados);
                 
-                foreach ($vuelo->Pedidos as $key => $value) {            
+                foreach ($vuelo->Pedidos as $key => $value) {    
+                    
+                    $this->woocomerce_update_order($value->orden_wordpress, $data);
+                                
                     $value->hanvolado = null;
                     $value->vuelo_id = null;
                     $value->agrupacion = null;
@@ -861,6 +870,30 @@ class VuelosController extends Controller
                         'fecha'=>date('Y-m-d'),
                         'observacion'=> (($value->vuelo)?$value->vuelo->name_vuelo():'')." - Vuelo Cancelado"
                     ]);
+                    
+                    foreach ($value->agrupaciones as $key_agrupacion => $agrupacion) {                        
+                        
+                        PedidosMovimientos::create([
+                            'pedido_id' => $agrupacion->id,
+                            'vuelo_id' =>  $vuelo->vuelo_id,
+                            'fecha'=>date('Y-m-d'),
+                            'observacion'=> (($agrupacion->vuelo)?$agrupacion->vuelo->name_vuelo():'')." - Vuelo Cancelado"
+                        ]);
+
+                        $agrupacion->hanvolado = null;
+                        $agrupacion->vuelo_id = null;
+                        if($agrupacion->estatus_pedido=='Pendiente'){
+                            $agrupacion->estatus = 'Creado';
+                        }else if($agrupacion->estatus_pedido=='Completado'){
+                            $agrupacion->estatus = 'Formulario Completado';
+                        }else{
+                            $agrupacion->estatus = 'Formulario Enviado'; 
+                        }
+                        $this->woocomerce_update_order($agrupacion->orden_wordpress, $data);
+                        $agrupacion->save();
+
+                    }
+
  
                 }
                 
