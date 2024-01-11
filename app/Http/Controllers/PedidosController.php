@@ -1287,7 +1287,7 @@ class PedidosController extends Controller
     }
 
 
-    public function sincronizar_plataforma_woocommerce($estatus){
+    public function sincronizar_plataforma_woocommerce($estatus,$fecha){
         
         $status = null;
 
@@ -1300,7 +1300,7 @@ class PedidosController extends Controller
                 break;
         }
 
-        $records = ModeloPrincipal::where('estatus', $status)->orderBy('orden_wordpress','DESC')->get();
+        $records = ModeloPrincipal::where('hanvolado','>=',$fecha)->where('estatus', $status)->orderBy('orden_wordpress','DESC')->get();
     
         $data = [
             'status' => $estatus
