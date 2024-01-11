@@ -822,7 +822,7 @@ class VuelosController extends Controller
 
                 
                 $data = [
-                    'status' => 'completado'
+                    'status' => 'completed'
                 ];
                  
 
