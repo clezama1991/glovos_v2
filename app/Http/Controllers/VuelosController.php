@@ -104,7 +104,7 @@ class VuelosController extends Controller
         
         $date = date('Y-m-').'01'; 
         $real_now = Carbon::create($date);
-        $a_partir = $real_now->subMonth(2);
+        $a_partir = $real_now->subMonth(encontrar_configuracion('calendar_filter_fligs'));
         $records = ModeloPrincipal::where('fecha','>=',$a_partir)->with(['zona','piloto','globo','Pedidos','multimedias'])->orderBy('fecha','DESC')->get();
         // $records = ModeloPrincipal::with(['zona','piloto','globo','Pedidos.PedidosPasajeros'])->orderBy('fecha','ASC')->get();
         foreach ($records as $key => $record) {

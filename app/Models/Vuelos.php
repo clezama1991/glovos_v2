@@ -258,6 +258,16 @@ class Vuelos extends Model
         return $numpax; 
     }
 
+    public function notificacions_pedidos_sends()
+    {    
+        foreach ($this->Pedidos as $key => $Pedido) {
+            if(!$Pedido->multimedia_notification){
+                return false;
+            } 
+        }
+        return true; 
+    }
+
     
     public function zona()
     {

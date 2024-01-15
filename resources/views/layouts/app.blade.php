@@ -549,4 +549,35 @@ $(document).ready(function () {
             /* color: #fff !important; */
         }
 </style>
+
+
+
+
+
+
+<script src="https://apis.google.com/js/api.js"></script>
+<script>
+function start() {
+  // 2. Initialize the JavaScript client library.
+  gapi.client.init({
+    'apiKey': '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',
+    // clientId and scope are optional if auth is not required.
+    'clientId': '17049974242-92kd6lc2cpemgha3bkkiedt01jfotgbc.apps.googleusercontent.com',
+    'scope': 'profile',
+  }).then(function() {
+    // 3. Initialize and make the API request.
+    return gapi.client.request({
+      'path': 'https://people.googleapis.com/v1/people/me',
+    })
+  }).then(function(response) {
+    console.log(response.result);
+  }, function(reason) {
+    console.log('Error: ' + reason.result.error.message);
+  });
+};
+// 1. Load the JavaScript client library.
+gapi.load('client', start);
+</script>
+
+ 
 @yield('script')

@@ -297,6 +297,9 @@ class MultimediasController extends Controller
                 $Pedidos->multimedia_notification = true;
                 $Pedidos->save();
 
+                 
+                $Vuelo->multimedia_notification_pedidos = $Vuelo->notificacions_pedidos_sends();
+                $Vuelo->save();
 
 
             DB::commit();

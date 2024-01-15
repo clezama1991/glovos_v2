@@ -581,7 +581,7 @@ export default {
 
       Swal.fire({
         title: "Confirmar!",
-        text: "Confirme que desea actualizar esta reverva!",
+        text: "Confirme que desea actualizar esta Reserva!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Si, Confirmar!",
