@@ -16,6 +16,7 @@ class CreateGlobosTable extends Migration
         Schema::create('globos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre')->nullable();
+            $table->string('matricula')->nullable();
             $table->string('logo')->nullable();
             $table->string('fabricante')->nullable();
             $table->string('modelo')->nullable();

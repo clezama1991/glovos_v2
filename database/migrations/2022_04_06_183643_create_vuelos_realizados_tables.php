@@ -15,12 +15,12 @@ class CreateVuelosRealizadosTables extends Migration
     {
         Schema::create('vuelos_realizados', function (Blueprint $table) {
             $table->id(); 
-            $table->json('zona')->nullable(); 
-            $table->json('piloto')->nullable();
-            $table->json('globo')->nullable(); 
-            $table->json('vuelo')->nullable(); 
-            $table->json('pedido')->nullable(); 
-            $table->json('pasajeros')->nullable(); 
+            $table->longText('zona')->nullable(); 
+            $table->longText('piloto')->nullable();
+            $table->longText('globo')->nullable(); 
+            $table->longText('vuelo')->nullable(); 
+            $table->longText('pedido')->nullable(); 
+            $table->longText('pasajeros')->nullable(); 
             $table->timestamps();
             $table->softDeletes(); 
         });

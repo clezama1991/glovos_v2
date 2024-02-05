@@ -26,7 +26,7 @@ class CreatePilotosEntrenamientosTables extends Migration
             $table->string('responsable')->nullable(); 
             $table->string('resultados')->nullable(); 
             $table->string('estatus')->default('Asignado')->nullable(); 
-            $table->json('entrenamiento')->nullable(); 
+            $table->longText('entrenamiento')->nullable(); 
             $table->timestamps();
             $table->softDeletes(); 
         });

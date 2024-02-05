@@ -14,7 +14,7 @@ class AddRowsAgrupacionPedidosTable extends Migration
     public function up()
     {
         Schema::table('pedidos', function (Blueprint $table) {            
-            $table->json('agrupacion')->nullable(); 
+            $table->longText('agrupacion')->nullable(); 
         });
     }
     

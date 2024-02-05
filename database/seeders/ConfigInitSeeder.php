@@ -214,7 +214,13 @@ class ConfigInitSeeder extends Seeder
 			'tipo' => 'enriquecido',
 			'nombre' => 'Mensaje Multimedia Disponible Formato 1',
 			'descripcion' => 'Mensaje Multimedia Disponible',
-			'valor' => '',
+			'valor' => '<p>{Archivos multimedia disponibles}</p>
+			<p>Hola [nombre], en el enlace adjunto a este correo puedes descargar los archivos multimedia del vuelo del dia [fecha] en [zona].</p>
+			<p> </p>
+			<p>En el siguiente botón podrás descargar durante las próximas semanas los archivos las veces que desees.</p>
+			<p>[boton_descargar]</p>
+			<p> </p>
+			<p>Un saludo del equipo de Volar en Asturias y muchas gracias por confiar en nosotros. </p>',
 			'grupo' => 'Correos',
 			'visible' => 0,
         ]);
@@ -225,7 +231,17 @@ class ConfigInitSeeder extends Seeder
 			'tipo' => 'enriquecido',
 			'nombre' => 'Mensaje Multimedia Disponible Formato 2',
 			'descripcion' => 'Mensaje Multimedia Disponible',
-			'valor' => '',
+			'valor' => '<p>{Archivos multimedia disponibles}</p>
+			<p>Hola [nombre], en el enlace adjunto a este correo puedes descargar los archivos multimedia del vuelo del dia [fecha] en [zona].</p>
+			<p>Nos encantaría que si tienes un momento contaras tu experiencia en el siguiente enlace:</p>
+			<p> </p>
+			<p><a href="https://g.page/r/CR0looBMdVArEAI/review">https://g.page/r/CR0looBMdVArEAI/review</a></p>
+			<p> </p>
+			<p>En el siguiente botón puedes descargar durante las próximas semanas los archivos </p>
+			<p>las veces que desees.</p>
+			<p>[boton_descargar]</p>
+			<p> </p>
+			<p>Un saludo del equipo de Volar en Asturias y muchas gracias por confiar en nosotros. </p>',
 			'grupo' => 'Correos',
 			'visible' => 0,
         ]);
@@ -236,7 +252,7 @@ class ConfigInitSeeder extends Seeder
 			'tipo' => 'enriquecido',
 			'nombre' => 'Texto de firma de PVO',
 			'descripcion' => 'Texto de firma de PVO',
-			'valor' => '',
+			'valor' => '<p>Declaro cumplir con todos los requisitos de descanso estipulados en el manual de operaciones y la circular 16B</p>',
 			'grupo' => 'Correos',
 			'visible' => 0,
         ]);
@@ -247,7 +263,10 @@ class ConfigInitSeeder extends Seeder
 			'tipo' => 'enriquecido',
 			'nombre' => 'Mensaje whatsapp a piloto con datos del vuelo',
 			'descripcion' => 'Mensaje whatsapp a piloto con datos del vuelo',
-			'valor' => '',
+			'valor' => '<p>{Archivos multimedia disponibles}</p>
+			<p>Hola [nombre] , enlace para el vuelo:</p>
+			<p><strong>DIA</strong>[fecha]-<strong>ZONA:</strong>[zona].</p>
+			<p>[boton_descargar]</p>',
 			'grupo' => 'Correos',
 			'visible' => 0,
         ]);
@@ -258,21 +277,17 @@ class ConfigInitSeeder extends Seeder
 			'tipo' => 'enriquecido',
 			'nombre' => 'Mensaje Multimedia Disponible Formato Whatsapp',
 			'descripcion' => 'Mensaje Multimedia Disponible Formato Whatsapp',
-			'valor' => '',
+			'valor' => '<p>{Archivos multimedia disponibles}</p>
+			<p> </p>
+			<p>Hola [nombre], en el enlace adjunto puedes descargar los archivos multimedia del vuelo del dia [fecha] en [zona]..</p>
+			<p>[boton_descargar]</p>
+			<p>Nos encantaría que si tienes un momento valoraras tu experiencia en el siguiente enlace:</p>
+			<p><a href="https://g.page/r/CR0looBMdVArEAI/review">https://g.page/r/CR0looBMdVArEAI/review</a></p>
+			<p>Un saludo del equipo de Volar en Asturias y muchas gracias por confiar en nosotros. </p>',
 			'grupo' => 'Correos',
 			'visible' => 0,
         ]);
 		
-        ConfiguracionPlataforma::firstOrCreate([
-			'key' => 'format_cancel_vuelo_pedido_3',
-		],[ 
-			'tipo' => 'enriquecido',
-			'nombre' => 'Mensaje whatsapp de cancelacion del vuelo a pasajeros 3',
-			'descripcion' => 'Mensaje whatsapp de cancelacion del vuelo a pasajeros 3',
-			'valor' => '',
-			'grupo' => 'Correos',
-			'visible' => 0,
-        ]);
 		
         ConfiguracionPlataforma::firstOrCreate([
 			'key' => 'format_cancel_vuelo_pedido_1',
@@ -297,13 +312,24 @@ class ConfigInitSeeder extends Seeder
         ]);
 		
         ConfiguracionPlataforma::firstOrCreate([
+			'key' => 'format_cancel_vuelo_pedido_3',
+		],[ 
+			'tipo' => 'enriquecido',
+			'nombre' => 'Mensaje whatsapp de cancelacion del vuelo a pasajeros 3',
+			'descripcion' => 'Mensaje whatsapp de cancelacion del vuelo a pasajeros 3',
+			'valor' => '',
+			'grupo' => 'Correos',
+			'visible' => 0,
+        ]);
+		
+        ConfiguracionPlataforma::firstOrCreate([
 			'key' => 'key_api_metar',
 		],[ 
 			'tipo' => 'enriquecido',
 			'nombre' => 'API Key checkwxapi',
 			'descripcion' => 'API Key checkwxapi',
 			'valor' => '',
-			'grupo' => 'Correos',
+			'grupo' => 'Vuelos',
 			'visible' => 0,
         ]);
 		
@@ -313,8 +339,8 @@ class ConfigInitSeeder extends Seeder
 			'tipo' => 'enriquecido',
 			'nombre' => 'Indicaciones check list para pilotos',
 			'descripcion' => 'Indicaciones check list para pilotos',
-			'valor' => '',
-			'grupo' => 'Correos',
+			'valor' => '<h4>Check List PRE-VUELO<br /><br /></h4>',
+			'grupo' => 'Vuelos',
 			'visible' => 0,
         ]);
 		
@@ -324,7 +350,16 @@ class ConfigInitSeeder extends Seeder
 			'tipo' => 'enriquecido',
 			'nombre' => 'Mensaje whatsapp a soguillas con datos del vuelo',
 			'descripcion' => 'Mensaje whatsapp a soguillas con datos del vuelo',
-			'valor' => '',
+			'valor' => '<p>{Archivos multimedia disponibles}</p>
+			<p> </p>
+			<p> </p>
+			<p>Hola ayudante [nombre], enviamos detalles del vuelo del dia [fecha] en [zona].</p>
+			<p> </p>
+			<p>En el siguiente enlace podras acceder a la información detallada.</p>
+			<p> </p>
+			<p>[boton_descargar]</p>
+			<p> </p>
+			<p><br />Un saludo del equipo de Volar en Asturias y muchas gracias por confiar en nosotros. </p>',
 			'grupo' => 'Correos',
 			'visible' => 0,
         ]);
@@ -335,8 +370,10 @@ class ConfigInitSeeder extends Seeder
 			'tipo' => 'enriquecido',
 			'nombre' => 'Indicaciones check list para pasajeros',
 			'descripcion' => 'Indicaciones check list para pasajeros',
-			'valor' => '',
-			'grupo' => 'Correos',
+			'valor' => '<h4>&nbsp;</h4>
+			<h4>Condiciones e instrucciones previas al vuelo.&nbsp;</h4>
+			<p>&nbsp;</p>',
+			'grupo' => 'Vuelos',
 			'visible' => 0,
         ]);
 		
@@ -399,6 +436,103 @@ class ConfigInitSeeder extends Seeder
 			<p><br />Un saludo del equipo de Volar en Asturias y muchas gracias por confiar en nosotros. </p>',
 			'grupo' => 'Correos',
 			'visible' => 0,
+        ]);
+			
+        ConfiguracionPlataforma::firstOrCreate([
+			'key' => 'calendar_filter_fligs',
+		],[ 
+			'tipo' => 'text',
+			'nombre' => 'Meses para Filtrar Vuelos en calendario',
+			'descripcion' => 'Meses para Filtrar Vuelos en calendario',
+			'valor' => '6',
+			'grupo' => 'vuelos',
+			'visible' => 0,
+        ]);
+				
+        ConfiguracionPlataforma::firstOrCreate([
+			'key' => 'enable_google_contacts',
+		],[ 
+			'tipo' => 'boolean',
+			'nombre' => 'Activar sincronizacion de contactos con Google',
+			'descripcion' => 'Activar sincronizacion de contactos con Google',
+			'valor' => '0',
+			'grupo' => 'Api Google',
+			'visible' => 1,
+        ]);
+				
+        ConfiguracionPlataforma::firstOrCreate([
+			'key' => 'google_CLIENT_ID',
+		],[ 
+			'tipo' => 'text',
+			'nombre' => 'APIGoogle CLIENT_ID',
+			'descripcion' => 'APIGoogle CLIENT_ID',
+			'valor' => '',
+			'grupo' => 'Api Google',
+			'visible' => 1,
+        ]);
+				
+        ConfiguracionPlataforma::firstOrCreate([
+			'key' => 'google_API_KEY',
+		],[ 
+			'tipo' => 'text',
+			'nombre' => 'google_API_KEY',
+			'descripcion' => 'google_API_KEY',
+			'valor' => '',
+			'grupo' => 'Api Google',
+			'visible' => 1,
+        ]);
+				
+        ConfiguracionPlataforma::firstOrCreate([
+			'key' => 'google_Account_ACCESS_TOKEN',
+		],[ 
+			'tipo' => 'text',
+			'nombre' => 'APIGoogle Cuenta ACCESS_TOKEN',
+			'descripcion' => 'APIGoogle Cuenta ACCESS_TOKEN',
+			'valor' => '',
+			'grupo' => 'Api Google',
+			'visible' => 1,
+        ]);
+				
+        ConfiguracionPlataforma::firstOrCreate([
+			'key' => 'enable_woocommerces',
+		],[ 
+			'tipo' => 'boolean',
+			'nombre' => 'Activar sincronizacion con WooCommerce',
+			'descripcion' => 'Activar sincronizacion con WooCommerce',
+			'valor' => '0',
+			'grupo' => 'Woocommerces Api',
+			'visible' => 1,
+        ]);
+				
+        ConfiguracionPlataforma::firstOrCreate([
+			'key' => 'woo_consumer_key',
+		],[ 
+			'tipo' => 'text',
+			'nombre' => 'URL de tu tienda woocommerce',
+			'descripcion' => 'URL de tu tienda woocommerce',
+			'valor' => '',
+			'grupo' => 'Woocommerces Api',
+			'visible' => 1,
+        ]);
+        ConfiguracionPlataforma::firstOrCreate([
+			'key' => 'woo_consumer_secret',
+		],[ 
+			'tipo' => 'text',
+			'nombre' => 'Tu clave de consumidor WooCommerce',
+			'descripcion' => 'Tu clave de consumidor WooCommerce',
+			'valor' => '',
+			'grupo' => 'Woocommerces Api',
+			'visible' => 1,
+        ]);
+        ConfiguracionPlataforma::firstOrCreate([
+			'key' => 'woo_store_url',
+		],[ 
+			'tipo' => 'text',
+			'nombre' => 'Tu secreto de consumidor WooCommerce',
+			'descripcion' => 'Tu secreto de consumidor WooCommerce',
+			'valor' => '',
+			'grupo' => 'Woocommerces Api',
+			'visible' => 1,
         ]);
 				
 	}

@@ -27,8 +27,8 @@ class CreateComunicacionRiesgosTables extends Migration
             $table->string('url_firma_responsable')->nullable();
             $table->string('url_documentos_sucesos')->nullable();
             $table->text('notas')->nullable();
-            $table->softDeletes(); 
             $table->timestamps();
+            $table->softDeletes(); 
         });
     }
 

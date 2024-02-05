@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
     {
         
         User::firstOrCreate(
-            ['email' => 'admin@admin.com'],
+            ['email' => 'admin@aeroges.com'],
             [
             'name' => 'Admin',
             'email_verified_at' => now(),
@@ -27,11 +27,11 @@ class UserSeeder extends Seeder
         ]); 
 
         User::firstOrCreate(
-            ['email' => 'clezama1991@gmail.com'],
+            ['email' => 'develop@gmail.com'],
             [
             'name' => 'Carlos Lezama',
             'email_verified_at' => now(),
-            'password' => Hash::make('clezama1991'),
+            'password' => Hash::make('develop'),
             'remember_token' => Str::random(10),
         ]); 
 

@@ -15,6 +15,7 @@ class AddRowsOrigenToPedidosTable extends Migration
     {
         Schema::table('pedidos', function (Blueprint $table) {
             $table->string('origen')->default('woocommerce');
+            $table->boolean('sinc_google_contacts')->default(false);
         });
     }
 

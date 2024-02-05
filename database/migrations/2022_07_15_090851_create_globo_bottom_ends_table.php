@@ -17,12 +17,12 @@ class CreateGloboBottomEndsTable extends Migration
             $table->id();
             $table->string('nombre')->nullable(); 
             $table->string('bottom_end')->nullable(); 
-            $table->json('compatibilidad_globos_ids')->nullable(); 
+            $table->longText('compatibilidad_globos_ids')->nullable(); 
             $table->BigInteger('cesta_id')->unsigned()->nullable();
             $table->foreign('cesta_id')->references('id')->on('globo_cestas');
             $table->BigInteger('quemador_id')->unsigned()->nullable();
             $table->foreign('quemador_id')->references('id')->on('globo_quemadores');
-            $table->json('botella_id')->nullable();
+            $table->longText('botella_id')->nullable();
             $table->timestamps();
             $table->softDeletes(); 
         });

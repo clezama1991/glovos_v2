@@ -17,8 +17,8 @@ class CreatePedidosListaEsperaTable extends Migration
             $table->id();            
             $table->BigInteger('pedido_id')->unsigned()->nullable();
             $table->foreign('pedido_id')->references('id')->on('pedidos');
-            $table->json('zonas_id')->nullable();
-            $table->json('dias')->nullable();
+            $table->longText('zonas_id')->nullable();
+            $table->longText('dias')->nullable();
             $table->date('fecha_inicio_disp')->nullable();
             $table->date('fecha_fin_disp')->nullable();
             $table->date('fecha_inicio_nodisp')->nullable();

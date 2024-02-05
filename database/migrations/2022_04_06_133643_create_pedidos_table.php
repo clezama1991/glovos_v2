@@ -15,10 +15,10 @@ class CreatePedidosTable extends Migration
     {
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
-            $table->string('orden_wordpress')->nullable();
-            $table->string('numpax')->nullable(); 
-            $table->string('hanvolado')->nullable();
-            $table->string('vuelo_id')->nullable();
+            $table->integer('orden_wordpress')->nullable();
+            $table->integer('numpax')->nullable(); 
+            $table->date('hanvolado')->nullable();
+            $table->integer('vuelo_id')->nullable();
             $table->boolean('peso_extra')->nullable();
             $table->softDeletes();
             $table->timestamps();

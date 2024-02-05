@@ -14,7 +14,7 @@ class AddRowsMultimediaDownloadToVuelosTable extends Migration
     public function up()
     {
         Schema::table('vuelos', function (Blueprint $table) {            
-            $table->json('multimedia_download_pedidos')->nullable();
+            $table->longText('multimedia_download_pedidos')->nullable();
         });
     }
     

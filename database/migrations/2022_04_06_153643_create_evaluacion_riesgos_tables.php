@@ -34,8 +34,8 @@ class CreateEvaluacionRiesgosTables extends Migration
             $table->string('responsable')->nullable();
             $table->string('ref_documentacion')->nullable();
             $table->text('notas')->nullable();
-            $table->softDeletes(); 
             $table->timestamps();
+            $table->softDeletes(); 
         });
     }
 
