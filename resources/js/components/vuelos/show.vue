@@ -601,13 +601,9 @@
               $(":input").prop("disabled", true);
             }
 
-          },
-
-
-
- 
+          }, 
          jeje() {
-$( ".modal-body" ).scrollLeft( 300 );
+          $( ".modal-body" ).scrollLeft( 300 );
          },
           CargarZona() {
               var url = '/admin/zonas/'+this.form.zona_id;
@@ -920,27 +916,37 @@ $( ".modal-body" ).scrollLeft( 300 );
 
       watch: {
         Zonas: function(newValues, oldValues){
-          this.$nextTick(function(){ $('#selectpicker_zonas').selectpicker('refresh'); });
+          setTimeout(() => {
+            this.$nextTick(function(){ $('#selectpicker_zonas').selectpicker('refresh'); });
+          }, 2000);
         },
         zonas_despegues: function(newValues, oldValues){
-          this.$nextTick(function(){ $('#selectpicker_zonas_desp').selectpicker('refresh'); });
+          setTimeout(() => {
+            this.$nextTick(function(){ $('#selectpicker_zonas_desp').selectpicker('refresh'); });
+          }, 2000);
         },
         Globos: function(newValues, oldValues){
-          this.$nextTick(function(){ $('#selectpicker_globos').selectpicker('refresh'); });
+          setTimeout(() => {
+            this.$nextTick(function(){ $('#selectpicker_globos').selectpicker('refresh'); });
+          }, 2000);
         },
         PilotosByNivel: function(newValues, oldValues){
           this.$nextTick(function(){ $('#selectpicker_pilotos').selectpicker('refresh'); });
         },
 
         TipoNubosidad: function(newValues, oldValues){
-          this.$nextTick(function(){ $('#selectpicker_tipo_nubosidad').selectpicker('refresh'); });
+          setTimeout(() => {
+            this.$nextTick(function(){ $('#selectpicker_tipo_nubosidad').selectpicker('refresh'); });
+          }, 2000);
         },
         'form.tipo_nubosidad_id': function(newValues, oldValues){
           this.$nextTick(function(){ $('#selectpicker_tipo_nubosidad').selectpicker('refresh'); });
         },
  
         Soguillas: function(newValues, oldValues){
-          this.$nextTick(function(){ $('#selectpicker_soguillas').selectpicker('refresh'); });
+          setTimeout(() => {
+            this.$nextTick(function(){ $('#selectpicker_soguillas').selectpicker('refresh'); });
+          }, 2000);
         },
   
         'form.fecha': function (set) {

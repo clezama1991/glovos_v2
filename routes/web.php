@@ -180,6 +180,7 @@ Route::group([ 'middleware' => 'auth'], function () {
             Route::get('/configs_by_grupo/{grupo}', 'configs_by_grupo');
             Route::get('/configuracion/crons', 'crons');
             Route::post('/update_configs', 'update_configs');
+            Route::post('/update_configs_by_key', 'update_configs_by_key');
         });
 
         Route::controller(PilotosController::class)->group(function () {
@@ -230,6 +231,8 @@ Route::group([ 'middleware' => 'auth'], function () {
             Route::get('/actualizar_pedidos/{id}', 'actualizar_pedidos_by_id');
             Route::get('/actualizar_telefonos_pedidos/{pagina}', 'actualizar_telefonos_pedidos');
             Route::get('/update_info_pedidos/{page}', 'update_info_pedidos');
+            Route::get('/update_sinc_google/{id}', 'update_sinc_google');
+            Route::get('/funcion_test_google', 'funcion_test_google');
             Route::get('/funcion_test_woocommerce', 'funcion_test');
             Route::get('/sincronizar_plataforma_woocommerce/{estatus}/{fecha}', 'sincronizar_plataforma_woocommerce');
             Route::get('/pedidos_lista_de_espera', 'pedidos_lista_de_espera');

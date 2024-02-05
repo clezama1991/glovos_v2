@@ -209,6 +209,31 @@ class ConfigsController extends Controller
 
     }
 
+    public function update_configs_by_key(Request $request)
+    { 
+      	try {
+
+            DB::beginTransaction();
+
+                $records = ModelPrincipal::where('key',$request['key'])->update([
+                    'valor' => $request['valor']
+                ]);
+  
+
+            DB::commit();
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+           
+            return response(['result' => false,'mensaje_error'=>$e->getMessage()]);
+           
+        }
+
+        return response(['result' => true]);
+
+    }
+
     
     public function crons()
     { 

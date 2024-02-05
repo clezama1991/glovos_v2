@@ -1316,4 +1316,29 @@ class PedidosController extends Controller
     
     }
 
+    public function update_sinc_google($id)
+    {
+
+      
+          try {
+
+            DB::beginTransaction();
+ 
+                ModeloPrincipal::find($id)->update(['sinc_google_contacts' => true]);
+
+            DB::commit();
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+
+            return response(['result' => false,'mensaje_error'=>$e->getMessage()]);
+           
+        }
+
+        return response(['result' => true]);
+
+
+    }
+
 }

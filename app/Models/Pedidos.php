@@ -36,6 +36,7 @@ class Pedidos extends Model
         'agrupacion',
         'privado',
         'origen',
+        'sinc_google_contacts',
     ];
 
     protected $appends = ['pasajeros','estatus_pedido','vuelo_name','estatus_agrupacion'];

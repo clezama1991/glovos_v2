@@ -22,8 +22,12 @@ class DashboardController extends Controller
     {
         
         // $api = $this->update_lsit_woocommerces();
-
-        return View('panel_administrador');
+        $pedidos_sinc = ModeloPrincipal::where('sinc_google_contacts',false)->select(['id','nombre_contacto','telefono_contacto'])->get();
+        $API_KEY = encontrar_configuracion('google_API_KEY');
+        $CLIENT_ID = encontrar_configuracion('google_CLIENT_ID');
+        $ACCESS_TOKEN = encontrar_configuracion('google_Account_ACCESS_TOKEN');
+      
+        return view('panel_administrador', compact('CLIENT_ID','API_KEY','ACCESS_TOKEN','pedidos_sinc'));
     
     }
 
