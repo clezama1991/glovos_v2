@@ -31,18 +31,8 @@ class PedidosController extends Controller
  
     public function update_info_pedidos($page){
 
-        $woocommerce = new Client(
-            'https://volarenasturias.com/', // Your store URL
-            'ck_adc18e8aae2d804776a371eac162a6fcc6359412', // Your consumer key
-            'cs_8c790773e9d1c51dc6a600385e1a918c3863f315', // Your consumer secret
-            [
-                'timeout' => 120, // SET TIMOUT HERE
-                'wp_api' => true, // Enable the WP REST API integration
-                'version' => 'wc/v3' // WooCommerce WP REST API version
-            ]
-        );
+        $woocommerce = woocommerceAuth();
 
-        
         $data = [
             'page' => $page, 
             'per_page' => 100, 
@@ -184,18 +174,8 @@ class PedidosController extends Controller
  
     public function actualizar_pedidos(){
 
-        $woocommerce = new Client(
-            'https://volarenasturias.com/', // Your store URL
-            'ck_adc18e8aae2d804776a371eac162a6fcc6359412', // Your consumer key
-            'cs_8c790773e9d1c51dc6a600385e1a918c3863f315', // Your consumer secret
-            [
-                'timeout' => 120, // SET TIMOUT HERE
-                'wp_api' => true, // Enable the WP REST API integration
-                'version' => 'wc/v3' // WooCommerce WP REST API version
-            ]
-        );
+        $woocommerce = woocommerceAuth();
 
-        
         $data = [
             'page' => 1, 
             'per_page' => 100, 
@@ -321,17 +301,8 @@ class PedidosController extends Controller
 
             DB::beginTransaction();
                 
-                $woocommerce = new Client(
-                    'https://volarenasturias.com/', // Your store URL
-                    'ck_adc18e8aae2d804776a371eac162a6fcc6359412', // Your consumer key
-                    'cs_8c790773e9d1c51dc6a600385e1a918c3863f315', // Your consumer secret
-                    [
-                        'timeout' => 120, // SET TIMOUT HERE
-                        'wp_api' => true, // Enable the WP REST API integration
-                        'version' => 'wc/v3' // WooCommerce WP REST API version
-                    ]
-                );
-                
+                $woocommerce = woocommerceAuth();
+
                 $pedido = $woocommerce->get('orders/'.$id);
                 
                 $numpax = 0;
@@ -437,18 +408,8 @@ class PedidosController extends Controller
 
             DB::beginTransaction();
                 
-                $woocommerce = new Client(
-                    'https://volarenasturias.com/', // Your store URL
-                    'ck_adc18e8aae2d804776a371eac162a6fcc6359412', // Your consumer key
-                    'cs_8c790773e9d1c51dc6a600385e1a918c3863f315', // Your consumer secret
-                    [
-                        'timeout' => 520, // SET TIMOUT HERE
-                        'wp_api' => true, // Enable the WP REST API integration
-                        'version' => 'wc/v3' // WooCommerce WP REST API version
-                    ]
-                );
-                
-                
+                $woocommerce = woocommerceAuth();
+
                 $orden_wordpress_array = [];
                 
                 $data = [
@@ -656,16 +617,7 @@ class PedidosController extends Controller
 
           try {
 
-            $woocommerce = new Client(
-                'https://volarenasturias.com/', // Your store URL
-                'ck_adc18e8aae2d804776a371eac162a6fcc6359412', // Your consumer key
-                'cs_8c790773e9d1c51dc6a600385e1a918c3863f315', // Your consumer secret
-                [
-                    'timeout' => 120, // SET TIMOUT HERE
-                    'wp_api' => true, // Enable the WP REST API integration
-                    'version' => 'wc/v3' // WooCommerce WP REST API version
-                ]
-            );
+            $woocommerce = woocommerceAuth();
 
             $woocommerce->put('orders/'.$orden_wordpress, $data);
          
@@ -876,18 +828,8 @@ class PedidosController extends Controller
 
     public function buscar($id){
 
-        $woocommerce = new Client(
-            'https://volarenasturias.com/', // Your store URL
-            'ck_adc18e8aae2d804776a371eac162a6fcc6359412', // Your consumer key
-            'cs_8c790773e9d1c51dc6a600385e1a918c3863f315', // Your consumer secret
-            [
-                'timeout' => 120, // SET TIMOUT HERE
-                'wp_api' => true, // Enable the WP REST API integration
-                'version' => 'wc/v3' // WooCommerce WP REST API version
-            ]
-        );
+        $woocommerce = woocommerceAuth();
 
-        
         $data = [
             'per_page' => 100, 
             'status' => ['completed','gls-sent']

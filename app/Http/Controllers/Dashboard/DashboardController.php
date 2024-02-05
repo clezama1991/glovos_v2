@@ -33,16 +33,7 @@ class DashboardController extends Controller
 
     public function update_lsit_woocommerces(){
 
-        $woocommerce = new Client(
-            'https://volarenasturias.com/', // Your store URL
-            'ck_adc18e8aae2d804776a371eac162a6fcc6359412', // Your consumer key
-            'cs_8c790773e9d1c51dc6a600385e1a918c3863f315', // Your consumer secret
-            [
-                'timeout' => 120, // SET TIMOUT HERE
-                'wp_api' => true, // Enable the WP REST API integration
-                'version' => 'wc/v3' // WooCommerce WP REST API version
-            ]
-        );
+        $woocommerce = woocommerceAuth();
 
         $data = [
             'per_page' => 100,
@@ -51,7 +42,6 @@ class DashboardController extends Controller
         
         $pedidos = $woocommerce->get('orders', $data);
         
-        // $pedidos = $woocommerce->get('orders');
 
         $pedidos_actuales = ModeloPrincipal::count();
 
