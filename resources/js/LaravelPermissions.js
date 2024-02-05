@@ -2,7 +2,13 @@ export default {
     install(Vue, options) {
         Vue.prototype.can = function(value){
             var permissions = window.Laravel.jsPermissions.permissions;
+            var woocommers = window.Laravel.woocommers;
              var _return = false;
+  
+             if(value.trim()=='synchronize_orders' && woocommers=='0'){ 
+                return false;
+             }
+
             if(!Array.isArray(permissions)){
                 return false;
             }

@@ -41,19 +41,8 @@ class UpdatePedidosReembolsoCron extends Command
     public function handle()
     {
         
-        
-        $woocommerce = new Client(
-            'https://volarenasturias.com/', // Your store URL
-            'ck_adc18e8aae2d804776a371eac162a6fcc6359412', // Your consumer key
-            'cs_8c790773e9d1c51dc6a600385e1a918c3863f315', // Your consumer secret
-            [
-                'timeout' => 120, // SET TIMOUT HERE
-                'wp_api' => true, // Enable the WP REST API integration
-                'version' => 'wc/v3' // WooCommerce WP REST API version
-            ]
-        );
+        $woocommerce = woocommerceAuth();
 
-        
         $data = [
             'page' => 1, 
             'per_page' => 100, 

@@ -43,23 +43,15 @@ class SincronizacionWoocommercesCron extends Command
     {
 
         $vuelos = ModeloPrincipal::where('estatus', 'Volado')->where('sincronizado_woocommerce', false)->get();
+        
+        $woocommerce = woocommerceAuth();
 
-        $woocommerce = new Client(
-            'https://volarenasturias.com/', // Your store URL
-            'ck_adc18e8aae2d804776a371eac162a6fcc6359412', // Your consumer key
-            'cs_8c790773e9d1c51dc6a600385e1a918c3863f315', // Your consumer secret
-            [
-                'timeout' => 120, // SET TIMOUT HERE
-                'wp_api' => true, // Enable the WP REST API integration
-                'version' => 'wc/v3' // WooCommerce WP REST API version
-            ]
-        );
 
         try {
             foreach ($vuelos as $key_vuelos => $vuelo) {
 
                 foreach ($vuelo->Pedidos->where('origen','woocommerce') as $key => $value) {
-
+                   
                     $data = [
                         'status' => 'vuelo-realizado'
                     ];

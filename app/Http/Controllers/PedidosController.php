@@ -20,10 +20,12 @@ use App\Notifications\OrderProcessed;
 // use UltraMsg\WhatsAppApi ;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use App\Traits\WooCommerceTrait;
 
 class PedidosController extends Controller
 {
-
+    use WooCommerceTrait;
+    
     public function __construct() {
         $this->middleware('auth');
         $this->folder = '/uploads/zonas'; 
@@ -31,16 +33,13 @@ class PedidosController extends Controller
  
     public function update_info_pedidos($page){
 
-        $woocommerce = woocommerceAuth();
-
         $data = [
             'page' => $page, 
             'per_page' => 100, 
         ];
         
-        $pedidos = $woocommerce->get('orders', $data);
-        
-        
+        $pedidos = $this->WooCommerce($data, 'list', []);
+  
         foreach ($pedidos as $key => $pedido) {
         
             $pedidos_existe = ModeloPrincipal::where('orden_wordpress',$pedido->id)->first();
@@ -58,16 +57,14 @@ class PedidosController extends Controller
 
     public function funcion_test(){
         
-        $woocommerce = woocommerceAuth();
-        
         $data = [
             'page' => 1, 
             'per_page' => 100, 
             'status' => ['completed','gls-sent']
         ];
         
-        $pedidos = $woocommerce->get('orders', $data);
-
+        $pedidos = $this->WooCommerce($data, 'list', []);
+        
         dd($pedidos);
 
     }
@@ -173,16 +170,15 @@ class PedidosController extends Controller
     }
  
     public function actualizar_pedidos(){
-
-        $woocommerce = woocommerceAuth();
-
+ 
         $data = [
             'page' => 1, 
             'per_page' => 100, 
             'status' => ['completed','gls-sent']
         ];
         
-        $pedidos = $woocommerce->get('orders', $data);
+        $pedidos = $this->WooCommerce($data, 'list', []);
+         
         
         $pedidos_actuales = ModeloPrincipal::count();
 
@@ -301,10 +297,10 @@ class PedidosController extends Controller
 
             DB::beginTransaction();
                 
-                $woocommerce = woocommerceAuth();
 
-                $pedido = $woocommerce->get('orders/'.$id);
-                
+            
+                $pedido = $this->WooCommerce($id, 'get', []);
+ 
                 $numpax = 0;
                 $privado = false;
                 foreach ($pedido->line_items as $lineitems) {
@@ -408,18 +404,18 @@ class PedidosController extends Controller
 
             DB::beginTransaction();
                 
-                $woocommerce = woocommerceAuth();
 
-                $orden_wordpress_array = [];
-                
                 $data = [
                     'page' => $pagina, 
                     'per_page' => 100, 
                     'status' => ['completed','gls-sent']
                 ];
-
-                $pedidos = $woocommerce->get('orders', $data);
-                foreach ($pedidos as $key => $value) {
+                
+                $pedidos = $this->WooCommerce($data, 'list', []);
+         
+                $orden_wordpress_array = [];
+                 
+                 foreach ($pedidos as $key => $value) {
                     $orden_wordpress_array[] = ['orden_wordpress'=>$value->number,'phone'=>($value->billing)?$value->billing->phone:'-'];
                 }
                 // return dd($orden_wordpress_array);
@@ -617,10 +613,11 @@ class PedidosController extends Controller
 
           try {
 
-            $woocommerce = woocommerceAuth();
+            if(encontrar_configuracion('enable_woocommerces')){
+                $woocommerce = woocommerceAuth();
 
-            $woocommerce->put('orders/'.$orden_wordpress, $data);
-         
+                $woocommerce->put('orders/'.$orden_wordpress, $data);
+            }
         } catch (\Throwable $e) {
   
         }
@@ -828,21 +825,14 @@ class PedidosController extends Controller
 
     public function buscar($id){
 
-        $woocommerce = woocommerceAuth();
-
+        
         $data = [
             'per_page' => 100, 
             'status' => ['completed','gls-sent']
         ];
+
+        $pedidos = $this->WooCommerce($data, 'list', []);
         
-        $pedidos = $woocommerce->get('orders');
-        
-        //  return $pedidos;
-        // $pedidos = $woocommerce->get('orders');
-
-
-
-
         return response(['pedidos' => $pedidos]);
     
     }
