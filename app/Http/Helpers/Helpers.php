@@ -6,6 +6,7 @@ use App\Models\TipoNubosidad;
 // use rapidweb\googlecontacts\factories\ContactFactory;
 use App\Models\Checklist;
 use Google\Cloud\Translate\V2\TranslateClient;
+use Automattic\WooCommerce\Client;
 
 if ( !function_exists('encontrar_configuracion') )
 {
@@ -312,6 +313,34 @@ if ( !function_exists('TraducirTexto') )
             return $texto;
 
         }
+
+    }
+    
+}
+
+
+
+if ( !function_exists('woocommerceAuth') )
+{
+    function woocommerceAuth()
+    {  
+
+        $url = encontrar_configuracion('woo_store_url');
+        $key = encontrar_configuracion('woo_consumer_key');
+        $secret = encontrar_configuracion('woo_consumer_secret');
+
+        $woocommerce = new Client(
+            $url, // Your store URL
+            $key, // Your consumer key
+            $secret, // Your consumer secret
+            [
+                'timeout' => 520, // SET TIMOUT HERE
+                'wp_api' => true, // Enable the WP REST API integration
+                'version' => 'wc/v3' // WooCommerce WP REST API version
+            ]
+        );
+        
+        return $woocommerce;
 
     }
     

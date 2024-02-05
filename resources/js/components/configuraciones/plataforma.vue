@@ -46,6 +46,22 @@
                 <div v-if="item.tipo=='textarea'">
                   <textarea class="form-control" v-model="item.valor" :id="item.key" rows="2"></textarea>
                 </div>
+                <div v-if="item.tipo=='boolean'"> 
+                  <div class="form-group">
+                        <div class="radio-inline">
+                            <label class="radio">
+                                <input type="radio" v-model="item.valor" :id="item.key" value="1">
+                                <span></span>
+                                Si
+                            </label>
+                            <label class="radio">
+                                <input type="radio" v-model="item.valor" :id="item.key" value="0">
+                                <span></span>
+                                No
+                            </label>
+                        </div>
+                    </div> 
+                </div>
                 <div v-if="item.tipo=='file'">
                     <b-form-file 
                       :id="item.key"
