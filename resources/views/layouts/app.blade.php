@@ -59,6 +59,14 @@
         .bootstrap-select .dropdown-menu.inner > li.disabled:hover > a{
             background: rgb(255 133 133 / 67%);
         }
+
+        .bg-light-danger{
+            background: {{encontrar_configuracion('color_card')}} !important;
+        }
+        .card.card-custom > .card-header .card-title, .card.card-custom > .card-header .card-title .card-label {
+            color: {{encontrar_configuracion('color_text_card')}} !important;
+        }
+ 
     </style>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">

@@ -77,6 +77,27 @@ class ConfigInitSeeder extends Seeder
 			'grupo' => 'Diseño',
         ]);
 		
+		
+        ConfiguracionPlataforma::firstOrCreate([
+			'key' => 'color_card',
+		],[ 
+			'tipo' => 'color',
+			'nombre' => 'Color header Card',
+			'descripcion' => 'Color header Card',
+			'valor' => '#FFE2E5 ',
+			'grupo' => 'Diseño',
+        ]);
+		
+        ConfiguracionPlataforma::firstOrCreate([
+			'key' => 'color_text_card',
+		],[ 
+			'tipo' => 'color',
+			'nombre' => 'Color Texto Card',
+			'descripcion' => 'Color Texto Card',
+			'valor' => '#181C32',
+			'grupo' => 'Diseño',
+        ]);
+		
         ConfiguracionPlataforma::firstOrCreate([
 			'key' => 'color_active_menu',
 		],[ 
