@@ -125,7 +125,7 @@ class ReservasExternasController extends Controller
                     $formato = str_replace('[zona]', $pedido->vuelo->zona->nombre??null, $formato);
 
                     $data['parrafo_1'] = $formato;
-                    $data['subject'] = 'Gestión de Reserva - Volarenasturias';
+                    $data['subject'] = 'Gestión de Reserva - '.encontrar_configuracion('nombre_empresa');
                     $data['email'] = $pedido->email_contacto;
                     $data['name'] = $name;
                     Mail::send('plataforma.emails.plantilla_general', $data, function($message) use ($data) {
@@ -179,7 +179,7 @@ class ReservasExternasController extends Controller
                     $formato = str_replace('[razon]', $observacion??null, $formato);
 
                     $data['parrafo_1'] = $formato;
-                    $data['subject'] = 'Gestión de Reserva - Volarenasturias';
+                    $data['subject'] = 'Gestión de Reserva - '.encontrar_configuracion('nombre_empresa');
                     $data['email'] = $pedido->email_contacto;
                     $data['name'] = $name;
                     Mail::send('plataforma.emails.plantilla_general', $data, function($message) use ($data) {
@@ -207,7 +207,7 @@ class ReservasExternasController extends Controller
 
 
                     
-                    $url = "https://gestion.volarenasturias.com/completed_register_reserve/";
+                    $url =  encontrar_configuracion('url_plataforma')."/completed_register_reserve/";
 
                     $id = \Crypt::encrypt($pedido_externo->id);
                     $kink = $url.''.$id;   
@@ -237,7 +237,7 @@ class ReservasExternasController extends Controller
                     $formato = str_replace('[razon]', $observacion??null, $formato);
 
                     $data['parrafo_1'] = $formato;
-                    $data['subject'] = 'Nueva Reserva - Volarenasturias';
+                    $data['subject'] = 'Nueva Reserva - '.encontrar_configuracion('nombre_empresa');
                     $data['email'] = $pedido->email_contacto;
                     $data['name'] = $name;
                     Mail::send('plataforma.emails.plantilla_general', $data, function($message) use ($data) {

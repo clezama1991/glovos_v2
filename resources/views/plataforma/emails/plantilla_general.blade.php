@@ -18,7 +18,7 @@
     <div id="m_3864669808179339935wrapper" dir="ltr" style="background-color:#0f0f0f;margin:0;padding:70px 0;width:100%" bgcolor="#0f0f0f" width="100%"><div class="adM">
     </div><table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%"><tbody><tr><td align="center" valign="top">
                 <div id="m_3864669808179339935template_header_image">
-                    <p style="margin-top:0"><img src="{{$logo}}" alt="Volar en Asturias - Viajes en globo aerostatico" style="border:none;display:inline-block;font-size:14px;font-weight:bold;height:auto;outline:none;text-decoration:none;text-transform:capitalize;vertical-align:middle;max-width:100%;margin-left:0;margin-right:0" border="0" class="CToWUd" data-bit="iit"></p>						</div>
+                    <p style="margin-top:0"><img src="{{$logo}}" alt="{{encontrar_configuracion('nombre_plataforma')}}" style="border:none;display:inline-block;font-size:14px;font-weight:bold;height:auto;outline:none;text-decoration:none;text-transform:capitalize;vertical-align:middle;max-width:100%;margin-left:0;margin-right:0" border="0" class="CToWUd" data-bit="iit"></p>						</div>
                 <table border="0" cellpadding="0" cellspacing="0" width="600" id="m_3864669808179339935template_container" style="background-color:#fff;border:1px solid #0d0d0d;border-radius:3px" bgcolor="#fff"><tbody><tr><td align="center" valign="top">
                             
                             <table border="0" cellpadding="0" cellspacing="0" width="100%" id="m_3864669808179339935template_header" style="background-color:#5dcab8;color:#202020;border-bottom:0;font-weight:bold;line-height:100%;vertical-align:middle;font-family:&quot;Helvetica Neue&quot;,Helvetica,Roboto,Arial,sans-serif;border-radius:3px 3px 0 0" bgcolor="#5dcab8"><tbody><tr><td id="m_3864669808179339935header_wrapper" style="padding:36px 48px;display:block">
@@ -50,7 +50,7 @@
                 
                 <table border="0" cellpadding="10" cellspacing="0" width="600" id="m_3864669808179339935template_footer"><tbody><tr><td valign="top" style="padding:0;border-radius:6px">
                             <table border="0" cellpadding="10" cellspacing="0" width="100%"><tbody><tr><td colspan="2" valign="middle" id="m_3864669808179339935credit" style="border-radius:6px;border:0;color:#b4b4b4;font-family:&quot;Helvetica Neue&quot;,Helvetica,Roboto,Arial,sans-serif;font-size:12px;line-height:150%;text-align:center;padding:24px 0" align="center">
-                                        <p style="margin:0 0 16px">Volar en Asturias - Viajes en globo aerostatico</p>
+                                        <p style="margin:0 0 16px">{{encontrar_configuracion('nombre_plataforma')}}</p>
                                     </td>
                                 </tr></tbody></table></td>
                     </tr></tbody></table></td>

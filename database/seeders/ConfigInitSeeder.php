@@ -98,6 +98,26 @@ class ConfigInitSeeder extends Seeder
         ]);
 		
         ConfiguracionPlataforma::firstOrCreate([
+			'key' => 'url_empresa',
+		],[ 
+			'tipo' => 'text',
+			'nombre' => 'URL Empresa',
+			'descripcion' => 'URL Empresa',
+			'valor' => '',
+			'grupo' => 'Empresa',
+        ]);
+		
+        ConfiguracionPlataforma::firstOrCreate([
+			'key' => 'url_plataforma',
+		],[ 
+			'tipo' => 'text',
+			'nombre' => 'URL Plataforma',
+			'descripcion' => 'URL Plataforma',
+			'valor' => '',
+			'grupo' => 'Empresa',
+        ]);
+		
+        ConfiguracionPlataforma::firstOrCreate([
 			'key' => 'nombre_empresa',
 		],[ 
 			'tipo' => 'text',
@@ -165,6 +185,43 @@ class ConfigInitSeeder extends Seeder
 			'descripcion' => 'Banner publicidad',
 			'valor' => '',
 			'grupo' => 'Publicidad',
+        ]);
+		
+        ConfiguracionPlataforma::firstOrCreate([
+			'key' => 'instrucciones_login',
+		],[
+			'tipo' => 'enriquecido',
+			'nombre' => 'Instrucciones para login',
+			'descripcion' => 'Instrucciones para login',
+			'valor' => '',
+			'grupo' => 'Login',
+        ]);
+        ConfiguracionPlataforma::firstOrCreate([
+			'key' => 'descripcion_login',
+		],[
+			'tipo' => 'enriquecido',
+			'nombre' => 'Descripción de login',
+			'descripcion' => 'Descripción de login',
+			'valor' => '',
+			'grupo' => 'Login',
+        ]);
+        ConfiguracionPlataforma::firstOrCreate([
+			'key' => 'bg_login1',
+		],[
+			'tipo' => 'file',
+			'nombre' => 'Fondo Background Login 1',
+			'descripcion' => 'Fondo Background Login 1',
+			'valor' => '',
+			'grupo' => 'Login',
+        ]);
+        ConfiguracionPlataforma::firstOrCreate([
+			'key' => 'bg_login2',
+		],[
+			'tipo' => 'file',
+			'nombre' => 'Fondo Background Login 2',
+			'descripcion' => 'Fondo Background Login 2',
+			'valor' => '',
+			'grupo' => 'Login',
         ]);
 		
         ConfiguracionPlataforma::firstOrCreate([
@@ -447,6 +504,17 @@ class ConfigInitSeeder extends Seeder
 			'valor' => '6',
 			'grupo' => 'vuelos',
 			'visible' => 0,
+        ]);
+				
+        ConfiguracionPlataforma::firstOrCreate([
+			'key' => 'enable_google_login',
+		],[ 
+			'tipo' => 'boolean',
+			'nombre' => 'Activar inicio de sesion con Google',
+			'descripcion' => 'Activar inicio de sesion con Google',
+			'valor' => '0',
+			'grupo' => 'Google',
+			'visible' => 1,
         ]);
 				
         ConfiguracionPlataforma::firstOrCreate([

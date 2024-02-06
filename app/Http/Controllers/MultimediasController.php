@@ -20,6 +20,7 @@ class MultimediasController extends Controller
     public function __construct() {
         $this->middleware('auth');
         $this->folder = 'uploads/multimedia'; 
+        $this->url_plataforma = encontrar_configuracion('url_plataforma'); 
     }
     
     public function index(){
@@ -206,7 +207,7 @@ class MultimediasController extends Controller
                         $formato = TraducirTexto($value->lenguaje_contacto,$formato);
 
                         $data['parrafo_1'] = $formato;
-                        $data['subject'] = 'Archivos multimedia disponibles para descargar - Volarenasturias';
+                        $data['subject'] = 'Archivos multimedia disponibles para descargar - '.encontrar_configuracion('nombre_plataforma');
                         $data['email'] = $value->email_contacto;
                         $data['name'] = $name;
                         Mail::send('plataforma.emails.plantilla_general', $data, function($message) use ($data) {
@@ -270,7 +271,7 @@ class MultimediasController extends Controller
                 
                 $link = '<a href="'.$kink.'" target="_blank" class="btn btn-sm btn-primary mr-2">'.$kink.'</a>'; 
 
-                $orderUrl = 'https://gestion.volarenasturias.com/completed_form/'.$Pedidos->token;
+                $orderUrl = $this->url_plataforma.'/completed_form/'.$Pedidos->token;
 
                 $formato = str_replace('[boton_descargar]', $orderUrl , $formato);
                 $name = $Pedidos->nombre_contacto;
@@ -323,9 +324,9 @@ class MultimediasController extends Controller
     {
       // $orderUrl = url("/orders/{$this->order->id}");
       
-      $orderUrl = 'https://gestion.volarenasturias.com/completed_form/'.$order->token;
+      $orderUrl = $this->url_plataforma.'/completed_form/'.$order->token;
      
-      $company = 'Volarenasturias';
+      $company = encontrar_configuracion('nombre_empresa');
       
       $fecha_vuelo = '';    
       if($order->vuelo){ $date = new Carbon($order->vuelo->fecha); $fecha_vuelo = $date->formatLocalized('%d %B de %Y');}

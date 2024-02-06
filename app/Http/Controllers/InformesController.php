@@ -890,7 +890,7 @@ class InformesController extends Controller
 
         
         $richText = new \PhpOffice\PhpSpreadsheet\RichText\RichText();
-        $payable = $richText->createTextRun('VOLAR EN ASTURIAS');
+        $payable = $richText->createTextRun(encontrar_configuracion('nombre_empresa'));
         $payable->getFont()->setSize(16);
         $payable->getFont()->setBold(true);
         $payable->getFont()->setItalic(true);

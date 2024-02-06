@@ -2,14 +2,19 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-
+    
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title> Login | Volar en Asturias - Viajes en globo aerostatico ¡Vuela en el Paraiso! </title>
+    <title> Login |  {{encontrar_configuracion('nombre_plataforma')}} -  {{encontrar_configuracion('descripcion_plataforma')}} </title>
+
+
+
+
+    <title> Login |  {{encontrar_configuracion('nombre_plataforma')}} -  {{encontrar_configuracion('descripcion_plataforma')}} </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -83,21 +88,18 @@
         <div class="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-row-fluid bg-white" id="kt_login">
             <!--begin::Aside-->
             <div class="login-aside d-flex flex-row-auto bgi-size-cover bgi-no-repeat p-10 p-lg-10"
-                style="background-image: url(assets/media/bg/bg-4.jpg);">
+                style="background-image: url({{asset(encontrar_configuracion('bg_login1'))}});">
                 <!--begin: Aside Container-->
                 <div class="d-flex flex-row-fluid flex-column justify-content-between p-10" style="background: #0a0e126b;border-radius: 20px;">
                     <!--begin: Aside header-->
                     <a href="#" class="flex-column-auto mt-5 pb-lg-0 pb-10">
-                        <img src="assets/media/logos/logo-letter-1.png" class="w-100" alt="" />
+                        <img src="{{asset(encontrar_configuracion('logo_plataforma'))}}" class="w-100" alt="" />
                     </a>
                     <!--end: Aside header-->
 
                     <!--begin: Aside content-->
                     <div class="flex-column-fluid d-flex flex-column justify-content-center font-weight-bolder h3">
-                        <h3 class="font-size-h1 mb-5 text-white">TU VIAJE EN GLOBO</h3>
-                        <p class="font-weight-lighter text-white opacity-80">
-                            La mayor variedad de viajes en globo en Asturias
-                        </p>
+                        {!! encontrar_configuracion('descripcion_login') !!} 
                     </div>
                     <!--end: Aside content-->
 
@@ -119,7 +121,7 @@
             <!--begin::Aside-->
 
             <!--begin::Content-->
-            <div class="flex-row-fluid d-flex flex-column position-relative p-7 overflow-hidden" style="background-image: url(assets/media/bg/bg-11.jpg);">
+            <div class="flex-row-fluid d-flex flex-column position-relative p-7 overflow-hidden" style="background-image: url({{asset(encontrar_configuracion('bg_login2'))}});">
 
                 {{-- <main v-cloak> --}}
 

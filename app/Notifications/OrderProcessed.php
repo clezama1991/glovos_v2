@@ -34,9 +34,9 @@ class OrderProcessed extends Notification
   {
     // $orderUrl = url("/orders/{$this->order->id}");
     
-    $orderUrl = 'https://gestion.volarenasturias.com/completed_form/'.$this->order->token;
+    $orderUrl = encontrar_configuracion('url_plataforma').'/completed_form/'.$this->order->token;
    
-    $company = 'Volarenasturias';
+    $company = encontrar_configuracion('nombre_empresa');
     
     $fecha_vuelo = '';    
     if($this->order->vuelo){ $date = new Carbon($this->order->vuelo->fecha); $fecha_vuelo = $date->toFormattedDateString();}
@@ -68,7 +68,7 @@ class OrderProcessed extends Notification
   public function toWhatsAppOld($notifiable)
   {
     $orderUrl = url("/orders/{$this->order->id}");
-    $company = 'Volarenasturias';
+    $company = encontrar_configuracion('nombre_empresa');
     $deliveryDate = $this->order->created_at->addDays(4)->toFormattedDateString();
 
     

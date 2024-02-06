@@ -67,7 +67,7 @@ class ReservaExternaController extends Controller
                 
 
  
-                $url = "https://gestion.volarenasturias.com/dashboard#/pedidos-reservas-externas/consultar/";     
+                $url = encontrar_configuracion('url_plataforma')."/dashboard#/pedidos-reservas-externas/consultar/";     
 
                 $kink = $url.''.$ReservasExternas->id;   
 
@@ -97,7 +97,7 @@ class ReservaExternaController extends Controller
                     $formato = str_replace('[zona]', $ReservasExternas->zona??null, $formato);
 
                     $data['parrafo_1'] = $formato;
-                    $data['subject'] = 'Nueva Reserva - Volarenasturias';
+                    $data['subject'] = 'Nueva Reserva - '.encontrar_configuracion('nombre_empresa');
                     $data['email'] = $value->email;
                     $data['name'] = $name;
                     Mail::send('plataforma.emails.plantilla_general', $data, function($message) use ($data) {

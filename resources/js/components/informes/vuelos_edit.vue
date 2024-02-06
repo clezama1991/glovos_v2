@@ -272,7 +272,7 @@
                               <td width="30%">Contacto <i class="fas fa-user-check    "></i></td>
                               <td>{{pedido.nombre_contacto}}</td>
                               <td  width="30%" class="text-center">
-                                    <a :href="'https://api.whatsapp.com/send?phone='+pedido.telefono_contacto+'&text=Gracias Por Volar En Asturias'"
+                                    <a :href="'https://api.whatsapp.com/send?phone='+pedido.telefono_contacto+'&text=Gracias Por Contactarnos'"
                                         target="_blank" class="btn btn-success btn-icon btn-sm">
                                         <i class="fa fa-whatsapp" aria-hidden="true"></i>
                                     </a>

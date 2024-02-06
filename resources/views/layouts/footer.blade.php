@@ -4,7 +4,7 @@
         <!--begin::Copyright-->
         <div class="text-dark order-2 order-md-1">
             <span class="text-muted font-weight-bold mr-2">{{date('Y')}}</span>
-            <a href="#" class="text-dark-75 text-hover-primary">Volar en Asturias</a>
+            <a href="#" class="text-dark-75 text-hover-primary">{{encontrar_configuracion('nombre_plataforma')}}</a>
         </div>
         <!--end::Copyright-->
 

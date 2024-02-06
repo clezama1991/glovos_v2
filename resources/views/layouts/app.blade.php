@@ -9,7 +9,7 @@
 
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title> Plataforma | Volar en Asturias - Viajes en globo aerostatico ¡Vuela en el Paraiso! </title>
+    <title> Plataforma | {{encontrar_configuracion('nombre_plataforma')}} -  {{encontrar_configuracion('descripcion_plataforma')}} </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/> -->
@@ -90,7 +90,7 @@
         <!--begin::Logo-->
         
         <router-link :to="'/'">
-          <img alt="Logo" src="assets/media/logos/logo-letter-1.png" class="w-50">
+          <img alt="Logo" src="{{asset(encontrar_configuracion('logo_2_plataforma'))}}" class="w-50">
         </router-link>
         <!--end::Logo-->
 
@@ -135,7 +135,7 @@
         <!--begin::Page-->
         <div class="d-flex flex-row flex-column-fluid page">
   
-          <sidebardashboard :menu="{{ Auth::user() }}"></sidebardashboard>
+          <sidebardashboard :menu="{{ Auth::user() }}" logo="{{encontrar_configuracion('logo_2_plataforma')}}"></sidebardashboard>
 
             <!--begin::Wrapper-->
             <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
@@ -436,7 +436,8 @@
     window.Laravel = {
         csrfToken: "{{ csrf_token() }}",
         jsPermissions: {!! auth()->check()?auth()->user()->jsPermissions():null !!},
-        woocommers: {!! encontrar_configuracion('enable_woocommerces') !!}
+        woocommers: {!! encontrar_configuracion('enable_woocommerces') !!},
+        url_plataforma: "{{ encontrar_configuracion('url_plataforma') }}"
     }
 </script>
 

@@ -187,7 +187,7 @@ class PedidosExternoController extends Controller
         $formato = str_replace('[nombre]', 'CARLOS LEZAMA', $formato);
 
         $data['parrafo_1'] = $formato;
-        $data['subject'] = 'Multimedias Disponibles para Descargar - Volarenasturias';
+        $data['subject'] = 'Multimedias Disponibles para Descargar - '.encontrar_configuracion('nombre_empresa');
         $data['email'] = 'clezama1991@gmail.com';
         $data['name'] = 'carlos lezama';
         Mail::send('plataforma.emails.plantilla_general', $data, function($message) use ($data) {

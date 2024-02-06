@@ -40,12 +40,11 @@
                     
                     <div class="form-group">
                       <div class="input-group">
-                        <input type="text" v-model="form.token" class="form-control form-control-solid" readonly  @click="copyURL('https://gestion.volarenasturias.com/completed_form/'+form.token)">
+                        <input type="text" v-model="form.token" class="form-control form-control-solid" readonly  @click="copyURL(url_plataforma+'/completed_form/'+form.token)">
                         <div class="input-group-append">
-                          <button class="btn btn-secondary" type="button" @click="copyURL('https://gestion.volarenasturias.com/completed_form/'+form.token)"> <i class="fa fa-clipboard" aria-hidden="true"></i> Copiar!</button>
+                          <button class="btn btn-secondary" type="button" @click="copyURL(url_plataforma+'/completed_form/'+form.token)"> <i class="fa fa-clipboard" aria-hidden="true"></i> Copiar!</button>
                         </div>
                       </div>
-                      <!-- <input v-model="form.token" @click="copyURL('https://gestion.volarenasturias.com/completed_form/'+form.token)" id="nombres" type="text" class="form-control form-control-solid" readonly> -->
                     </div> 
                   </div>
                   
@@ -580,6 +579,7 @@
               telefono_contacto : '',
               estatus : 'Creado',
             },
+            url_plataforma: window.Laravel.url_plataforma
           }
         },
         mounted() {

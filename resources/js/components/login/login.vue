@@ -5,7 +5,7 @@
             <!--begin::Signin-->
             <div class="login-form login-signin">
                 <div class="text-center mb-10 mb-lg-20 text-white">
-                                          <img src="assets/media/logos/logo-letter-1.png" class="w-75" alt="" />
+                                          <img :src="logo_login" class="w-75" alt="" />
 
                     <!-- <h3 class="font-size-h1">Iniciar sesión</h3>
                     <p class="text-muted font-weight-bold">Ingrese su email y contraseña</p> -->
@@ -13,8 +13,12 @@
 
                 <!--begin::Form-->
                 <form @submit="onLogin" @reset="onReset" method="POST" enctype="multipart/form-data" class="form" id="kt_login_signin_form">
-                  <p class="text-muted font-weight-bold text-center">Ingrese su email y contraseña</p>
+                  <p class="text-muted font-weight-bold text-center">Ingrese su email y contraseña
+                    <br>
+                    <span v-html="instrucciones_login"></span>
 
+                  </p>
+ 
                   <div class="form-group">
                         <input class="form-control form-control-solid h-auto py-3 px-6 bg-white rounded-pill" type="text" placeholder="Email" name="username" autocomplete="off" v-model="login.email" required :class="{'is-invalid':!result_response_login}"/>
                     
@@ -47,12 +51,12 @@
                           Iniciando Sesión
                         </span>
                         <span v-else>
-                          Ingresar s
+                          Ingresar
                         </span>
                       </button>  
                     </div>
                     
-                    <a href="/auth/google" style="margin-top: 20px;" class="btn btn-lg btn-success btn-block">
+                    <a href="/auth/google" v-if="enable_google_login=='1'" style="margin-top: 20px;" class="btn btn-lg btn-success btn-block">
                       <strong>Login With Google</strong>
                     </a> 
                     
@@ -70,6 +74,7 @@
 
 <script>
   export default {
+    props:['instrucciones_login','logo_login','enable_google_login'],
     data() {
       return {
         ini_sesion : false,

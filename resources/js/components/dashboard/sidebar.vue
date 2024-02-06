@@ -15,7 +15,7 @@
         <router-link :to="'/'" class="brand-logo">
           <img
             alt="Logo"
-            src="assets/media/logos/logo-letter-1.png"
+            :src="logo"
             class="w-75"
           />
         </router-link>
@@ -497,3 +497,14 @@
     <!--end::Aside-->
   </div>
 </template>
+
+
+<script>
+export default {
+  props: ["logo"],
+  mounted() { 
+  },
+  computed: { 
+  },
+};
+</script>

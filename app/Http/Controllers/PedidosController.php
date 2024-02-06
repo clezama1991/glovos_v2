@@ -29,6 +29,7 @@ class PedidosController extends Controller
     public function __construct() {
         $this->middleware('auth');
         $this->folder = '/uploads/zonas'; 
+        $this->url_plataforma = encontrar_configuracion('url_plataforma'); 
     }
  
     public function update_info_pedidos($page){
@@ -770,9 +771,9 @@ class PedidosController extends Controller
   {
     // $orderUrl = url("/orders/{$this->order->id}");
     
-    $orderUrl = 'https://gestion.volarenasturias.com/completed_form/'.$order->token;
+    $orderUrl = $this->url_plataforma.'/completed_form/'.$order->token;
    
-    $company = 'Volarenasturias';
+    $company = encontrar_configuracion('nombre_empresa');
     
     $fecha_vuelo = '';    
     if($order->vuelo){ $date = new Carbon($order->vuelo->fecha); $fecha_vuelo = $date->formatLocalized('%d %B de %Y');}

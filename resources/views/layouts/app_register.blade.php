@@ -9,7 +9,8 @@
 
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title> Formulario de Registro | Volar en Asturias - Viajes en globo aerostatico ¡Vuela en el Paraiso! </title>
+    <title> Formulario de Registro |  {{encontrar_configuracion('nombre_plataforma')}} -  {{encontrar_configuracion('descripcion_plataforma')}} </title>
+
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -585,8 +586,7 @@
                 <div class="col-md-6 col-sm-12">
                     <div class="d-flex flex-row">
                         <p class="text-white h5">
-                            Volar en Asturias es una empresa de trabajos aéreos autorizada por AESA, para vuelo con
-                            pasajeros, fotografía oblicua, filmación aérea, y publicidad con globos aerostáticos.
+                            {{encontrar_configuracion('nombre_plataforma')}}
                         </p>
                     </div>
                 </div>
@@ -594,7 +594,7 @@
                     {{-- <h5 class="text-md-right text-sm-center">Nuestras Redes Sociales</h5> --}}
                     <ul class="list-unstyled list-inline text-md-right text-center mt-2">
                         <li class="list-inline-item">
-                            <a class="mx-1 text-white" href="https://volarenasturias.com/" target="_blank">
+                            <a class="mx-1 text-white" href="{{encontrar_configuracion('url_empresa')}}" target="_blank">
                                 Ir a Sitio Web
                             </a>
                         </li>
@@ -605,7 +605,7 @@
 
             <div class="row d-flex align-items-end py-4">
                 <div class="col-md-12 text-white text-center">
-                    Copyright &reg;{{ date('Y') }} by Volarenasturias.com
+                    Copyright &reg;{{ date('Y') }} by {{encontrar_configuracion('nombre_empresa')}}
                 </div>
             </div>
         </div>
