@@ -172,9 +172,16 @@ class InformesController extends Controller
         })
         ->orderBy('vuelo->horas_inicial_globo','ASC')
         ->get();
-
-        $globo = $records[0]->globo;
-        $anterior = $records[0]->vuelo['horas_inicial_globo'] ?? '00:00'; 
+  
+        if ($records->count()==0) {           
+            $globo = Globos::whereId($globo_id)->first();
+            $anterior = $globo->hora_total_vuelo; 
+            $fecha_vuelo = $inicio;
+        }else{            
+            $globo = $records[0]->globo;
+            $anterior = $records[0]->vuelo['horas_inicial_globo'] ?? '00:00'; 
+            $fecha_vuelo = $records[0]->vuelo['fecha'];
+        } 
 
         $horas = [$anterior];
         $horas_totales = [];
@@ -298,7 +305,7 @@ class InformesController extends Controller
         $sheet->setCellValue('E5', 'Edición 2 Revisión 0');
         $sheet->setCellValue('F5', 'Año');
           
-        $real_now = Carbon::create($records[0]->vuelo['fecha']);
+        $real_now = Carbon::create($fecha_vuelo);
         $ahio = $real_now->format('Y') ?? date('Y');
         $sheet->setCellValue('G5', $ahio );
         $sheet->setCellValue('H5', $total_horas);        
