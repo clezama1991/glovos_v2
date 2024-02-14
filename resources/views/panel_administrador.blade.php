@@ -27,6 +27,13 @@
 
 <script type="text/javascript">
   
+  
+  // notams.fetch([ 'PADK', 'PADU' ], { format: 'DOMESTIC' }).then(results => {
+  //   console.log(JSON.stringify(results, null, 2))
+  // })
+
+
+
   const CLIENT_ID = '{{$CLIENT_ID}}';   
   //const CLIENT_ID = '417049974242-6i1i7n3vl0n68lj86a8u9csj8qm9djnv.apps.googleusercontent.com';
 

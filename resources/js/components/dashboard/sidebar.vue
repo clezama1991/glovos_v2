@@ -288,7 +288,7 @@
                 </ul>
               </div>
             </li>
-            <li  v-if="can('pilots-read|soguillas-read|balloons-read|balloons_model-read|balloons_burners-read|balloons_baskets-read|bottom_end-read|zones-read|checklist-read|configs_plataforma|types_of_clouds-read|automated_tasks')"
+            <li  v-if="can('pilots-read|soguillas-read|balloons-read|balloons_model-read|balloons_burners-read|balloons_baskets-read|bottom_end-read|zones-read|checklist-read|configs_plataforma|types_of_clouds-read|automated_tasks|flights-read')"
               class="menu-item menu-item-submenu"
               aria-haspopup="true"
               data-menu-toggle="hover"
@@ -454,6 +454,12 @@
                     <router-link :to="'/configuraciones/crons'" class="menu-link">
                       <i class="menu-bullet menu-bullet-line"><span></span></i>
                       <span class="menu-text">Tareas Automáticas</span>
+                      </router-link>
+                  </li> 
+                  <li v-if="can('flights-read')" class="menu-item" aria-haspopup="true">
+                    <router-link :to="'/configuraciones/notams'" class="menu-link">
+                      <i class="menu-bullet menu-bullet-line"><span></span></i>
+                      <span class="menu-text">NOTAMS</span>
                       </router-link>
                   </li> 
                 </ul>

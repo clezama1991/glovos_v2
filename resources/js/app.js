@@ -11,6 +11,8 @@ import { TablePlugin } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 import bootstrapSelect from 'bootstrap-select'
 import "vue-select/src/scss/vue-select.scss";
+// import notams from 'notams'
+import notams from "notams/index.js";
 
 // import installer from '@andresouzaabreu/vue-data-table'
 // import DataTable from '@andresouzaabreu/vue-data-table'
@@ -40,6 +42,7 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(TablePlugin)
 Vue.use(bootstrapSelect)
+Vue.use(notams)
 
 /**vuejs**/
 import Toasted from 'vue-toasted';
@@ -264,6 +267,7 @@ const routes = [
   { path: '/configuraciones/soguillas/consultar/:id', props: true, component: require('./components/configuraciones/soguillas/show.vue').default, },  
   
   { path: '/configuraciones/crons', component: require('./components/configuraciones/crons/index.vue').default, },  
+  { path: '/configuraciones/notams', component: require('./components/configuraciones/notams/index.vue').default, },  
 
 ]
 
