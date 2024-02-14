@@ -14,11 +14,11 @@ class AddRowsZonasAlturaDespegueToZones extends Migration
     public function up()
     {
         Schema::table('zones', function (Blueprint $table) {
-            $table->string('altura_despegue_1')->after('msg_despegue_1')->nullable(); 
-            $table->string('altura_despegue_2')->after('msg_despegue_2')->nullable(); 
-            $table->string('altura_despegue_3')->after('msg_despegue_3')->nullable(); 
-            $table->string('altura_despegue_4')->after('msg_despegue_4')->nullable(); 
-            $table->string('altura_despegue_5')->after('msg_despegue_5')->nullable(); 
+            $table->string('altura_despegue_1')->nullable(); 
+            $table->string('altura_despegue_2')->nullable(); 
+            $table->string('altura_despegue_3')->nullable(); 
+            $table->string('altura_despegue_4')->nullable(); 
+            $table->string('altura_despegue_5')->nullable(); 
         });
     }
 
