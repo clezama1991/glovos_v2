@@ -80,8 +80,8 @@
             </div>
             <div class="col-md-3 mb-3">
               <div class="form-group">
-                <label for="altura_despegue">Altura Despegue</label>
-                <input v-model="form.altura_despegue" v-numero id="altura_despegue" type="text" class="form-control" required>
+                <label for="altura_despegue_global">Altura Despegue</label>
+                <input v-model="form.altura_despegue_global" v-numero id="altura_despegue_global" type="text" class="form-control" required>
               </div> 
             </div>
             <div class="col-md-3 mb-3">
@@ -105,91 +105,139 @@
 
                   <div class="card-body">  
                     <div class="row">
-                      <div class="col-md-6 bg-light-primary">
-                        <div class="row p-2">                      
-                          <div class="col-md-6">
-                            <div class="form-group mb-0">
-                              <label for="nombre_despegue_1">Nombre #1</label>
-                              <input v-model="form.nombre_despegue_1" id="nombre_despegue_1" type="text" class="form-control" :required="form.despegue_whatsapp=='1'">
-                              <input v-model="form.despegue_whatsapp" type="radio" name="despegue_whatsapp" id="despegue_whatsapp_1" value="1" checked> <label for="despegue_whatsapp_1">Pred. para Whatsapp</label>
-                            </div> 
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group mb-0">
-                              <label for="url_despegue_1">URL Despegue #1</label>
-                              <input v-model="form.url_despegue_1" id="url_despegue_1" type="text" class="form-control" :required="form.despegue_whatsapp=='1'">
-                            </div> 
-                          </div>
-                        </div>              
-                        </div>  
-                      <div class="col-md-6 bg-light-danger">
-                        <div class="row p-2">                      
-                          <div class="col-md-6">
-                            <div class="form-group mb-0">
-                              <label for="nombre_despegue_2">Nombre #2</label>
-                              <input v-model="form.nombre_despegue_2" id="nombre_despegue_2" type="text" class="form-control" :required="form.despegue_whatsapp=='2'">
-                              <input v-model="form.despegue_whatsapp" type="radio" name="despegue_whatsapp" id="despegue_whatsapp_2" value="2" checked> <label for="despegue_whatsapp_2">Pred. para Whatsapp</label>
-                            </div> 
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group mb-0">
-                              <label for="url_despegue_2">URL Despegue #2</label>
-                              <input v-model="form.url_despegue_2" id="url_despegue_2" type="text" class="form-control" :required="form.despegue_whatsapp=='2'">
-                            </div> 
-                          </div>
-                        </div>              
-                        </div> 
-                      <div class="col-md-6 bg-light-success">
-                        <div class="row p-2">                      
-                          <div class="col-md-6">
-                            <div class="form-group mb-0">
-                              <label for="nombre_despegue_3">Nombre #3</label>
-                              <input v-model="form.nombre_despegue_3" id="nombre_despegue_3" type="text" class="form-control" :required="form.despegue_whatsapp=='3'">
-                              <input v-model="form.despegue_whatsapp" type="radio" name="despegue_whatsapp" id="despegue_whatsapp_3" value="3" checked> <label for="despegue_whatsapp_3">Pred. para Whatsapp</label>
-                            </div> 
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group mb-0">
-                              <label for="url_despegue_3">URL Despegue #3</label>
-                              <input v-model="form.url_despegue_3" id="url_despegue_3" type="text" class="form-control" :required="form.despegue_whatsapp=='3'">
-                            </div> 
-                          </div>
-                        </div>              
-                        </div> 
-                      <div class="col-md-6 bg-light-warning">
-                        <div class="row p-2">                      
-                          <div class="col-md-6">
-                            <div class="form-group mb-0">
-                              <label for="nombre_despegue_4">Nombre #4</label>
-                              <input v-model="form.nombre_despegue_4" id="nombre_despegue_4" type="text" class="form-control" :required="form.despegue_whatsapp=='4'">
-                              <input v-model="form.despegue_whatsapp" type="radio" name="despegue_whatsapp" id="despegue_whatsapp_4" value="4" checked> <label for="despegue_whatsapp_4">Pred. para Whatsapp</label>
-                            </div> 
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group mb-0">
-                              <label for="url_despegue_4">URL Despegue #4</label>
-                              <input v-model="form.url_despegue_4" id="url_despegue_4" type="text" class="form-control" :required="form.despegue_whatsapp=='4'">
-                            </div> 
-                          </div>
-                        </div>              
-                        </div>  
-                      <div class="col-md-6 bg-light-secondary">
-                        <div class="row p-2">                      
-                          <div class="col-md-6">
-                            <div class="form-group mb-0">
-                              <label for="nombre_despegue_5">Nombre #5</label>
-                              <input v-model="form.nombre_despegue_5" id="nombre_despegue_5" type="text" class="form-control" :required="form.despegue_whatsapp=='5'">
-                              <input v-model="form.despegue_whatsapp" type="radio" name="despegue_whatsapp" id="despegue_whatsapp_5" value="5" checked> <label for="despegue_whatsapp_5">Pred. para Whatsapp</label>
-                            </div> 
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group mb-0">
-                              <label for="url_despegue_5">URL Despegue #5</label>
-                              <input v-model="form.url_despegue_5" id="url_despegue_5" type="text" class="form-control" :required="form.despegue_whatsapp=='5'">
-                            </div> 
-                          </div>
-                        </div>              
-                        </div>               
+                      
+                  
+                  <table class="table table-bordered table-striped table-bordere table-hover">
+                      <thead>
+                          <tr>
+                              <th scope="col" class="text-center"># Desp</th>
+                              <th scope="col" class="text-center">Nombre</th>
+                              <th scope="col" class="text-center">URL Despegue</th>
+                              <th scope="col" class="text-center">Altura Despegue</th>
+                              <th scope="col" class="text-center">Mensaje</th>
+                          </tr> 
+                      </thead>
+                      <tbody>
+                          <tr>
+                            <td width="5%">
+                              1
+                            </td>
+                          <td width="15%">
+                            <input v-model="form.nombre_despegue_1" id="nombre_despegue_1" type="text" class="form-control" :required="form.despegue_whatsapp=='1'">
+                            <input v-model="form.despegue_whatsapp" type="radio" name="despegue_whatsapp" id="despegue_whatsapp_1" value="1" checked> <label for="despegue_whatsapp_1">Pred. para Whatsapp</label>
+                          </td>
+                          <td width="15%">
+                            <input v-model="form.url_despegue_1" id="url_despegue_1" type="text" class="form-control" :required="form.despegue_whatsapp=='1'">
+                          </td>
+                          <td width="15%">
+                            <input v-model="form.altura_despegue_1" v-numero id="altura_despegue_1" type="text" class="form-control" :required="form.despegue_whatsapp=='1'">
+                          </td>
+                          <td width="40%">
+                            <editor
+                                :api-key="api_key"
+                                cloud-channel="5-dev"
+                                :init="option" 
+                                v-model="form.msg_despegue_1" id="msg_despegue_1"
+                              />                               
+                          </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              2
+                            </td>
+                          <td>
+                            <input v-model="form.nombre_despegue_2" id="nombre_despegue_2" type="text" class="form-control" :required="form.despegue_whatsapp=='2'">
+                            <input v-model="form.despegue_whatsapp" type="radio" name="despegue_whatsapp" id="despegue_whatsapp_2" value="2" checked> <label for="despegue_whatsapp_2">Pred. para Whatsapp</label>
+                          </td>
+                          <td>
+                            <input v-model="form.url_despegue_2" id="url_despegue_2" type="text" class="form-control" :required="form.despegue_whatsapp=='2'">
+                          </td>
+                          <td>
+                            <input v-model="form.altura_despegue_2" v-numero id="altura_despegue_2" type="text" class="form-control" :required="form.despegue_whatsapp=='2'">
+                          </td>
+                          <td width="50%">
+                            <editor
+                                :api-key="api_key"
+                                cloud-channel="5-dev"
+                                :init="option" 
+                                v-model="form.msg_despegue_2" id="msg_despegue_2"
+                              />                               
+                          </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              3
+                            </td>
+                          <td>
+                            <input v-model="form.nombre_despegue_3" id="nombre_despegue_3" type="text" class="form-control" :required="form.despegue_whatsapp=='3'">
+                            <input v-model="form.despegue_whatsapp" type="radio" name="despegue_whatsapp" id="despegue_whatsapp_3" value="3" checked> <label for="despegue_whatsapp_3">Pred. para Whatsapp</label>
+                          </td>
+                          <td>
+                            <input v-model="form.url_despegue_3" id="url_despegue_3" type="text" class="form-control" :required="form.despegue_whatsapp=='3'">
+                          </td>
+                          <td>
+                            <input v-model="form.altura_despegue_3" v-numero id="altura_despegue_3" type="text" class="form-control" :required="form.despegue_whatsapp=='3'">
+                          </td>
+                          <td width="50%">
+                            <editor
+                                :api-key="api_key"
+                                cloud-channel="5-dev"
+                                :init="option" 
+                                v-model="form.msg_despegue_3" id="msg_despegue_3"
+                              />                               
+                          </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              4
+                            </td>
+                          <td>
+                            <input v-model="form.nombre_despegue_4" id="nombre_despegue_4" type="text" class="form-control" :required="form.despegue_whatsapp=='4'">
+                            <input v-model="form.despegue_whatsapp" type="radio" name="despegue_whatsapp" id="despegue_whatsapp_4" value="4" checked> <label for="despegue_whatsapp_4">Pred. para Whatsapp</label>
+                          </td>
+                          <td>
+                            <input v-model="form.url_despegue_4" id="url_despegue_4" type="text" class="form-control" :required="form.despegue_whatsapp=='4'">
+                          </td>
+                          <td>
+                            <input v-model="form.altura_despegue_4" v-numero id="altura_despegue_4" type="text" class="form-control" :required="form.despegue_whatsapp=='4'">
+                          </td>
+                          <td width="50%">
+                            <editor
+                                :api-key="api_key"
+                                cloud-channel="5-dev"
+                                :init="option" 
+                                v-model="form.msg_despegue_4" id="msg_despegue_4"
+                              />                               
+                          </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              5
+                            </td>
+                          <td>
+                            <input v-model="form.nombre_despegue_5" id="nombre_despegue_5" type="text" class="form-control" :required="form.despegue_whatsapp=='5'">
+                            <input v-model="form.despegue_whatsapp" type="radio" name="despegue_whatsapp" id="despegue_whatsapp_5" value="5" checked> <label for="despegue_whatsapp_5">Pred. para Whatsapp</label>
+                          </td>
+                          <td>
+                            <input v-model="form.url_despegue_5" id="url_despegue_5" type="text" class="form-control" :required="form.despegue_whatsapp=='5'">
+                          </td>
+                          <td>
+                            <input v-model="form.altura_despegue_5" v-numero id="altura_despegue_5" type="text" class="form-control" :required="form.despegue_whatsapp=='5'">
+                          </td>
+                          <td width="50%">
+                            <editor
+                                :api-key="api_key"
+                                cloud-channel="5-dev"
+                                :init="option" 
+                                v-model="form.msg_despegue_5" id="msg_despegue_5"
+                              />                               
+                          </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                        
+                        
+                        
                     </div> 
                   </div>
                 </div>
@@ -202,18 +250,7 @@
 
                   <div class="card-body">
                     <div class="row">
-                      <div class="col-md-6 mb-15"> 
-                        <label class="" for="mensaje_personalizado">
-                            Mensaje Personalizado
-                        </label>
-                        <editor
-                            :api-key="api_key"
-                            cloud-channel="5-dev"
-                            :init="option" 
-                            v-model="form.mensaje_personalizado" id="mensaje_personalizado"
-                         /> 
-                      </div>
-                      <div class="col-md-6 mb-15"> 
+                      <div class="col-md-4 mb-15"> 
                         <label class="" for="mensaje_cancelacion_1">
                             Mensaje de Cancelacion 1
                         </label>
@@ -224,7 +261,7 @@
                             v-model="form.mensaje_cancelacion_1" id="mensaje_cancelacion_1"
                          /> 
                       </div>
-                      <div class="col-md-6 mb-15"> 
+                      <div class="col-md-4 mb-15"> 
                         <label class="" for="mensaje_cancelacion_2">
                             Mensaje de Cancelacion 2
                         </label>
@@ -235,7 +272,7 @@
                             v-model="form.mensaje_cancelacion_2" id="mensaje_cancelacion_2"
                          /> 
                       </div>
-                      <div class="col-md-6 mb-15"> 
+                      <div class="col-md-4 mb-15"> 
                         <label class="" for="mensaje_cancelacion_3">
                             Mensaje de Cancelacion 3
                         </label>
@@ -316,14 +353,23 @@
               color_text : '#FFFFFF',
               nombre_despegue_1 : '',
               url_despegue_1 : '',
+              msg_despegue_1 : '',
+              altura_despegue_1 : '',
               nombre_despegue_2 : '',
               url_despegue_2 : '',
+              msg_despegue_2 : '',
+              altura_despegue_2 : '',
               nombre_despegue_3 : '',
               url_despegue_3 : '',
+              msg_despegue_3 : '',
+              altura_despegue_3 : '',
               nombre_despegue_4 : '',
               url_despegue_4 : '',
+              msg_despegue_4 : '',
+              altura_despegue_4 : '',
               nombre_despegue_5 : '',
-              url_despegue_5 : '',
+              msg_despegue_5 : '',
+              altura_despegue_5 : '',
               aerop_cercano : '',
               frecuencia : '',
               notas : '',
@@ -354,13 +400,23 @@
               color_text : '#FFFFFF',
               nombre_despegue_1 : '',
               url_despegue_1 : '',
+              msg_despegue_1 : '',
+              altura_despegue_1 : '',
               nombre_despegue_2 : '',
               url_despegue_2 : '',
+              msg_despegue_2 : '',
+              altura_despegue_2 : '',
               nombre_despegue_3 : '',
               url_despegue_3 : '',
+              msg_despegue_3 : '',
+              altura_despegue_3 : '',
               nombre_despegue_4 : '',
               url_despegue_4 : '',
+              msg_despegue_4 : '',
+              altura_despegue_4 : '',
               nombre_despegue_5 : '',
+              msg_despegue_5 : '',
+              altura_despegue_5 : '',
               aerop_cercano : '',
               frecuencia : '',
               notas : '',
@@ -397,13 +453,23 @@
               formData.append('color_text', this.form.color_text);
               formData.append('nombre_despegue_1', this.form.nombre_despegue_1);
               formData.append('url_despegue_1', this.form.url_despegue_1);
+              formData.append('msg_despegue_1', this.form.msg_despegue_1);
+              formData.append('altura_despegue_1', this.form.altura_despegue_1);
               formData.append('nombre_despegue_2', this.form.nombre_despegue_2);
               formData.append('url_despegue_2', this.form.url_despegue_2);
+              formData.append('msg_despegue_2', this.form.msg_despegue_2);
+              formData.append('altura_despegue_2', this.form.altura_despegue_2);
               formData.append('nombre_despegue_3', this.form.nombre_despegue_3);
               formData.append('url_despegue_3', this.form.url_despegue_3);
+              formData.append('msg_despegue_3', this.form.msg_despegue_3);
+              formData.append('altura_despegue_3', this.form.altura_despegue_3);
               formData.append('nombre_despegue_4', this.form.nombre_despegue_4);
               formData.append('url_despegue_4', this.form.url_despegue_4);
+              formData.append('msg_despegue_4', this.form.msg_despegue_4);
+              formData.append('altura_despegue_4', this.form.altura_despegue_4);
               formData.append('nombre_despegue_5', this.form.nombre_despegue_5);
+              formData.append('msg_despegue_5', this.form.msg_despegue_5);
+              formData.append('altura_despegue_5', this.form.altura_despegue_5);
               formData.append('aerop_cercano', this.form.aerop_cercano);
               formData.append('frecuencia', this.form.frecuencia);
               formData.append('notas', this.form.notas);

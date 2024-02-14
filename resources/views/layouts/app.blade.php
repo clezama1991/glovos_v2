@@ -67,6 +67,51 @@
         body {
             font-family: 'Poppins' !important;
         }
+
+
+        .table-cuadricula tbody td:hover { background:#c8c0c0; cursor: pointer; }
+        
+        .round-button{
+            background-color:blue;
+            display:block;
+            height:35px;
+            width:35px;
+            border-radius:50%;
+            border:1px solid #000;
+            margin:auto;
+            color:#fff;
+            line-height:35px;
+            text-align:center
+        }
+
+        .table-cuadricula tbody td{ 
+            border: solid 0px black;
+        }
+
+        .table-cuadricula {
+                    border-collapse:separate;
+                    border-spacing: 10;
+                    border:solid black 1px;
+                    border-radius:10px;
+                    -moz-border-radius:10px;
+                    -webkit-border-radius: 5px;  
+        }
+
+        .nivel1{
+            background: yellow !important;
+            color:#000;
+        }
+
+        .nivel2{
+            background: #0BB7AF !important;
+            color:#fff;
+        }
+
+        .nivel3{
+            background: red !important;
+            color:#fff;
+        }
+
     </style>
 
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
@@ -484,7 +529,9 @@
             }
         });
     });
-    
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
 </script>
 
 <script type="text/javascript">

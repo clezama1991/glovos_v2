@@ -12,6 +12,8 @@ class Zones extends Model
 
     protected $table = 'zones';
 
+    protected $appends = ['mensaje_personalizado','altura_despegue'];
+
     protected $fillable = [
         'nombre',
         'nombre_corto',
@@ -19,14 +21,24 @@ class Zones extends Model
         'color_text',
         'nombre_despegue_1',
         'url_despegue_1',
+        'msg_despegue_1',
+        'altura_despegue_1',
         'nombre_despegue_2',
-        'url_despegue_2',        
+        'url_despegue_2',   
+        'msg_despegue_2',     
+        'altura_despegue_2',     
         'nombre_despegue_3',
         'url_despegue_3',
+        'msg_despegue_3',
+        'altura_despegue_3',
         'nombre_despegue_4',
         'url_despegue_4',
+        'msg_despegue_4',
+        'altura_despegue_4',
         'nombre_despegue_5',
         'url_despegue_5',
+        'msg_despegue_5',
+        'altura_despegue_5',
         'despegue_whatsapp',
         'logo',
         'aerop_cercano',
@@ -34,7 +46,7 @@ class Zones extends Model
         'notas',
         'mensaje_personalizado',
         'activo',
-        'altura_despegue',
+        'altura_despegue_global',
         'meteoblue_url',
         'meteoblue_donwload',
         'mensaje_cancelacion_1',
@@ -101,4 +113,26 @@ class Zones extends Model
         return $mensajes; 
     }
 
+
+    public function getMensajePersonalizadoAttribute()
+    {   
+
+        $despegue_whatsapp = $this->despegue_whatsapp;
+
+        $msg = 'msg_despegue_'.$despegue_whatsapp;
+
+        return $this->$msg;
+
+    }
+    
+    public function getAlturaDespegueAttribute()
+    {   
+
+        $despegue_whatsapp = $this->despegue_whatsapp;
+
+        $altura = 'altura_despegue_'.$despegue_whatsapp;
+ 
+        return (is_null($this->$altura)) ? $this->altura_despegue_global : $this->$altura;
+
+    }
 }

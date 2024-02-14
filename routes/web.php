@@ -38,6 +38,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PermissionRolesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReservaExternaController;
+use App\Http\Controllers\DiferidosController;
 
 
 /*
@@ -292,6 +293,13 @@ Route::group([ 'middleware' => 'auth'], function () {
 
         Route::controller(PermissionRolesController::class)->group(function () {
             Route::get('/listado_roles', 'listado');
+        });
+
+        Route::controller(DiferidosController::class)->group(function () {
+            Route::get('/buscar_diferidos/{id}', 'index');
+            Route::post('/add_diferido', 'store');
+            Route::post('/delete_diferido/{id}', 'destroy');
+            Route::put('/edit_diferido/{id}', 'update');
         });
 
 

@@ -100,9 +100,9 @@
             <div class="col-md-3 mb-3">
               <div class="form-group">
                 <label for="bottom_end_id">Bottom Ends</label>                  
-                <select class="form-control selectpicker" id="selectpicker_bottom_end" required data-live-search="true" v-model="form.bottom_end_id">
+                <select class="form-control selectpicker" id="selectpicker_bottom_end"  data-live-search="true" v-model="form.bottom_end_id">
                   <option value="" selected disabled>Seleccione</option>
-                  <option v-for="(item, index) in BottomEndCompatibles" :key="index" :value="item.id" :disabled="option._rowVariant">{{item.bottom_end}}</option>
+                  <option v-for="(item, index) in BottomEndCompatibles" :key="index" :value="item.id" :disabled="item._rowVariant">{{item.bottom_end}}</option>
                   </select>
                </div> 
             </div> 
@@ -204,6 +204,23 @@
                 <input v-model="form.volumen" id="volumen" type="text" v-numero class="form-control" required> 
               </div> 
             </div>
+            <div class="col-md-3 mb-3">
+              <div class="form-group">
+                <label for="y_cuadriculas">Cuadriculas Columnas</label>
+                <input :disabled="actualizar_cuadriculas!='1'" v-model="form.y_cuadriculas" @input="form.x_cuadriculas = form.y_cuadriculas" id="y_cuadriculas" type="text" v-numero class="form-control" required> 
+                <input type="checkbox" value="1" v-model="actualizar_cuadriculas"> actualizar_cuadriculas
+
+              </div> 
+            </div>
+            <div class="col-md-3 mb-3">
+              <div class="form-group">
+                <label for="x_cuadriculas">Cuadriculas Filas</label>
+                <input :disabled="actualizar_cuadriculas!='1'" v-model="form.x_cuadriculas" id="x_cuadriculas" type="text" v-numero class="form-control" required> 
+                <small id="emailHelpId" class="form-text text-muted">No cuentas las filas de la Corona y Nomex</small>
+
+
+              </div> 
+            </div>
             <div class="col-md-12 mb-3">
               <div class="form-group">
                 <label for="nota">Notas</label>
@@ -232,6 +249,18 @@
             </span>
             <span v-else> <i class="fa fa-save"></i> Actualizar </span>
           </button>
+          <button
+            v-if="can('balloons-update')"
+            type="submit"
+            class="btn btn-warning mr-3 float-right"
+            :disabled="GuardandoCambios"
+            @click="accion_actualizar='salir'"
+          >
+            <span v-if="GuardandoCambios">
+              <i class="fas fa-spinner fa-spin"></i> Actualizando...
+            </span>
+            <span v-else> <i class="fa fa-save"></i> Actualizar y Salir </span>
+          </button>
         </div>
 
 
@@ -241,18 +270,371 @@
        
       </div>
 
+
+      <div class="row">
+      
+        <div class="col-md-12">
+          <div class="card card-info mb-5">  
+            <header_card icon="fa fa-envelope" titulo="Diferidos" tipo="sub"></header_card> 
+            <div class="card-body">
+              <div class="row">  
+                <div class="col-md-5">
+                  <div class="card card-info mb-5">  
+                    <header_card icon=" " titulo="Cuadriculas" tipo="sub"></header_card> 
+                    <div class="card-body">
+                      <div class="row">  
+                        <div class="col-md-12 d-flex justify-content-center">
+                          <table class="table-bordered table-cuadricula">
+                            <tbody>
+
+                              <tr v-for="(x, indexx) in form.mapa_cuadricula" :key="indexx">
+                                <td  
+                                  v-for="(y, indexy) in x" 
+                                  :key="indexy" 
+                                  @click="BuscarDiferidos(y['id']), cuadricula_title=y['title']"                                    
+                                  style="width: 30px; height: 30px;"
+                                  v-b-popover.hover.html="y['diferido'] ? y['detalle'] : 'No hay registro'" :title="y['diferido'] ? 'Ultimo Diferido' : 'Sin Diferido'"
+                                  >
+                                  <span class="round-button" :class="['nivel'+y['fondo']]" >
+                                    {{ y['title'] }}
+                                  </span>                                    
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table> 
+                        </div> 
+                      </div> 
+                    </div> 
+                  </div> 
+                </div>  
+
+
+                <div class="col-md-7"  v-if="cuadricula_id==null"> 
+                  <div class="card card-info mb-5">  
+                    <header_card icon=" " titulo="Todos Los Diferidos del Globo" tipo="sub"></header_card>   <div class="card-body">
+                      <table class="table table-bordered table-striped table-bordere table-hover">
+                          <thead>
+                              <tr>
+                                  <th scope="col" class="text-center">Seccion</th>
+                                  <th scope="col" class="text-center">Nivel</th>
+                                  <th scope="col" class="text-center">Detalle</th>
+                                  <th scope="col" class="text-center">Estatus</th>
+                                  <th scope="col" class="text-center">Fecha</th>
+                                  <th scope="col" class="text-center">Opciones</th>
+                              </tr> 
+                          </thead>
+                          <tbody>
+                            <tr v-for="(item, index) in all_diferidos" :key="index">
+                              <td>
+                                <span class="badge badge-pill h6" :class="['nivel'+item.fondo]">
+                                {{item.globo_cuadricula.title??null}}
+                                </span>
+                              </td>
+                              <td>
+                                <span class="badge" :class="['nivel'+item.fondo]">
+
+                                  {{item.gravedad}}
+                                </span>
+                              </td>
+                              <td>
+                                <span v-html="item.detalle"></span>
+                              </td>
+                              <td>
+                                {{ item.solucionado ? 'Solucionado' : 'Reportado' }}
+                              </td>
+                              <td>
+                                {{ item.created_at | formatDate }} 
+                              </td>
+                              <td nowrap>
+                                <button class="btn btn-sm btn-icon btn-warning" @click="diferido = item, globo_cuadricula_id = item.globo_cuadricula_id" data-toggle="modal" :data-target="'#notaPedido'" title="Editar">
+                                    <i class="flaticon-search"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm btn-icon"  @click="BorrarDiferido(item.id)"  :title="'Eliminar'">
+                                    <i class="flaticon-close"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                      </table>
+                    </div> 
+                  </div>
+                </div>
+                <div class="col-md-7" v-else> 
+                  <div class="card card-info mb-5">  
+                    <header_card icon=" " :titulo="'Diferidos de la seccion '+cuadricula_title" tipo="sub"></header_card> 
+                    <div class="card-body">
+                      <div class="row ">
+                        <div class="col-12 pb-5 d-flex justify-content-between">
+                          <button class="btn btn-danger btn-sm" @click="cuadricula_id=null" >
+                            Mostrar Todos
+                          </button>
+                          <button class="btn btn-primary btn-sm"   data-toggle="modal" data-target="#notaPedido" >
+                            Agregar
+                          </button>
+                        </div>
+                      </div>
+                      <table class="table table-bordered table-striped table-bordere table-hover">
+                          <thead>
+                              <tr>
+                                  <th scope="col" class="text-center">Nivel</th>
+                                  <th scope="col" class="text-center">Detalle</th>
+                                  <th scope="col" class="text-center">Estatus</th>
+                                  <th scope="col" class="text-center">Fecha</th>
+                                  <th scope="col" class="text-center">Opciones</th>
+                              </tr> 
+                          </thead>
+                          <tbody>
+                            <tr v-for="(item, index) in diferidos" :key="index">
+                              <td>
+                                {{item.gravedad}}
+                              </td>
+                              <td>
+                                <span v-html="item.detalle"></span>
+                              </td>
+                              <td>
+                                {{ item.solucionado ? 'Solucionado' : 'Reportado' }}
+                              </td>
+                              <td>
+                                {{ item.created_at | formatDate }} 
+                              </td>
+                              <td nowrap>
+                                <button class="btn btn-sm btn-icon btn-warning" @click="diferido = item" data-toggle="modal" :data-target="'#notaPedido'" title="Editar">
+                                    <i class="flaticon-search"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm btn-icon"  @click="BorrarDiferido(item.id)"  :title="'Eliminar'">
+                                    <i class="flaticon-close"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                      </table>
+                    </div> 
+                  </div> 
+                </div> 
+
+
+
+
+              </div> 
+            </div> 
+          </div>  
+        </div>
+      </div>
+
     </div>
 
-  </div>
+    <div class="modal fade" id="notaPedido" role="dialog" aria-labelledby="asdasdasda" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centereds modal-xl" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Agregar Diferido para la cuadricula {{ cuadricula_title }}</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+            <form @submit="AddDiferido" method="POST" enctype="multipart/form-data" class="form" id="GuardarServiciosSolucionLimpieza">
+                
+                      <div class="modal-body"> 
+                        <div class="row">
+
+                          <div :class="{'col-md-12':diferido.id==null,'col-md-6':diferido.id!=null}">
+
+                          <div class="row"> 
+                            <div class="col-md-12" >
+                              <div class="form-group">
+                                <label>Nivel</label>
+                                <div class="radio-inline">
+                                    <label class="radio">
+                                        <input type="radio" v-model="diferido.gravedad"  name="gravedad" value="Visual">
+                                        <span></span>
+                                        Visual
+                                    </label>
+                                    <label class="radio">
+                                        <input type="radio" v-model="diferido.gravedad"  name="gravedad" value="Leve">
+                                        <span></span>
+                                        Leve
+                                    </label>
+                                    <label class="radio">
+                                        <input type="radio" v-model="diferido.gravedad"  name="gravedad" value="Grave">
+                                        <span></span>
+                                        Grave
+                                    </label>
+                                </div>
+                            </div> 
+                              </div>
+                            <div class="col-md-12 mb-5"> 
+                              <label class="" for="detalle">
+                                  Detalle
+                              </label>
+                              <editor
+                                  :api-key="api_key"
+                                  cloud-channel="5-dev"
+                                  :init="option" 
+                                  v-model="diferido.detalle" id="detalle"
+                                /> 
+                            </div>
+                            <div class="col-md-4">
+                              <div class="form-group">
+                                <label for="adjunto1">Adjunto 1</label>
+                                <b-form-file 
+                                  id="adjunto1"
+                                  v-model="adjunto1"
+                                  placeholder="Adjuntar Evidencia..."
+                                  drop-placeholder="Suelta el archivo aquí..."
+                                ></b-form-file> 
+                                <img v-if="diferido.adjunto1!=null" :src="diferido.adjunto1" alt="diferido.adjunto1" class="img-fluid mt-5">
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="form-group">
+                                <label for="adjunto2">Adjunto 2</label>
+                                <b-form-file 
+                                  id="adjunto2"
+                                  v-model="adjunto2"
+                                  placeholder="Adjuntar Evidencia..."
+                                  drop-placeholder="Suelta el archivo aquí..."
+                                ></b-form-file> 
+                                <img v-if="diferido.adjunto2!=null" :src="diferido.adjunto2" alt="diferido.adjunto1" class="img-fluid mt-5">
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="form-group">
+                                <label for="adjunto1">Adjunto 3</label>
+                                <b-form-file 
+                                  id="adjunto3"
+                                  v-model="adjunto3"
+                                  placeholder="Adjuntar Evidencia..."
+                                  drop-placeholder="Suelta el archivo aquí..."
+                                ></b-form-file> 
+                                <img v-if="diferido.adjunto3!=null"  :src="diferido.adjunto3" alt="diferido.adjunto3" class="img-fluid mt-5">
+                              </div>
+                            </div>
+
+                          </div> 
+                          
+                        </div> 
+
+                            <div class="col-md-6" v-if="diferido.id!=null">
+                              <div class="row  bg-light-danger rounded shadow">
+                                <div class="col-md-12 ">
+                                  <div class="form-group">
+                                    <label>Solucionado</label>
+                                    <div class="radio-inline">
+                                        <label class="radio">
+                                            <input type="radio" v-model="diferido.solucionado"  name="solucionado" value="1">
+                                            <span></span>
+                                            Si
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" v-model="diferido.solucionado"  name="solucionado" value="0">
+                                            <span></span>
+                                            No
+                                        </label>
+                                    </div>
+                                </div> 
+                              </div>
+                            <div class="col-md-12 mb-5"> 
+                              <label class="" for="detalle">
+                                  Detalle
+                              </label>
+                              <editor
+                                  :api-key="api_key"
+                                  cloud-channel="5-dev"
+                                  :init="option" 
+                                  v-model="diferido.solucionado_detalle" id="solucionado_detalle"
+                                /> 
+                            </div>
+                            <div class="col-md-4">
+                              <div class="form-group">
+                                <label for="solucionadoadjunto1">Adjunto 1</label>
+                                <b-form-file 
+                                  id="solucionadoadjunto1"
+                                  v-model="solucionadoadjunto1"
+                                  placeholder="Adjuntar Evidencia..."
+                                  drop-placeholder="Suelta el archivo aquí..."
+                                ></b-form-file> 
+                                <img  v-if="diferido.solucionadoadjunto1!=null" :src="diferido.solucionadoadjunto1" alt="diferido.solucionadoadjunto1" class="img-fluid mt-5">
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="form-group">
+                                <label for="solucionadoadjunto2">Adjunto 2</label>
+                                <b-form-file 
+                                  id="solucionadoadjunto2"
+                                  v-model="solucionadoadjunto2"
+                                  placeholder="Adjuntar Evidencia..."
+                                  drop-placeholder="Suelta el archivo aquí..."
+                                ></b-form-file> 
+                                <img v-if="diferido.solucionadoadjunto2!=null" :src="diferido.solucionadoadjunto2" alt="diferido.solucionadoadjunto2" class="img-fluid mt-5">
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="form-group">
+                                <label for="solucionadoadjunto3">Adjunto 3</label>
+                                <b-form-file 
+                                  id="solucionadoadjunto3"
+                                  v-model="solucionadoadjunto3"
+                                  placeholder="Adjuntar Evidencia..."
+                                  drop-placeholder="Suelta el archivo aquí..."
+                                ></b-form-file> 
+                                <img v-if="diferido.solucionadoadjunto3!=null"  :src="diferido.solucionadoadjunto3" alt="diferido.solucionadoadjunto3" class="img-fluid mt-5">
+                              </div>
+                            </div>
+                          </div>
 
 
+                            </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cerrar</button>
+
+                        <button type="submi" class="btn btn-primary font-weight-bold">
+                          <span v-if="diferido.id==null">Agregar</span>
+                          <span v-else="">Actualizar</span>
+                          </button>
+                      </div>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
 </template>
 <script>
     
+    import Editor from '@tinymce/tinymce-vue'     
     export default {
+      components: {
+          'editor': Editor
+      },
       props : ['id'],
         data() {
           return {
+            api_key:'4uqg5bfl6an0lmdfdghkap4yfejy8ovqglkfaahssobrd8mv',
+            option:{
+                height: 150,
+                menubar: false,
+                plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount'
+                ],
+                toolbar:
+                'undo redo | formatselect | bold italic backcolor | \
+                alignleft aligncenter alignright alignjustify | \
+                bullist numlist outdent indent | removeformat | help'
+            }, 
+            accion_actualizar : 'mantener',
             GuardandoCambios : false,
             doc_licencia:false,
             form:{          
@@ -273,7 +655,10 @@
               notas : '',
               habilitacion_nivel : '',
               bottom_end_id : '',
+              x_cuadriculas : '',
+              y_cuadriculas : '',
             },
+            actualizar_cuadriculas : false,
             form_arc_doc : null,
             form_cert_matricula : null,
             form_seguro : null,
@@ -282,7 +667,24 @@
             Habilitacion : ['A','B','C','D'],
             modelos : [],
             botom_ends : [],
-
+            cuadricula_title : null,
+            cuadricula_id : null,
+            all_diferidos : [],
+            diferidos : [],
+            
+            diferido:{          
+              id : null,
+              detalle : '',
+              gravedad : 'Visual',
+              solucionado : 0,
+              solucionado_detalle : null,
+            },
+            adjunto1 :null,
+            adjunto2 :null,
+            adjunto3 :null,
+            solucionadoadjunto1 :null,
+            solucionadoadjunto2 :null,
+            solucionadoadjunto3 :null,
           }
 
 
@@ -290,9 +692,7 @@
 
         },
 
-
-
-
+ 
         mounted(){
           this.Buscar();
           this.BuscarModelos();
@@ -301,6 +701,125 @@
         },
         methods: { 
  
+          BuscarDiferidos(id) {
+            this.cuadricula_id = id;
+            var url = '/admin/buscar_diferidos/'+id;
+            axios.get(url).then(response=>{
+                this.diferidos = response.data.records;   
+            }).catch(error => {
+                this.errors = error.response.data
+            });
+          },
+
+          AddDiferido(evt) {
+
+            evt.preventDefault();
+
+            this.GuardandoCambios = !this.GuardandoCambios;
+            var porc = 0;
+            
+            var adjunto1 = this.adjunto1;
+            var adjunto2 = this.adjunto2;
+            var adjunto3 = this.adjunto3;
+
+            var solucionadoadjunto1 = this.solucionadoadjunto1;
+            var solucionadoadjunto2 = this.solucionadoadjunto2;
+            var solucionadoadjunto3 = this.solucionadoadjunto3;
+
+            let formData = new FormData();
+
+            formData.append('detalle', this.diferido.detalle);
+            formData.append('gravedad', this.diferido.gravedad);
+            formData.append('solucionado', this.diferido.solucionado);
+            formData.append('solucionado_detalle', this.diferido.solucionado_detalle);
+            formData.append('adjunto1', adjunto1);
+            formData.append('adjunto2', adjunto2);
+            formData.append('adjunto3', adjunto3);
+            formData.append('solucionadoadjunto1', solucionadoadjunto1);
+            formData.append('solucionadoadjunto2', solucionadoadjunto2);
+            formData.append('solucionadoadjunto3', solucionadoadjunto3);
+            
+            if(this.diferido.id != null){
+              formData.append('_method', 'PUT');
+              var url = '/admin/edit_diferido/'+this.diferido.id;
+            }else{
+              formData.append('globo_cuadricula_id', this.cuadricula_id);
+              var url = '/admin/add_diferido';
+            }
+
+
+            axios.post(url, formData,{
+              headers: {
+                  'Content-Type': 'multipart/form-data'
+              }, 
+            }).then(response=>{ 
+
+                this.GuardandoCambios = !this.GuardandoCambios;
+                if(!response.data.result){
+                  this.$toastr.error('Ocurrio un error al registrar', 'Error en Proceso...');       
+                }else{     
+                  
+                  this.$toasted.success('Diferido Agregado Correctamente');                  
+                  this.reset();
+                  this.Buscar();
+                  this.BuscarDiferidos(this.cuadricula_id); 
+                  
+                  $("#notaPedido .close").click(); 
+                  $("#notaPedido .close2").click(); 
+                  $('body').removeClass('modal-open');
+                  $('.modal-backdrop').remove();
+
+                }     
+
+
+            }).catch(error => {
+                this.errors = error.response.data
+            });                
+
+          }, 
+        BorrarDiferido(id) {
+          
+            var _this = this;
+            var registro = id;
+
+             Swal.fire({
+                title: "Confirmar!",
+                text: "Confirme que desea Eliminar este Registro",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Si, Confirmar!",
+                cancelButtonText: "No, Cancelar!",
+                reverseButtons: true
+              }).then(function(result) {
+                if (result.value) {          
+                  
+                    var url = '/admin/delete_diferido/'+registro;
+
+                    axios.post(url,{                
+                        token         :   _this.token
+                    }).then(response=>{
+                      
+                      if(!response.data.result){
+                        Swal.fire("Ha ocurrido algún error!", "Se le notificará al equipo de soporte!" +response.data.mensaje_error, "error");
+                        _this.$toasted.error('Ha ocurrido algún error!');           
+                      }else{                 
+                        _this.$toasted.success('Registro Eliminado Correctamente');
+                        
+                      }
+
+                      _this.Buscar();
+                      _this.BuscarDiferidos(_this.cuadricula_id); 
+                                   
+                    }).catch(error => {
+                        console.log(error);
+                        this.errors = error.response
+                    });
+                }
+              });
+
+        },  
+
+
           ValidarPermisos(permiso) {
             if(!this.can(permiso)){
               $(":input").prop("disabled", true);
@@ -328,11 +847,28 @@
             this.form_seguro = null;
             this.form_foto = null;
             this.form_certiricado_aeronavegabilidad_doc = null; 
+
+            this.adjunto1 = null;
+            this.adjunto2 = null;
+            this.adjunto3 = null;
+
+            this.solucionadoadjunto1 = null;
+            this.solucionadoadjunto2 = null;
+            this.solucionadoadjunto3 = null;
+
+            this.diferido = {          
+              detalle : '',
+              gravedad : 'Visual',
+              solucionado : 0,
+              solucionado_detalle : null,
+            };
+
           },
           Buscar() {
             var url = '/admin/globos/'+this.$route.params.id;
             axios.get(url).then(response=>{
                 this.form = response.data.record; 
+                this.all_diferidos = response.data.record.GloboDiferidos; 
 
             }).catch(error => {
                 this.errors = error.response.data
@@ -376,6 +912,9 @@
               formData.append('notas', this.form.notas);
               formData.append('habilitacion_nivel', this.form.habilitacion_nivel);
               formData.append('bottom_end_id', this.form.bottom_end_id);
+              formData.append('x_cuadriculas', this.form.x_cuadriculas);
+              formData.append('y_cuadriculas', this.form.y_cuadriculas);
+              formData.append('actualizar_cuadriculas', this.actualizar_cuadriculas);
               formData.append('_method', 'put');
   
   
@@ -393,11 +932,12 @@
                   this.$toasted.success('Globo Actualizado Correctamente');                  
                   this.reset();
                   this.Buscar();
+                  if (this.accion_actualizar=='salir') {
+                    window.location.href = '/dashboard#/globos';
+                    
+                  }
                   
-                  window.location.href = '/dashboard#/globos';
                 }     
-
-
               }).catch(error => {
                   this.errors = error.response.data
               });                

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Globos as ModeloPrincipal;
+use App\Models\GloboCuadricula;
+use App\Models\GloboDiferidos;
 use App\User;
 use DB;
 use Hash;
@@ -54,7 +56,6 @@ class GlobosController extends Controller
             if(Carbon::parse($value->arc) < $real_now){
                 $value->_rowVariant = 'danger';
             }; 
-  
         }
         
         return response(['records' => $records ]);
@@ -65,7 +66,22 @@ class GlobosController extends Controller
     public function show($id){
         
         $record = ModeloPrincipal::whereId($id)->first();
-    
+        $record->mapa_cuadricula = $record->mapa_cuadricula();
+        
+        
+        $GloboDiferidos = GloboDiferidos::with('globo_cuadricula')
+        ->whereHas('globo_cuadricula', function ($query) use($record){ 
+            $query->where('globo_id', $record->id); 
+        })->get();
+        
+        $record->GloboDiferidos = $GloboDiferidos;
+        
+        $cuadriculas = $record->cuadriculas()->orderBy('fondo','DESC')->get();
+
+        if($cuadriculas->count()>0) {            
+            $record->niveldiferido = $cuadriculas[0]->fondo;
+        }
+
         return response(['record' => $record]);
     
     }
@@ -163,7 +179,7 @@ class GlobosController extends Controller
     public function update(Request $request, $id)
     {
 
-        $data = collect($request->all())->except('token','file')->toArray(); 
+        $data = collect($request->all())->except('token','file','actualizar_cuadriculas')->toArray(); 
   
       	try {
 
@@ -228,8 +244,33 @@ class GlobosController extends Controller
                 
                 $modelo = TablaCarga::whereId($data['modelo_id'])->first();
                 $data['modelo'] = $modelo->modelo_globo;
+                $data['x_cuadriculas'] += 2;
                ModeloPrincipal::find($id)->update($data);
- 
+
+                if ($request->actualizar_cuadriculas == 'true') {
+                    
+                    $GloboCuadriculas = GloboCuadricula::where('globo_id',$id)->get();
+                    foreach ($GloboCuadriculas as $key => $GloboCuadricula) {
+                        GloboDiferidos::where('globo_cuadricula_id',$GloboCuadricula->id)->delete();
+                        $GloboCuadricula->delete();
+                    }
+
+                    for ($i=1; $i <= $data['x_cuadriculas']; $i++) { 
+                        
+                        for ($j=1; $j <= $data['y_cuadriculas']; $j++) { 
+
+                            GloboCuadricula::create([
+                                'globo_id' => $id,
+                                'x' => $i,
+                                'y' => $j,
+                                'fondo' => null,
+                            ]);
+                            
+                        }
+    
+                    }
+                }
+
 
             DB::commit();
 

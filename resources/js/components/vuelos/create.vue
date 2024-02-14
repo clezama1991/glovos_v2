@@ -40,8 +40,12 @@
                 </div> 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label for="zona_id" class="requerido">Globo</label>
-                    <select class="form-control selectpicker" id="selectpicker_globos" required data-live-search="true" v-model="form.globo_id">
+                    <label for="zona_id" class="requerido">Globo  
+                      <span class="badge badge-pill" :class="['nivel'+niveldiferido]"  data-toggle="modal" data-target="#Diferidos" v-if="all_diferidos.length>0">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Diferido
+                      </span> 
+                    </label>
+                    <select class="form-control selectpicker" id="selectpicker_globos" required data-live-search="true" v-model="form.globo_id" @change="BuscarDiferdidos()">
                       <option value="" selected disabled>Seleccione</option>
                       <option v-for="(item, index) in Globos" :key="index" :value="item.id" :disabled="item._rowVariant">{{item.nombre}}</option>
                      </select>
@@ -439,6 +443,104 @@
       </div>
     </div>
 
+
+    <div class="modal fade" id="Diferidos" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true" ref="vuemodal">
+      <div class="modal-dialog modal-xl" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">
+                    Diferidos
+                  </h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <i aria-hidden="true" class="ki ki-close"></i>
+                  </button>
+              </div>
+              <div class="modal-body " v-if="globo">  
+              
+                <div class="row">  
+                <div class="col-md-5">
+                  <div class="card card-info mb-5">  
+                    <header_card icon=" " titulo="Cuadriculas" tipo="sub"></header_card> 
+                    <div class="card-body">
+                      <div class="row">  
+                        <div class="col-md-12 d-flex justify-content-center">
+                          <table class="table-bordered table-cuadricula">
+                            <tbody> 
+                              <tr v-for="(x, indexx) in globo.mapa_cuadricula ?? []" :key="indexx">
+                                <td  
+                                  v-for="(y, indexy) in x" 
+                                  :key="indexy" 
+                                  @click="BuscarDiferidos(y['id']), cuadricula_title=y['title']"                                    
+                                  style="width: 30px; height: 30px;"
+                                  v-b-popover.hover.html="y['diferido'] ? y['detalle'] : 'No hay registro'" :title="y['diferido'] ? 'Ultimo Diferido' : 'Sin Diferido'"
+                                  >
+                                  <span class="round-button" :class="['nivel'+y['fondo']]" >
+                                    {{ y['title'] }}
+                                  </span>                                    
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table> 
+                        </div> 
+                      </div> 
+                    </div> 
+                  </div> 
+                </div>  
+
+
+                <div class="col-md-7"> 
+                  <div class="card card-info mb-5">  
+                    <header_card icon=" " titulo="Todos Los Diferidos del Globo" tipo="sub"></header_card>   <div class="card-body">
+                      <table class="table table-bordered table-striped table-bordere table-hover">
+                          <thead>
+                              <tr>
+                                  <th scope="col" class="text-center">Seccion</th>
+                                  <th scope="col" class="text-center">Nivel</th>
+                                  <th scope="col" class="text-center">Detalle</th>
+                                  <th scope="col" class="text-center">Estatus</th>
+                                  <th scope="col" class="text-center">Fecha</th>
+                              </tr> 
+                          </thead>
+                          <tbody>
+                            <tr v-for="(item, index) in all_diferidos" :key="index">
+                              <td>
+                                <span class="badge badge-pill h6" :class="['nivel'+item.fondo]">
+                                {{item.globo_cuadricula.title??null}}
+                                </span>
+                              </td>
+                              <td>
+                                <span class="badge" :class="['nivel'+item.fondo]">
+
+                                  {{item.gravedad}}
+                                </span>
+                              </td>
+                              <td>
+                                <span v-html="item.detalle"></span>
+                              </td>
+                              <td>
+                                {{ item.solucionado ? 'Solucionado' : 'Reportado' }}
+                              </td>
+                              <td>
+                                {{ item.created_at | formatDate }} 
+                              </td>
+                            </tr>
+                          </tbody>
+                      </table>
+                    </div> 
+                  </div>
+                </div>
+                
+ 
+              </div> 
+               
+              </div>
+              <div class="card-footer text-right">                    
+                <button type="button" class="btn btn-light-danger font-weight-bold close2" data-dismiss="modal"> <i class="fa fa-check-circle" aria-hidden="true"></i> Confirmar  de Enterado</button>
+              </div>
+          </div>
+      </div>
+    </div>
+
   </div>
 
 </template>
@@ -520,6 +622,9 @@
             },
             decimal_tabla_carga : 0,
             url_meteo : null,
+            niveldiferido : null,
+            globo : null,
+            all_diferidos : [],
           }
         },
         mounted() {
@@ -537,6 +642,20 @@
               var decimals = 2;
               this.form.reserva = Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals)
             }
+          },
+
+          BuscarDiferdidos() {
+            var url = '/admin/globos/'+this.form.globo_id;
+            axios.get(url).then(response=>{
+                this.globo = response.data.record; 
+                this.niveldiferido = this.globo.niveldiferido; 
+                if (this.niveldiferido=='3') {
+                  $("#Diferidos").modal('show');
+                }
+                this.all_diferidos = response.data.record.GloboDiferidos; 
+            }).catch(error => {
+                this.errors = error.response.data
+            });
           },
 
           toolTip(me) {

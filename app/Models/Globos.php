@@ -38,6 +38,8 @@ class Globos extends Model
         'bottom_end_id',
         'hora_total_vuelo',
         'volumen',
+        'x_cuadriculas',
+        'y_cuadriculas',
     ];
 
     public function getDuracionVueloAttribute($value)
@@ -69,6 +71,41 @@ class Globos extends Model
     public function bottom_end()
     { 
         return $this->belongsTo(GloboBottomEnd::class, 'bottom_end_id', 'id')->withTrashed();
+    }
+
+    public function cuadriculas()
+    { 
+        return $this->hasMany(GloboCuadricula::class, 'globo_id', 'id'); 
+    }
+
+    public function mapa_cuadricula()
+    { 
+        $matriz = [];
+
+        foreach ($this->cuadriculas as $key => $cuadricula) {
+            $x = $cuadricula['x'];
+            if(!in_array($x, $matriz)){
+                $matriz[$x] = [] ;
+            }
+        }     
+
+        foreach ($this->cuadriculas as $key => $cuadricula) {
+            $x = $cuadricula['x'];
+            $y = $cuadricula['y'];            
+
+            $diferido = GloboDiferidos::where('globo_cuadricula_id',$cuadricula->id)->first();
+
+            $matriz[$x][] = [
+                'title'=> $cuadricula->title, 
+                'id'=>$cuadricula->id, 
+                'fondo'=>$cuadricula->fondo,
+                'diferido'=>$diferido ? 1 : 0,
+                'detalle'=>($diferido->detalle ?? null).'<img src="'.($diferido->adjunto1 ?? null).'" class="img-fluid mt-5">',
+                'rows_reverse'=>$cuadricula->rows_reverse(),
+            ];                
+        }     
+
+        return $matriz;
     }
 
 }
