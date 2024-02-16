@@ -199,7 +199,7 @@ class PedidosController extends Controller
                     }else if($lineitems->parent_name=='EXCLUSIVO'){
 
                         $privado = true;
-                        $variation = $woocommerce->get('products/'.$lineitems->product_id.'/variations/'.$lineitems->variation_id);
+                        $variation = $pedidos->get('products/'.$lineitems->product_id.'/variations/'.$lineitems->variation_id);
                         
                         $variation_name = $variation->attributes[0];
 
