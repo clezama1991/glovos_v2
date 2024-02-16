@@ -389,7 +389,7 @@ class InformesController extends Controller
             $sheet->setCellValue('I'.$i, $barquilla_cesta);
 
             $sheet->setCellValue('J'.$i, $quemador); 
-            $sheet->setCellValue('Q'.$i, (isset($value->vuelo)&&!is_null($value->vuelo))?$value->vuelo['notas']:'');
+            $sheet->setCellValue('Q'.$i, (isset($value->vuelo)&&!is_null($value->vuelo))?$value->vuelo['notas']:'Check prevuelo ok');
             
             $indices = ['K','L','M','N','O','P'];
             foreach ($BS as $key_bs => $value) {
