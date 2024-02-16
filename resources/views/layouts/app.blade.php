@@ -72,14 +72,14 @@
         .table-cuadricula tbody td:hover { background:#c8c0c0; cursor: pointer; }
         
         .round-button{
-            background-color:blue;
+            background-color:#D4F6F8;
             display:block;
             height:35px;
             width:35px;
             border-radius:50%;
             border:1px solid #000;
             margin:auto;
-            color:#fff;
+            color:#000;
             line-height:35px;
             text-align:center
         }
@@ -98,18 +98,18 @@
         }
 
         .nivel1{
-            background: yellow !important;
+            background: #B7F5B4 !important;
+            color:#000;
+        }        
+
+        .nivel2{
+            background: #F4F5B4 !important;
             color:#000;
         }
 
-        .nivel2{
-            background: #0BB7AF !important;
-            color:#fff;
-        }
-
         .nivel3{
-            background: red !important;
-            color:#fff;
+            background: #FC8764 !important;
+            color:#000;
         }
 
     </style>
@@ -293,6 +293,8 @@
         </span>
     </div>
     <!--end::Scrolltop-->
+
+    
 
     <script>
         var HOST_URL = "/metronic/theme/html/tools/preview";
@@ -629,4 +631,24 @@ gapi.load('client', start);
 </script>
 
  
+<script>
+    $(document).ready(function () {
+        
+        $('#zoom-in').click(function() {
+            updtZoom(0.1);
+        });
+        
+        $('.zoom-out').click(function() {     
+            updtZoom(-0.1);
+        });
+        
+        zoomLvl = 1;
+        
+        var updtZoom = function(zoom) {
+            zoomLvl += zoom;
+            $('.organigrama').css({ zoom: zoomLvl, '-moz-transform': 'scale(' + zoomLvl + ')' });
+        }
+  
+    });
+</script>
 @yield('script')

@@ -39,17 +39,22 @@
                   </div> 
                 </div> 
                 <div class="col-md-4">
+                  
                   <div class="form-group">
-                    <label for="zona_id" class="requerido">Globo  
-                      <span class="badge badge-pill" :class="['nivel'+niveldiferido]"  data-toggle="modal" data-target="#Diferidos" v-if="all_diferidos.length>0">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Diferido
-                      </span> 
-                    </label>
+                    <label for="zona_id" class="requerido">Globo
+                      
+                  <span class="badge badge-pill"  :class="['nivel'+niveldiferido]"  data-toggle="modal" data-target="#Diferidos" v-if="all_diferidos.length>0 && !mobile">
+                      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Diferido
+                    </span> 
+                   </label>
                     <select class="form-control selectpicker" id="selectpicker_globos" required data-live-search="true" v-model="form.globo_id" @change="BuscarDiferdidos()">
                       <option value="" selected disabled>Seleccione</option>
                       <option v-for="(item, index) in Globos" :key="index" :value="item.id" :disabled="item._rowVariant">{{item.nombre}}</option>
                      </select>
                   </div> 
+                  <span class="badge badge-pill mb-3"  :class="['nivel'+niveldiferido]"  data-toggle="modal" data-target="#Diferidos" v-if="all_diferidos.length>0 && mobile">
+                      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Globo Con Diferido
+                    </span> 
                 </div> 
               <div class="col-md-12 mb-3">
                 <div class="row bg-light-primary p-2">
@@ -455,16 +460,27 @@
                       <i aria-hidden="true" class="ki ki-close"></i>
                   </button>
               </div>
-              <div class="modal-body " v-if="globo">  
-              
+              <div class="modal-body " >   
+                <div class="row d-flex justify-content-end">
+                    <div class="col-2">
+                        <button id="zoom-out" class="btn btn-sepanka2 btn-block zoom-out">
+                          <i class="fas fa-search-minus"></i>
+                        </button>
+                    </div>
+                    <div class="col-2">
+                        <button id="zoom-in" class="btn btn-sepanka2 btn-block">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                    </div>
+                </div>
                 <div class="row">  
-                <div class="col-md-5">
+                <div class="col-md-12">
                   <div class="card card-info mb-5">  
                     <header_card icon=" " titulo="Cuadriculas" tipo="sub"></header_card> 
                     <div class="card-body">
                       <div class="row">  
-                        <div class="col-md-12 d-flex justify-content-center">
-                          <table class="table-bordered table-cuadricula">
+                        <div class="col-md-12 d-flex justify-content-center organigrama table-responsive">
+                          <table class="table-bordered table-cuadricula" id="child">
                             <tbody> 
                               <tr v-for="(x, indexx) in globo.mapa_cuadricula ?? []" :key="indexx">
                                 <td  
@@ -488,9 +504,11 @@
                 </div>  
 
 
-                <div class="col-md-7"> 
+                <div class="col-md-12"> 
                   <div class="card card-info mb-5">  
                     <header_card icon=" " titulo="Todos Los Diferidos del Globo" tipo="sub"></header_card>   <div class="card-body">
+                      <div class="table-responsive">
+
                       <table class="table table-bordered table-striped table-bordere table-hover">
                           <thead>
                               <tr>
@@ -509,8 +527,7 @@
                                 </span>
                               </td>
                               <td>
-                                <span class="badge" :class="['nivel'+item.fondo]">
-
+                                <span class="badge" :class="['nivel'+item.fondo]"> 
                                   {{item.gravedad}}
                                 </span>
                               </td>
@@ -526,6 +543,7 @@
                             </tr>
                           </tbody>
                       </table>
+                      </div>
                     </div> 
                   </div>
                 </div>
@@ -623,19 +641,31 @@
             decimal_tabla_carga : 0,
             url_meteo : null,
             niveldiferido : null,
-            globo : null,
+            globo : {
+              mapa_cuadricula : []
+            },
             all_diferidos : [],
+            mobile : false,
           }
         },
+         
         mounted() {
           this.BuscarGlobos();
           this.BuscarZonas();
           this.BuscarPilotos();
           this.BuscarTipoNubosidad();
           this.BuscarSoguillas();
+          this.isMobile();
         },
         methods: { 
   
+          isMobile() {
+            if (screen.width <= 760) {
+              this.mobile = true;
+            } else {
+              this.mobile =  false;
+            } 
+          },
           ValidarCalculo(campo) {
             if(campo=='gas'){
               var value = this.form.gas * 0.20;

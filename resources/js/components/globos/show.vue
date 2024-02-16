@@ -277,16 +277,29 @@
           <div class="card card-info mb-5">  
             <header_card icon="fa fa-envelope" titulo="Diferidos" tipo="sub"></header_card> 
             <div class="card-body">
-              <div class="row">  
-                <div class="col-md-5">
+              
+            <div class="row d-flex justify-content-end">
+                <div class="col-2">
+                    <button id="zoom-out" class="btn btn-sepanka2 btn-block">
+                       <i class="fas fa-search-minus"></i>
+                    </button>
+                </div>
+                <div class="col-2">
+                    <button id="zoom-in" class="btn btn-sepanka2 btn-block">
+                        <i class="fas fa-search-plus"></i>
+                     </button>
+                </div>
+            </div>
+            <div class="row mb-5 scroll" id="accordionExample">
+                
+                <div class="col-md-12">
                   <div class="card card-info mb-5">  
                     <header_card icon=" " titulo="Cuadriculas" tipo="sub"></header_card> 
                     <div class="card-body">
                       <div class="row">  
-                        <div class="col-md-12 d-flex justify-content-center">
-                          <table class="table-bordered table-cuadricula">
+                        <div class="col-md-12 d-flex justify-content-center organigrama table-responsive">
+                          <table class="table-bordered table-cuadricula" id="child">
                             <tbody>
-
                               <tr v-for="(x, indexx) in form.mapa_cuadricula" :key="indexx">
                                 <td  
                                   v-for="(y, indexy) in x" 
@@ -309,9 +322,11 @@
                 </div>  
 
 
-                <div class="col-md-7"  v-if="cuadricula_id==null"> 
+                <div class="col-md-12"  v-if="cuadricula_id==null"> 
                   <div class="card card-info mb-5">  
                     <header_card icon=" " titulo="Todos Los Diferidos del Globo" tipo="sub"></header_card>   <div class="card-body">
+                      <div class="table-responsive">
+
                       <table class="table table-bordered table-striped table-bordere table-hover">
                           <thead>
                               <tr>
@@ -326,12 +341,12 @@
                           <tbody>
                             <tr v-for="(item, index) in all_diferidos" :key="index">
                               <td>
-                                <span class="badge badge-pill h6" :class="['nivel'+item.fondo]">
+                                <span class="badge badge-pill h6" :class="['nivel'+item.fondo]" @click="diferido = item, globo_cuadricula_id = item.globo_cuadricula_id" data-toggle="modal" :data-target="'#notaPedido'">
                                 {{item.globo_cuadricula.title??null}}
                                 </span>
                               </td>
                               <td>
-                                <span class="badge" :class="['nivel'+item.fondo]">
+                                <span class="badge" :class="['nivel'+item.fondo]" @click="diferido = item, globo_cuadricula_id = item.globo_cuadricula_id" data-toggle="modal" :data-target="'#notaPedido'">
 
                                   {{item.gravedad}}
                                 </span>
@@ -357,9 +372,10 @@
                           </tbody>
                       </table>
                     </div> 
+                    </div> 
                   </div>
                 </div>
-                <div class="col-md-7" v-else> 
+                <div class="col-md-12" v-else> 
                   <div class="card card-info mb-5">  
                     <header_card icon=" " :titulo="'Diferidos de la seccion '+cuadricula_title" tipo="sub"></header_card> 
                     <div class="card-body">
@@ -373,6 +389,9 @@
                           </button>
                         </div>
                       </div>
+                      <div class="table-responsive">
+
+                   
                       <table class="table table-bordered table-striped table-bordere table-hover">
                           <thead>
                               <tr>
@@ -408,6 +427,7 @@
                             </tr>
                           </tbody>
                       </table>
+                    </div> 
                     </div> 
                   </div> 
                 </div> 
