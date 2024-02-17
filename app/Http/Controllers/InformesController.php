@@ -170,7 +170,9 @@ class InformesController extends Controller
         })->when(!is_null($fin), function($querys) use($fin){ 
              $querys->where('vuelo->fecha', '<=' ,$fin); 
         })
-        ->orderBy('vuelo->horas_inicial_globo','ASC')
+        ->orderBy('vuelo->fecha_despegue','ASC')
+        ->orderBy('vuelo->hora_despegue','ASC')
+        ->where('id',101) 
         ->get();
   
         if ($records->count()==0) {           
@@ -389,7 +391,7 @@ class InformesController extends Controller
             $sheet->setCellValue('I'.$i, $barquilla_cesta);
 
             $sheet->setCellValue('J'.$i, $quemador); 
-            $sheet->setCellValue('Q'.$i, (isset($value->vuelo)&&!is_null($value->vuelo))?$value->vuelo['notas']:'Check prevuelo ok');
+            $sheet->setCellValue('Q'.$i, (isset($value->vuelo)&&!is_null($value->vuelo))? (is_null($value->vuelo['notas'])) ? 'Check prevuelo ok' : $value->vuelo['notas']:'Check prevuelo ok');
             
             $indices = ['K','L','M','N','O','P'];
             foreach ($BS as $key_bs => $value) {
