@@ -34,7 +34,7 @@
               <div class="form-group">
                 <label for="compatibilidad_globos_ids">Globos Compatibles </label>
 
-                <select class="form-control selectpicker" id="selectpicker_globos" required data-live-search="true" v-model="form.compatibilidad_globos_ids" multiple>
+                <select class="form-control" id="selectpicker_globos" required data-live-search="true" v-model="form.compatibilidad_globos_ids" multiple>
                   <option value="">Seleccione</option>
                   <option :value="item.id" v-for="(item, index) in globos" :key="index">{{item.nombre}}</option>
                 </select>
@@ -43,7 +43,7 @@
             <div class="col-md-4 mb-3">
               <div class="form-group">
                 <label for="quemador_id">Quemador </label>
-                <select class="form-control selectpicker" id="selectpicker_quemadores" required data-live-search="true" v-model="form.quemador_id">
+                <select class="form-control" id="selectpicker_quemadores" required data-live-search="true" v-model="form.quemador_id">
                   <option value="">Seleccione</option>
                   <option :value="item.id" v-for="(item, index) in quemadores" :key="index" :disabled="item._rowVariant">{{item.modelo_name}} {{item.fabricante}} </option>
                 </select>
@@ -52,7 +52,7 @@
             <div class="col-md-4 mb-3">
               <div class="form-group">
                 <label for="cesta_id">Cesta </label>
-                <select class="form-control selectpicker" id="selectpicker_cestas" required data-live-search="true" v-model="form.cesta_id">
+                <select class="form-control" id="selectpicker_cestas" required data-live-search="true" v-model="form.cesta_id">
                   <option value="">Seleccione</option>
                   <option :value="item.id" v-for="(item, index) in cestas" :key="index" :disabled="item._rowVariant">{{item.modelo_name}} {{item.fabricante}} </option>
                 </select>
@@ -61,7 +61,7 @@
             <div class="col-md-4 mb-3">
               <div class="form-group">
                 <label for="botella_id">Botella </label>
-                <select class="form-control selectpicker" id="selectpicker_botellas" required data-live-search="true" v-model="form.botella_id" multiple>
+                <select class="form-control" id="selectpicker_botellas" required data-live-search="true" v-model="form.botella_id" multiple>
                   <option value="">Seleccione</option>
                   <option :value="item.id" v-for="(item, index) in botellas" :key="index" :disabled="item._rowVariant">{{item.modelo_name}} {{item.fabricante}} </option>
                 </select>

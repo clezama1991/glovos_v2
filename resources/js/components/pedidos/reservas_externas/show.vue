@@ -64,7 +64,7 @@
               <div class="col-md-3 mb-3">
                 <div class="form-group">
                   <label for="zona">Zona</label>
-                  <select class="form-control selectpicker" id="selectpicker_zonas" required data-live-search="true" v-model="form.zona_id">
+                  <select class="form-control" id="selectpicker_zonas" required data-live-search="true" v-model="form.zona_id">
                     <option value="">Seleccione</option>
                     <option :value="item.id" v-for="(item, index) in Zonas" :key="index">{{item.nombre}}</option>
                   </select>

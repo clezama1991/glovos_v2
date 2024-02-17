@@ -42,7 +42,7 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="">Globos</label>         
-                      <select class="form-control selectpicker" id="selectpicker_globos" data-live-search="true" v-model="filtro.globo">
+                      <select class="form-control" id="selectpicker_globos" data-live-search="true" v-model="filtro.globo">
                         <option value="" selected disabled>Seleccione</option>
                         <option v-for="(item, index) in filtros.globos" :key="index" :value="item.id">{{item.name}} </option>
                       </select> 
@@ -51,7 +51,7 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="">Pilotos </label>      
-                      <select class="form-control selectpicker" id="selectpicker_pilotos" data-live-search="true" v-model="filtro.piloto">
+                      <select class="form-control" id="selectpicker_pilotos" data-live-search="true" v-model="filtro.piloto">
                         <option v-for="(item, index) in filtros.pilotos" :key="index" :value="item.id">{{item.name}} </option>
                       </select> 
                     </div>
@@ -59,7 +59,7 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="">Zonas</label>   
-                      <select class="form-control selectpicker" id="selectpicker_zonas" data-live-search="true" v-model="filtro.zona">
+                      <select class="form-control" id="selectpicker_zonas" data-live-search="true" v-model="filtro.zona">
                         <option v-for="(item, index) in filtros.zonas" :key="index" :value="item.id">{{item.name}} </option>
                       </select> 
                     </div>
@@ -67,7 +67,7 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="">Estados</label>
-                      <select class="form-control selectpicker" id="selectpicker_estados" data-live-search="true" v-model="filtro.estado">
+                      <select class="form-control" id="selectpicker_estados" data-live-search="true" v-model="filtro.estado">
                         <option v-for="(item, index) in filtros.estados" :key="index" :value="item.id">{{item.name}} </option>
                       </select> 
                     </div>

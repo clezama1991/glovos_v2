@@ -24,7 +24,7 @@
               <div class="row">
                 <div class="col-md-4"> 
                   <label for="zona_id" class="requerido">Zona</label>
-                  <select class="form-control selectpicker" id="selectpicker_zonas" required data-live-search="true" v-model="form.zona_id" @change="CargarZona">
+                  <select class="form-control" id="selectpicker_zonas" required data-live-search="true" v-model="form.zona_id" @change="CargarZona">
                     <option value="">Seleccione</option>
                     <option :value="item.id" v-for="(item, index) in Zonas" :key="index">{{item.nombre}}</option>
                   </select>
@@ -32,7 +32,7 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="zona_id" class="requerido">Zona Despegue</label>
-                    <select class="form-control selectpicker" id="selectpicker_zonas_desp" required data-live-search="true" v-model="form.zona_despegue">
+                    <select class="form-control" id="selectpicker_zonas_desp" required data-live-search="true" v-model="form.zona_despegue">
                       <option value="" selected disabled>Seleccione</option>
                       <option v-for="(item, index) in zonas_despegues" :key="index" :value="item.id">{{item.nombre}}</option>
                      </select>
@@ -47,7 +47,7 @@
                       <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Diferido
                     </span> 
                    </label>
-                    <select class="form-control selectpicker" id="selectpicker_globos" required data-live-search="true" v-model="form.globo_id" @change="BuscarDiferdidos()">
+                    <select class="form-control" id="selectpicker_globos" required data-live-search="true" v-model="form.globo_id" @change="BuscarDiferdidos()">
                       <option value="" selected disabled>Seleccione</option>
                       <option v-for="(item, index) in Globos" :key="index" :value="item.id" :disabled="item._rowVariant">{{item.nombre}}</option>
                      </select>
@@ -124,7 +124,7 @@
                 <div class="col-md-4 mb-3">
                   <div class="form-group">
                     <label for="piloto_id">Piloto</label>
-                    <select class="form-control selectpicker" id="selectpicker_pilotos" required data-live-search="true" v-model="form.piloto_id">
+                    <select class="form-control" id="selectpicker_pilotos" required data-live-search="true" v-model="form.piloto_id">
                       <option value="" selected disabled>Seleccione</option>
                       <option v-for="(item, index) in PilotosByNivel" :key="index" :value="item.id" :disabled="item.fechas_caducadas || form.globo_id==''">{{item.FullName}}</option>
                     </select>
@@ -200,7 +200,7 @@
                 <div class="col-md-2 mb-3">
                   <div class="form-group">
                     <label for="tipo_nubosidad_id">Tipo Nubosidad</label>
-                    <select class="form-control selectpicker" id="selectpicker_tipo_nubosidad" required data-live-search="true" v-model="form.tipo_nubosidad_id">
+                    <select class="form-control" id="selectpicker_tipo_nubosidad" required data-live-search="true" v-model="form.tipo_nubosidad_id">
                       <option value="" selected disabled>Seleccione</option>
                       <option v-for="(item, index) in TipoNubosidad" :key="index" :value="item.id">{{item.nombre}}</option>
                      </select>
@@ -227,7 +227,7 @@
                 <div class="col-md-4 mb-3">
                   <div class="form-group">
                     <label for="soguillas">Soguillas</label>
-                    <select class="form-control selectpicker" title="Seleccione" multiple id="selectpicker_soguillas" data-live-search="true" v-model="form.soguillas">
+                    <select class="form-control" title="Seleccione" multiple id="selectpicker_soguillas" data-live-search="true" v-model="form.soguillas">
                       <option value="" selected disabled>Seleccione</option>
                       <option v-for="(item, index) in Soguillas" :key="index" :value="item.id">{{item.FullName}}  {{ item.turno_a  ? '('+item.turno_a+')' : 'xx' }} ( {{ item.disponible ? 'Disponible' : 'No Disponible'}} ) </option>
                      </select> 

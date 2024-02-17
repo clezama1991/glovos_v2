@@ -63,7 +63,7 @@
                   <div class="col-md-6 mb-3">
                     <div class="form-group">
                       <label for="vuelo_id">Vuelo</label>                      
-                      <select class="form-control selectpicker" @change="ConfirmarActualizarPedido()" id="selectpicker_vuelos" data-live-search="true" v-model="form.vuelo_id" :disabled="form.estatus_agrupacion=='HIJO'">
+                      <select class="form-control" @change="ConfirmarActualizarPedido()" id="selectpicker_vuelos" data-live-search="true" v-model="form.vuelo_id" :disabled="form.estatus_agrupacion=='HIJO'">
                         <option value="" >Sin Vuelo</option>
                         <option v-for="(item, index) in recordsVuelo" :key="index" :value="item.id">{{item.name_vuelo}} </option>
                       </select> 
@@ -366,7 +366,7 @@
                   <div class="row pb-3">
                       <div class="col-md-6 pb-3">
                         <label for="">Zona</label>                    
-                      <select class="form-control selectpicker" multiple title="Seleccione" id="selectpicker_zona_lista_espera" data-live-search="true" v-model="zona_lista_espera">
+                      <select class="form-control" multiple title="Seleccione" id="selectpicker_zona_lista_espera" data-live-search="true" v-model="zona_lista_espera">
                         <option value="" selected disabled>Seleccione</option>
                         <option v-for="(item, index) in Zonas" :key="index" :value="item.id">{{item.nombre}} </option>
                       </select>   

@@ -67,7 +67,7 @@
             <div class="col-md-3 mb-3">
               <div class="form-group">
                 <label for="modelo_id">Modelo</label>
-                <select class="form-control selectpicker" id="selectpicker_modelos" required data-live-search="true" v-model="form.modelo_id">
+                <select class="form-control" id="selectpicker_modelos" required data-live-search="true" v-model="form.modelo_id">
                   <option value="" selected disabled>Seleccione</option>
                   <option v-for="(item, index) in modelos" :key="index" :value="item.id">{{item.modelo_globo}}</option>
                 </select>
@@ -100,7 +100,7 @@
             <div class="col-md-3 mb-3">
               <div class="form-group">
                 <label for="bottom_end_id">Bottom Ends</label>                  
-                <select class="form-control selectpicker" id="selectpicker_bottom_end"  data-live-search="true" v-model="form.bottom_end_id">
+                <select class="form-control" id="selectpicker_bottom_end"  data-live-search="true" v-model="form.bottom_end_id">
                   <option value="" selected disabled>Seleccione</option>
                   <option v-for="(item, index) in BottomEndCompatibles" :key="index" :value="item.id" :disabled="item._rowVariant">{{item.bottom_end}}</option>
                   </select>
@@ -191,7 +191,7 @@
             <div class="col-md-3 mb-3">
               <div class="form-group">
                 <label for="habilitacion_nivel">Catégorias de Habilitación </label>
-                  <select class="form-control selectpicker" id="selectpicker_Habilitacion" title="Seleccione" data-live-search="true" v-model="form.habilitacion_nivel" required>
+                  <select class="form-control" id="selectpicker_Habilitacion" title="Seleccione" data-live-search="true" v-model="form.habilitacion_nivel" required>
                     <option value="" selected disabled></option>
                     <option v-for="(item, index) in Habilitacion" :value="item" :key="index">{{item}}</option>
                   </select>
