@@ -172,7 +172,6 @@ class InformesController extends Controller
         })
         ->orderBy('vuelo->fecha_despegue','ASC')
         ->orderBy('vuelo->hora_despegue','ASC')
-        ->where('id',101) 
         ->get();
   
         if ($records->count()==0) {           
