@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Multimedias;
 use Illuminate\Console\Command;
 use App\Models\Vuelos as ModeloPrincipal;
 use App\Models\BitacorasCron;
@@ -64,9 +65,18 @@ class ClearFilesMultimediasExpiredCron extends Command
                     \File::delete(public_path($zipFileName));
                 }
                   
+                $vuelo->multimedia = false;
                 $vuelo->multimedia_archivos_borrados = true;
                 $vuelo->save();
+
+                Multimedias::where('vuelo_id',$vuelo->id)->delete();
+
+                foreach ($vuelo->Pedidos as $key => $Pedido) { 
+                    $Pedido->token = $Pedido->token.'-old';
+                    $Pedido->save();
+                }  
             }  
+
         } catch (\Throwable $th) {
             BitacorasCron::create([
                 'fecha' => date('Y-m-d'),
