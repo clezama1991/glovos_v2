@@ -218,13 +218,55 @@
                         <option value="fr">Frances</option>
                       </select>
                     </div> 
-                  </div>    
-                  <!-- <div class="col-md-3 float-right"> 
-                      <span @click="ActualizarContacto()"  v-if="form.estatus!='Vuelo Realizado'" class="btn btn-primary float-right text-white" role="button"><span>
-                        <i class="fa fa-save text-white mr-2" aria-hidden="true"></i>  Actualizar Datos de contacto
-                        </span></span> 
-                  </div>             -->
+                  </div>     
                 </div>
+
+                
+                <hr>
+                
+                <div class="card mt-5">
+
+
+                  <header_card icon="fa fa-history" titulo="Historial de Llamada Contacto" tipo="sub"></header_card>
+
+                  <div class="card-body"> 
+                    <div class="row">
+                    <div class="col-md-12 mb-3">  
+                      <a data-toggle="modal" data-target="#modelId" v-if="can('orders-update') && form.estatus!='Vuelo Realizado'" target="_blank" class="btn btn-warning btn-sm float-right text-white" role="button">                                
+                        Agregar Llamada
+                      </a> 
+                  </div>
+                    <div class="col-md-12 mb-3 table-responsive">
+                    <table class="table table-sm table-bordered">
+                      <thead class="bg-light-dark">
+                        <tr>
+                          <th>Fecha</th>
+                          <th>Observaciones</th>
+                          <th width=15%>Opcion</th>
+                        </tr>
+                      </thead>
+                    <tbody>
+                    <tr v-for="(item, index) in form.movimientos_contactos" :key="index">
+                      <td>
+                      {{item.fecha | formatDate}}
+                      </td>
+                      <td>
+                      {{item.observacion}}
+                      </td>
+                      <td class="text-center">
+                        <button v-if="can('orders-update') && form.estatus!='Vuelo Realizado'" class="btn btn-sm btn-icon btn-danger" @click="QuitarMovimientoContacto(item.id)">
+                          <i class="fa fa-times" aria-hidden="true"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    </tbody>
+                    </table>
+
+                </div>
+                </div>
+                </div>
+                </div>
+
                 </div>
                 </div>
                 <hr>
@@ -534,6 +576,48 @@
           </div>
       </div>
     </div> 
+
+    
+    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Agregar Llamada</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <form @submit="GuardarHistorialContacto" method="POST" enctype="multipart/form-data" class="form" id="GuardarServiciosSolucionLimpieza">
+
+                <div class="modal-body">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for="">Fecha</label>
+                          <input type="date"
+                            class="form-control" v-model="add_historia_contacto.fecha" id="" aria-describedby="helpId" placeholder="">
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for="">Observaciones</label>
+                          <textarea class="form-control"  v-model="add_historia_contacto.observacion" id="" rows="3"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                  <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+              </form>
+        </div>
+      </div>
+    </div>
+                       
+
     </div>
     </div>
   
@@ -578,6 +662,10 @@
               email_contacto : '',
               telefono_contacto : '',
               estatus : 'Creado',
+            },
+            add_historia_contacto:{
+              fecha : '',
+              observacion : '',
             },
             url_plataforma: window.Laravel.url_plataforma
           }
@@ -757,6 +845,84 @@
 
           },  
             
+          GuardarHistorialContacto(evt) {
+              evt.preventDefault();     
+            
+            var url = '/admin/movimiento_contacto';
+
+            axios.post(url,{
+                pedido_id: this.form.id,   
+                fecha: this.add_historia_contacto.fecha,
+                observacion: this.add_historia_contacto.observacion,
+                token         :   this.token
+            }).then(response=>{
+              
+              if(!response.data.result){
+                Swal.fire("Ha ocurrido algún error!", "Se le notificará al equipo de soporte!" +response.data.mensaje_error, "error");
+                this.$toasted.error('Ha ocurrido algún error!');           
+              }else{                 
+                this.$toasted.success('MHistorial Guardado Correctamente');
+                
+              }
+
+              $("#modelId .close").click();
+              $("#modelId .close2").click();
+              $('body').removeClass('modal-open');
+              $('.modal-backdrop').remove();   
+              this.Buscar();
+                       
+              this.add_historia_contacto = {
+                fecha : '',
+                observacion : '',
+              };
+                
+            }).catch(error => {
+                console.log(error);
+                this.errors = error.response
+            });
+                      
+
+          },  
+            
+          QuitarMovimientoContacto(id) {
+            
+            var _this = this; 
+
+            Swal.fire({
+                title: "Confirmar!",
+                text: "Confirme que desea borrar este registro",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Si, Confirmar!",
+                cancelButtonText: "No, Cancelar!",
+                reverseButtons: true
+              }).then(function(result) {
+                if (result.value) {          
+                  
+                    var url = '/admin/quitar_movimiento_contacto/'+id;
+
+                    axios.post(url,{             
+                        token         :   _this.token
+                    }).then(response=>{
+                      
+                      if(!response.data.result){
+                        Swal.fire("Ha ocurrido algún error!", "Se le notificará al equipo de soporte!" +response.data.mensaje_error, "error");
+                        _this.$toasted.error('Ha ocurrido algún error!');           
+                      }else{                 
+                        _this.$toasted.success('Pedido Actualizado Correctamente');
+                        
+                      }
+
+                      _this.Buscar();
+                                    
+                    }).catch(error => {
+                        console.log(error);
+                        this.errors = error.response
+                    });
+                }
+              });
+
+        },  
           CambiarFechaVuelo() {
             
               var _this = this; 

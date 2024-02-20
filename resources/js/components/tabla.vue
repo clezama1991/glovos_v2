@@ -105,6 +105,9 @@
             <template #cell(orden_wordpress)="row">             
                 <span v-html="row.value"> </span>
             </template>
+            <template #cell(pedido.orden_wordpress)="row">             
+                <span v-html="row.value"> </span>
+            </template>
  
             <template #cell(set_status)="row" nowrap>  
                 {{(row.item.activo==1)?'Activo':'Inactivo'}}
@@ -286,6 +289,14 @@
                 <ul v-if="row.item.botellas"  class="text-left">
                     <li v-for="(item,index) in row.item.botellas" :key="index">
                         {{item.modelo}}
+                    </li>
+                </ul>
+                <span v-else> - </span>    
+            </template>
+            <template #cell(_zonas)="row">             
+                <ul v-if="row.item.zonas"  class="text-left">
+                    <li v-for="(item,index) in row.item.zonas" :key="index">
+                        {{item.nombre}}
                     </li>
                 </ul>
                 <span v-else> - </span>    

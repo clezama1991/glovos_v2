@@ -12,7 +12,7 @@
               <span class="card-label font-weight-bolder text-dark">
 
                 <i class="fas fa-list-check text-dark"></i>
-                  Lista de Esperax
+                  Listado de Espera
               </span>
           </h3>
 
@@ -21,6 +21,7 @@
         <div class="card-body">
           <tabla-component :striped="false"
             :fields="fields" 
+            :sortBy = 'created_at'
             :listado="records" 
             :can_ver="can('waiting_list-read')"
             :can_editar="can('waiting_list-update')"
@@ -51,22 +52,21 @@
                 key: 'pedido.orden_wordpress', 
                 label: 'Order-ID', 
                 sortable: true, 
-                sortDirection: 'desc',
                 formatter: (value, key, item) => {
-                  return value+( (item.notas!=null) ? '<span data-toggle="modal" data-target="#notaPedido'+value+'"><i class="fa fa-commenting text-warning" aria-hidden="true"></i></span>  <div class="modal fade" id="notaPedido'+value+'" role="dialog" aria-labelledby="asdasdasda" aria-hidden="true">          <div class="modal-dialog modal-dialog-centered modal-sm" role="document">            <div class="modal-content">              <div class="modal-header">                <h5 class="modal-title">Notal del Pedido</h5>                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">                    <span aria-hidden="true">&times;</span>                  </button>              </div>              <div class="modal-body">'+item.notas +'</div>              <div class="modal-footer">                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>              </div>            </div>          </div>        </div>' : '');
+                  var notas = ((item.notas!=null) ? '<span data-toggle="modal" data-target="#notaPedido'+value+'"><i class="fa fa-commenting text-warning" aria-hidden="true"></i></span>  <div class="modal fade" id="notaPedido'+value+'" role="dialog" aria-labelledby="asdasdasda" aria-hidden="true">          <div class="modal-dialog modal-dialog-centered modal-sm" role="document">            <div class="modal-content">              <div class="modal-header">                <h5 class="modal-title">Notal del Pedido</h5>                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">                    <span aria-hidden="true">&times;</span>                  </button>              </div>              <div class="modal-body">'+item.notas +'</div>              <div class="modal-footer">                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>              </div>            </div>          </div>        </div>' : '');
+                  var contacto = ((item.pedido.nro_contactos>0) ? '<span data-toggle="modal" data-target="#ContactoPedido'+value+'" class="badge badge-pill badge-info">'+item.pedido.nro_contactos+'<i class="fa fa-check text-white ml-1" aria-hidden="true"></i></span>  <div class="modal fade" id="ContactoPedido'+value+'" role="dialog" aria-labelledby="asdasdasda" aria-hidden="true">          <div class="modal-dialog modal-dialog-centered" role="document">            <div class="modal-content">              <div class="modal-header">                <h5 class="modal-title">Historial de Contacto del Pedido</h5>                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">                    <span aria-hidden="true">&times;</span>                  </button>              </div>              <div class="modal-body">'+item.pedido.list_contactos +'</div>              <div class="modal-footer">                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>              </div>            </div>          </div>        </div>' : '');
+                  return value+ ' ' +notas+ ' ' +contacto;
                 }
               },
               {
                 key: "pedido.numpax",
                 label: "N. Pax",
                 sortable: true,
-                sortDirection: "desc"
               },  
               {
                 key: "pedido.privado",
                 label: "Excl.",
                 sortable: true,
-                sortDirection: "desc",
                 formatter: (value) => {
                   return (value==1) ? 'Si' : 'No';
                 },
@@ -76,7 +76,6 @@
                 key: "pedido.nombre_contacto",
                 label: "Contacto",
                 sortable: true,
-                sortDirection: "desc",
                 formatter: (value, key, item) => {
                  return value;
                 }
@@ -85,7 +84,6 @@
                 key: "pedido.telefono_contacto",
                 label: "Tlf",
                 sortable: true,
-                sortDirection: "desc",
                 formatter: (value, key, item) => {
                  return value;
                 }
@@ -94,14 +92,22 @@
                 key: "pedido.estatus",
                 label: "Estado",
                 sortable: true,
-                sortDirection: "desc"
               },
               { 
                 key: 'created_at', 
+                sortable: true,
+                sortDirection: "desc",
                 label: 'Fecha Lista',
                 formatter: (value) => {
                   return moment(value).format('DD/MM/YYYY');
                 },
+              }, 
+              { 
+                key: '_zonas', 
+                label: 'Zona', 
+                sortable: true,
+                sortByFormatted: true,
+                filterByFormatted: true,
               }, 
               { key: 'actions_go', label: 'Acciones' }
 

@@ -9,6 +9,7 @@ use App\Models\Pedidos as ModeloPrincipal;
 use App\Models\PedidosPasajeros;
 use App\Models\PedidosListaEspera;
 use App\Models\PedidosMovimientos;
+use App\Models\PedidosMovimientosContacto;
 use App\Models\Vuelos;
 use App\Models\Zones;
 use App\User;
@@ -148,7 +149,7 @@ class PedidosController extends Controller
 
     public function ver($id){
         
-        $record = ModeloPrincipal::with(['lista_espera','movimientos','agrupaciones','parent'])->withTrashed()->where('orden_wordpress',$id)->first();
+        $record = ModeloPrincipal::with(['lista_espera','movimientos','movimientos_contactos','agrupaciones','parent'])->withTrashed()->where('orden_wordpress',$id)->first();
         $zonas = Zones::get();
         $grupo_pedido = array();
         // if(!is_null($record->agrupacion)){
@@ -1100,7 +1101,7 @@ class PedidosController extends Controller
             
         try {
              
-            $records = PedidosListaEspera::with('pedido')->get();            
+            $records = PedidosListaEspera::with('pedido')->orderBy('created_at','ASC')->get();            
             foreach ($records as $key => $value) {
                 $value->zonas = $value->zonas();
             }
@@ -1135,6 +1136,58 @@ class PedidosController extends Controller
                 PedidosListaEspera::updateOrCreate([
                     'pedido_id' => $request->pedido_id
                 ], $data);
+
+            DB::commit();
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+        
+            return response(['result' => false,'mensaje_error'=>$e->getMessage()]);
+        
+
+        }
+
+        return response(['result' => true]);
+
+
+    }
+
+    public function movimiento_contacto(Request $request)
+    {
+ 
+        try {
+
+            DB::beginTransaction();
+                PedidosMovimientosContacto::create([
+                    'pedido_id' => $request->pedido_id,
+                    'fecha' => $request->fecha,
+                    'observacion' => $request->observacion
+                ]);
+
+            DB::commit();
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+        
+            return response(['result' => false,'mensaje_error'=>$e->getMessage()]);
+        
+
+        }
+
+        return response(['result' => true]);
+
+
+    }
+
+    public function quitar_movimiento_contacto($id)
+    {
+ 
+        try {
+
+            DB::beginTransaction();
+                PedidosMovimientosContacto::whereId($id)->delete();
 
             DB::commit();
 

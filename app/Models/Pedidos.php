@@ -39,7 +39,7 @@ class Pedidos extends Model
         'sinc_google_contacts',
     ];
 
-    protected $appends = ['pasajeros','estatus_pedido','vuelo_name','estatus_agrupacion'];
+    protected $appends = ['pasajeros','estatus_pedido','vuelo_name','estatus_agrupacion','nro_contactos','list_contactos'];
 
     protected $casts = [
         'agrupacion' => 'array',
@@ -54,6 +54,43 @@ class Pedidos extends Model
     public function movimientos()
     {
         return $this->hasMany(PedidosMovimientos::class, 'pedido_id', 'id');
+    }
+
+    public function movimientos_contactos()
+    {
+        return $this->hasMany(PedidosMovimientosContacto::class, 'pedido_id', 'id');
+    }
+
+    public function getNroContactosAttribute()
+    {
+        return count($this->movimientos_contactos);
+    }
+
+    public function getListContactosAttribute()
+    {
+        $table  = null;
+        $table  .=' <table class="table table-sm table-bordered"> ';
+        $table  .=' <thead class="bg-light-dark"> ';
+        $table  .='   <tr> ';
+        $table  .='     <th>Fecha</th> ';
+        $table  .='     <th>Observaciones</th> ';
+        $table  .='   </tr> ';
+        $table  .=' </thead> ';
+        $table  .=' <tbody> ';
+
+        foreach ($this->movimientos_contactos as $key => $value) {
+            $table  .=' <tr> ';
+            $table  .='   <td> ';
+            $table  .=   $value->fecha;
+            $table  .='   </td> ';
+            $table  .='   <td> ';
+            $table  .= $value->observacion;
+            $table  .=' </td> ';  
+            $table  .=' </tr> ';
+        }
+        $table  .=' </tbody> ';
+        $table  .=' </table> ';
+        return $table;
     }
 
     public function agrupaciones()

@@ -251,6 +251,8 @@ Route::group([ 'middleware' => 'auth'], function () {
             Route::post('/pedidos_lista_espera', 'store_pedidos_lista_espera');
             Route::post('/pedidos_lista_espera_delete/{id}', 'pedidos_lista_espera_delete');
             Route::post('/pedidos_lista_espera_update/{id}', 'pedidos_lista_espera_update');
+            Route::post('/movimiento_contacto', 'movimiento_contacto');
+            Route::post('/quitar_movimiento_contacto/{id}', 'quitar_movimiento_contacto');
         });
 
 
