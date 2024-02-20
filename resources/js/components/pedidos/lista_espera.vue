@@ -21,7 +21,6 @@
         <div class="card-body">
           <tabla-component :striped="false"
             :fields="fields" 
-            :sortBy = 'created_at'
             :listado="records" 
             :can_ver="can('waiting_list-read')"
             :can_editar="can('waiting_list-update')"
