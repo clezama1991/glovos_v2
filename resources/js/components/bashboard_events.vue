@@ -1862,7 +1862,7 @@ export default {
         },
         
       ],
-      check_list : []
+      check_list : [],
       // form : {
       //   lugar_despegue : '',
       //   fecha_despegue : '',
@@ -1877,13 +1877,47 @@ export default {
   mounted() {
     this.Buscar();
     this.BuscarZonas();
-    this.initObs();
+    // this.initObs();
     this.BuscarCheckList();
     this.Buscartitle_checklist();
- 
+    this.jeje();
   },
   methods: {
     
+    jeje() { 
+
+      console.log(this.initialDate,'now');
+      let _this = this;
+      $(".fc-prev-button").click(function() {
+        var mes = moment(_this.initialDate).subtract(1, 'months');
+        mes = mes.format('YYYY-MM-DD');
+        localStorage.setItem('mes_seleccionado', mes);
+      });
+    $(".fc-next-button").click(function() {
+      var mes = moment(_this.initialDate).add(1, 'months');
+      mes = mes.format('YYYY-MM-DD');
+      localStorage.setItem('mes_seleccionado', mes);
+    });
+    $(".fc-today-button").click(function() {
+      var mes = moment(TODAY);
+      mes = mes.format('YYYY-MM-DD');
+      localStorage.setItem('mes_seleccionado', mes);
+    });
+    },
+    MostrarModalHistorial() { 
+      var mes =  localStorage.getItem('mes_seleccionado');
+      console.log(mes,'mes');
+      if(mes!=null){ 
+        localStorage.getItem('mes_seleccionado');
+      }
+      var vuelo =  localStorage.getItem('vuelo_seleccionado');
+      if(vuelo!=null){ 
+        this.vuelo_seleccionado = JSON.parse(localStorage.getItem('vuelo_seleccionado')); 
+        $(".BtnVerVuelo").click();   
+      }
+
+
+    },
     Buscar() {
       var vuelos = [];
       var url = "/admin/vuelos";
@@ -1913,90 +1947,89 @@ export default {
               };
             })
             .value();
+ 
+            this.MostrarModalHistorial();
 
-          console.log(vuelos);
         })
         .catch((error) => {
-          this.errors = error.response.data;
-        });
+         });
     },
-        initObs(){
-          var that = this;
-          window.setInterval(() => {
-              that.Buscar();   
-          }, 10000)
-        },
-        formatDay(value) {      
-          return moment(value).format('ddd');
-        },
-    
-          ValidarCamposMarcaComoVolado(evt) {
-            evt.preventDefault(); 
-            var _this = this;
-            if(this.vuelo_seleccionado.lugar_despegue=='' || this.vuelo_seleccionado.fecha_despegue=='' || this.vuelo_seleccionado.lugar_aterrizaje=='' || this.vuelo_seleccionado.hora_despegue=='' || this.vuelo_seleccionado.hora_aterrizaje==''){
-              Swal.fire({
-                title: "Información Incompleta!",
-                text: "Desea autocompletar la información que falta?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Si, autocompletar y continuar!",
-                cancelButtonText: "No, Continuar de todas formas!",
-                reverseButtons: true
-              }).then(function(result) {
-                if (result.value) {   
-                  if(_this.vuelo_seleccionado.lugar_despegue==''){
-                    _this.vuelo_seleccionado.lugar_despegue = _this.vuelo_seleccionado.zona.nombre;
-                  }
-                  if(_this.vuelo_seleccionado.lugar_aterrizaje==''){
-                    _this.vuelo_seleccionado.lugar_aterrizaje = _this.vuelo_seleccionado.zona.nombre;
-                  }
-                  if(_this.vuelo_seleccionado.fecha_despegue==''){
-                    _this.vuelo_seleccionado.fecha_despegue = _this.vuelo_seleccionado.fecha;
-                  }
-                  if(_this.vuelo_seleccionado.hora_despegue==''){
-                    _this.vuelo_seleccionado.hora_despegue = _this.vuelo_seleccionado.hora;
-                  }
-                  if(_this.vuelo_seleccionado.hora_aterrizaje==''){
-                    _this.vuelo_seleccionado.hora_aterrizaje = _this.vuelo_seleccionado.hora;
-                  }  
-                  _this.MarcaComoVolado(evt); 
-                }else{
-                  _this.MarcaComoVolado(evt);
-                }
-              }); 
-            }else{
-              _this.MarcaComoVolado(evt);
-            }
-          },
-          ValidarCamposMarcaComoVoladoAntes() { 
-            var _this = this;
-            if(_this.vuelo_seleccionado.lugar_despegue==null || _this.vuelo_seleccionado.lugar_despegue==''){
+
+    initObs(){
+      var that = this;
+      window.setInterval(() => {
+          that.Buscar();   
+      }, 10000)
+    },
+
+    formatDay(value) {      
+      return moment(value).format('ddd');
+    },
+
+    ValidarCamposMarcaComoVolado(evt) {
+      evt.preventDefault(); 
+      var _this = this;
+      if(this.vuelo_seleccionado.lugar_despegue=='' || this.vuelo_seleccionado.fecha_despegue=='' || this.vuelo_seleccionado.lugar_aterrizaje=='' || this.vuelo_seleccionado.hora_despegue=='' || this.vuelo_seleccionado.hora_aterrizaje==''){
+        Swal.fire({
+          title: "Información Incompleta!",
+          text: "Desea autocompletar la información que falta?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Si, autocompletar y continuar!",
+          cancelButtonText: "No, Continuar de todas formas!",
+          reverseButtons: true
+        }).then(function(result) {
+          if (result.value) {   
+            if(_this.vuelo_seleccionado.lugar_despegue==''){
               _this.vuelo_seleccionado.lugar_despegue = _this.vuelo_seleccionado.zona.nombre;
             }
-            if(_this.vuelo_seleccionado.lugar_aterrizaje==null || _this.vuelo_seleccionado.lugar_aterrizaje==''){
+            if(_this.vuelo_seleccionado.lugar_aterrizaje==''){
               _this.vuelo_seleccionado.lugar_aterrizaje = _this.vuelo_seleccionado.zona.nombre;
             }
-            if(_this.vuelo_seleccionado.fecha_despegue==null || _this.vuelo_seleccionado.fecha_despegue==''){
+            if(_this.vuelo_seleccionado.fecha_despegue==''){
               _this.vuelo_seleccionado.fecha_despegue = _this.vuelo_seleccionado.fecha;
             }
-            if(_this.vuelo_seleccionado.hora_despegue==null || _this.vuelo_seleccionado.hora_despegue==''){
+            if(_this.vuelo_seleccionado.hora_despegue==''){
               _this.vuelo_seleccionado.hora_despegue = _this.vuelo_seleccionado.hora;
             }
-            if(_this.vuelo_seleccionado.hora_aterrizaje==null || _this.vuelo_seleccionado.hora_aterrizaje==''){
+            if(_this.vuelo_seleccionado.hora_aterrizaje==''){
               _this.vuelo_seleccionado.hora_aterrizaje = _this.vuelo_seleccionado.hora;
             }  
-            if(_this.vuelo_seleccionado.hora_aterrizaje==null || _this.vuelo_seleccionado.hora_aterrizaje==''){
-              _this.vuelo_seleccionado.hora_aterrizaje = _this.vuelo_seleccionado.hora;
-            } 
-          },
+            _this.MarcaComoVolado(evt); 
+          }else{
+            _this.MarcaComoVolado(evt);
+          }
+        }); 
+      }else{
+        _this.MarcaComoVolado(evt);
+      }
+    },
+
+    ValidarCamposMarcaComoVoladoAntes() { 
+      var _this = this;
+      if(_this.vuelo_seleccionado.lugar_despegue==null || _this.vuelo_seleccionado.lugar_despegue==''){
+        _this.vuelo_seleccionado.lugar_despegue = _this.vuelo_seleccionado.zona.nombre;
+      }
+      if(_this.vuelo_seleccionado.lugar_aterrizaje==null || _this.vuelo_seleccionado.lugar_aterrizaje==''){
+        _this.vuelo_seleccionado.lugar_aterrizaje = _this.vuelo_seleccionado.zona.nombre;
+      }
+      if(_this.vuelo_seleccionado.fecha_despegue==null || _this.vuelo_seleccionado.fecha_despegue==''){
+        _this.vuelo_seleccionado.fecha_despegue = _this.vuelo_seleccionado.fecha;
+      }
+      if(_this.vuelo_seleccionado.hora_despegue==null || _this.vuelo_seleccionado.hora_despegue==''){
+        _this.vuelo_seleccionado.hora_despegue = _this.vuelo_seleccionado.hora;
+      }
+      if(_this.vuelo_seleccionado.hora_aterrizaje==null || _this.vuelo_seleccionado.hora_aterrizaje==''){
+        _this.vuelo_seleccionado.hora_aterrizaje = _this.vuelo_seleccionado.hora;
+      }  
+      if(_this.vuelo_seleccionado.hora_aterrizaje==null || _this.vuelo_seleccionado.hora_aterrizaje==''){
+        _this.vuelo_seleccionado.hora_aterrizaje = _this.vuelo_seleccionado.hora;
+      } 
+    },
+
     onRowClicked(data) {
-      console.log('myRowClickHandler',data);      
-      $(".BtnVerVuelo").click(); 
+       $(".BtnVerVuelo").click(); 
       this.vuelo_seleccionado = data.data; 
-
-
-
-
     },
 
     IrAPedido(id) {
@@ -2011,6 +2044,7 @@ export default {
       });
 
     },  
+
     IrMultimediaEvento() {
       
       $("#VerVuelo .close").click(); 
@@ -2023,6 +2057,7 @@ export default {
       });
 
     },  
+
     IrEditarEvento() {
       
       $("#VerVuelo .close").click(); 
@@ -2082,454 +2117,457 @@ export default {
     },
 
     
-          AlertarFaltaPilotoGlobo(evt) {             
-            Swal.fire({
-              title: "Información Incompleta!",
-              text: "Faltan Datos de Piloto y/o Globo, Esta seguro que desea continuar?",
-              icon: "warning",
-              showCancelButton: true,
-              confirmButtonText: "Si, continuar!",
-              cancelButtonText: "No, Cancelar!",
-              reverseButtons: true
-            }).then(function(result) {
-              if (result.value) {          
-                $("#OpenVueloRealizado").click();     
-              }
-            });
-          },
-        borrar_reserva_vuelo(vuelo_id , pedido = null) {
-              var _this = this;
-              
-              var pedido_id = '';
-              
-              if(pedido==null){
-                pedido_id = this.cambiar_fecha_vuelo.id;
-              }else{
-                pedido_id = pedido;
-              }
+    AlertarFaltaPilotoGlobo(evt) {             
+      Swal.fire({
+        title: "Información Incompleta!",
+        text: "Faltan Datos de Piloto y/o Globo, Esta seguro que desea continuar?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Si, continuar!",
+        cancelButtonText: "No, Cancelar!",
+        reverseButtons: true
+      }).then(function(result) {
+        if (result.value) {          
+          $("#OpenVueloRealizado").click();     
+        }
+      });
+    },
 
-console.log(pedido_id);
-             Swal.fire({
-                title: "Confirmar!",
-                text: "Confirme que desea borrar este pedido de este vuelo!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Si, Confirmar!",
-                cancelButtonText: "No, Cancelar!",
-                reverseButtons: true
-              }).then(function(result) {
-                if (result.value) {          
-                  
-                    var url = '/admin/pedidos/'+pedido_id;
-
-                    axios.post(url,{
-                        _method: 'PUT',                
-                        vuelo_id: null,   
-                        tipo : 'vuelo',             
-                        token         :   _this.token
-                    }).then(response=>{
-                      
-                      if(!response.data.result){
-                        Swal.fire("Ha ocurrido algún error!", "Se le notificará al equipo de soporte!" +response.data.mensaje_error, "error");
-                        _this.$toasted.error('Ha ocurrido algún error!');           
-                      }else{                 
-                        _this.$toasted.success('Pedido actualizado Correctamente');
-                        _this.Buscar();
-                  
-                        $("#VerVuelo .close").click(); 
-                        $("#VerVuelo .close2").click(); 
-                        $('body').removeClass('modal-open');
-                        $('.modal-backdrop').remove();
-
-                        _this.cambiar_fecha_vuelo = '';
-                        _this.vista = 'vuelo';
-                      }
-   
-                    }).catch(error => {
-                        console.log(error);
-                        this.errors = error.response
-                    });
-                }
-              });
-
-        },  
-   
-        ConfirmarActualizarPedido(vuelo_id , pedido = null) {
-              var _this = this;
-              
-              var pedido_id = '';
-              
-              if(pedido==null){
-                pedido_id = this.cambiar_fecha_vuelo.id;
-              }else{
-                pedido_id = pedido;
-              }
-
-             Swal.fire({
-                title: "Confirmar!",
-                text: "Confirme que desea actualizar el pedido para este vuelo!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Si, Confirmar!",
-                cancelButtonText: "No, Cancelar!",
-                reverseButtons: true
-              }).then(function(result) {
-                if (result.value) {          
-                  
-                    var url = '/admin/pedidos/'+pedido_id;
-
-                    axios.post(url,{
-                        _method: 'PUT',                
-                        vuelo_id: vuelo_id,
-                        tipo: 'vuelo',                 
-                        token         :   _this.token
-                    }).then(response=>{
-                      
-                      if(!response.data.result){
-                        Swal.fire("Ha ocurrido algún error!", "Se le notificará al equipo de soporte!" +response.data.mensaje_error, "error");
-                        _this.$toasted.error('Ha ocurrido algún error!');           
-                      }else{                 
-                        _this.$toasted.success('Pedido actualizado Correctamente');
-                        _this.Buscar();
-                  
-                        // $("#registrarReserva .close").click(); 
-                        // $("#VerVuelo .close").click(); 
-                        // $("#VerVuelo .close2").click(); 
-                        //  $('body').removeClass('modal-open');
-                        // $('.modal-backdrop').remove();
-
-                        _this.paso_reserva='seleccionar_reserva';
-                        _this.pedidos=[];
-                        _this.buscardor_numero_nombre_tlf='';
-
-                        _this.cambiar_fecha_vuelo = '';
-                        // _this.vista = 'vuelo';
-                      }
-   
-                    }).catch(error => {
-                        console.log(error);
-                        this.errors = error.response
-                    });
-                }
-              });
-
-        },  
-   
-          MarcaComoVolado(evt) {
-
-            evt.preventDefault(); 
-
-            var url = '/admin/vuelo_volado';
-
-            axios.post(url,{          
-                id: this.vuelo_seleccionado.id,                
-                form: this.vuelo_seleccionado,                
-                token         :   this.token
-            }).then(response=>{
-              
-              if(!response.data.result){
-                Swal.fire("Ha ocurrido algún error!", "Se le notificará al equipo de soporte!" +response.data.mensaje_error, "error");
-                this.$toasted.error('Ha ocurrido algún error!');           
-              }else{                 
-                this.$toasted.success('Vuelo marcado como volado Correctamente');
-                this.Buscar();
+    borrar_reserva_vuelo(vuelo_id , pedido = null) {
+          var _this = this;
           
-                $("#VueloRealizado .close").click(); 
-                $("#VueloRealizado .close2").click(); 
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
+          var pedido_id = '';
           
-                $("#VerVuelo .close").click(); 
-                $("#VerVuelo .close2").click(); 
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-
-              }
-
-            }).catch(error => {
-                console.log(error);
-                this.errors = error.response
-            });
-
-          },  
-
-          ConfirmarCancelacionVuelo() {
-
-            var url = '/admin/confirmar_cancelacion_vuelo';
-
-            axios.post(url,{          
-                id: this.vuelo_seleccionado.id,                
-                form: this.vuelo_seleccionado,                
-                mensaje_cancelacion_vuelo: this.mensaje_cancelacion_vuelo,                
-                token         :   this.token
-            }).then(response=>{
-              
-              if(!response.data.result){
-                Swal.fire("Ha ocurrido algún error!", "Se le notificará al equipo de soporte!" +response.data.mensaje_error, "error");
-                this.$toasted.error('Ha ocurrido algún error!');           
-              }else{                 
-                this.$toasted.success('Vuelo cancelado Correctamente');
-                this.Buscar();
-          
-                $("#VueloRealizado .close").click(); 
-                $("#VueloRealizado .close2").click(); 
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-          
-                $("#VerVuelo .close").click(); 
-                $("#VerVuelo .close2").click(); 
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-
-              }
-
-            }).catch(error => {
-                console.log(error);
-                this.errors = error.response
-            });
-
-          },  
-
-   
-        MarcaComoVoladoOld() {
-              var _this = this;
-
-             Swal.fire({
-                title: "Confirmar!",
-                text: "Confirme que desea marcar este vuelo como volado!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Si, Confirmar!",
-                cancelButtonText: "No, Cancelar!",
-                reverseButtons: true
-              }).then(function(result) {
-                if (result.value) {          
-                  
-                    var url = '/admin/vuelo_volado';
-
-                    axios.post(url,{          
-                        id: _this.vuelo_seleccionado.id,                
-                        token         :   _this.token
-                    }).then(response=>{
-                      
-                      if(!response.data.result){
-                        Swal.fire("Ha ocurrido algún error!", "Se le notificará al equipo de soporte!" +response.data.mensaje_error, "error");
-                        _this.$toasted.error('Ha ocurrido algún error!');           
-                      }else{                 
-                        _this.$toasted.success('Vuelo marcado como volado Correctamente');
-                        _this.Buscar();
-                  
-                        $("#VerVuelo .close").click(); 
-                        $("#VerVuelo .close2").click(); 
-                        $('body').removeClass('modal-open');
-                        $('.modal-backdrop').remove();
- 
-                      }
-   
-                    }).catch(error => {
-                        console.log(error);
-                        this.errors = error.response
-                    });
-                }
-              });
-
-        },  
-
-        EnterPin(evt) {          
-          evt.preventDefault();
-          if(this.PinValidate!="1"){
-            this.vista = 'validate_pin';
+          if(pedido==null){
+            pedido_id = this.cambiar_fecha_vuelo.id;
           }else{
-            this.ValidarCamposMarcaComoVolado(evt);
-          }
-        }, 
-        ValidatePin(evt) {          
-          evt.preventDefault();
-          var url = '/admin/validate_pin';
-          axios.post(url,{          
-              id: this.vuelo_seleccionado.id,                
-              pin : this.pin,
-              token         :   this.token
-          }).then(response=>{            
-            if(response.data.result=='1'){
-              this.ValidarCamposMarcaComoVolado(evt);
+            pedido_id = pedido;
+          } 
+
+          Swal.fire({
+            title: "Confirmar!",
+            text: "Confirme que desea borrar este pedido de este vuelo!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Si, Confirmar!",
+            cancelButtonText: "No, Cancelar!",
+            reverseButtons: true
+          }).then(function(result) {
+            if (result.value) {          
+              
+                var url = '/admin/pedidos/'+pedido_id;
+
+                axios.post(url,{
+                    _method: 'PUT',                
+                    vuelo_id: null,   
+                    tipo : 'vuelo',             
+                    token         :   _this.token
+                }).then(response=>{
+                  
+                  if(!response.data.result){
+                    Swal.fire("Ha ocurrido algún error!", "Se le notificará al equipo de soporte!" +response.data.mensaje_error, "error");
+                    _this.$toasted.error('Ha ocurrido algún error!');           
+                  }else{                 
+                    _this.$toasted.success('Pedido actualizado Correctamente');
+                    _this.Buscar();
+              
+                    $("#VerVuelo .close").click(); 
+                    $("#VerVuelo .close2").click(); 
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+
+                    _this.cambiar_fecha_vuelo = '';
+                    _this.vista = 'vuelo';
+                  }
+
+                }).catch(error => {
+                    console.log(error);
+                    this.errors = error.response
+                });
             }
-            this.PinValidate = response.data.result;
- 
+          });
+
+    },  
+
+    ConfirmarActualizarPedido(vuelo_id , pedido = null) {
+          var _this = this;
+          
+          var pedido_id = '';
+          
+          if(pedido==null){
+            pedido_id = this.cambiar_fecha_vuelo.id;
+          }else{
+            pedido_id = pedido;
+          }
+
+          Swal.fire({
+            title: "Confirmar!",
+            text: "Confirme que desea actualizar el pedido para este vuelo!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Si, Confirmar!",
+            cancelButtonText: "No, Cancelar!",
+            reverseButtons: true
+          }).then(function(result) {
+            if (result.value) {          
+              
+                var url = '/admin/pedidos/'+pedido_id;
+
+                axios.post(url,{
+                    _method: 'PUT',                
+                    vuelo_id: vuelo_id,
+                    tipo: 'vuelo',                 
+                    token         :   _this.token
+                }).then(response=>{
+                  
+                  if(!response.data.result){
+                    Swal.fire("Ha ocurrido algún error!", "Se le notificará al equipo de soporte!" +response.data.mensaje_error, "error");
+                    _this.$toasted.error('Ha ocurrido algún error!');           
+                  }else{                 
+                    _this.$toasted.success('Pedido actualizado Correctamente');
+                    _this.Buscar();
+              
+                    // $("#registrarReserva .close").click(); 
+                    // $("#VerVuelo .close").click(); 
+                    // $("#VerVuelo .close2").click(); 
+                    //  $('body').removeClass('modal-open');
+                    // $('.modal-backdrop').remove();
+
+                    _this.paso_reserva='seleccionar_reserva';
+                    _this.pedidos=[];
+                    _this.buscardor_numero_nombre_tlf='';
+
+                    _this.cambiar_fecha_vuelo = '';
+                    // _this.vista = 'vuelo';
+                  }
+
+                }).catch(error => {
+                    console.log(error);
+                    this.errors = error.response
+                });
+            }
+          });
+
+    },  
+
+    MarcaComoVolado(evt) {
+
+      evt.preventDefault(); 
+
+      var url = '/admin/vuelo_volado';
+
+      axios.post(url,{          
+          id: this.vuelo_seleccionado.id,                
+          form: this.vuelo_seleccionado,                
+          token         :   this.token
+      }).then(response=>{
+        
+        if(!response.data.result){
+          Swal.fire("Ha ocurrido algún error!", "Se le notificará al equipo de soporte!" +response.data.mensaje_error, "error");
+          this.$toasted.error('Ha ocurrido algún error!');           
+        }else{                 
+          this.$toasted.success('Vuelo marcado como volado Correctamente');
+          this.Buscar();
+    
+          $("#VueloRealizado .close").click(); 
+          $("#VueloRealizado .close2").click(); 
+          $('body').removeClass('modal-open');
+          $('.modal-backdrop').remove();
+    
+          $("#VerVuelo .close").click(); 
+          $("#VerVuelo .close2").click(); 
+          $('body').removeClass('modal-open');
+          $('.modal-backdrop').remove();
+
+        }
+
+      }).catch(error => {
+          console.log(error);
+          this.errors = error.response
+      });
+
+    },  
+
+    ConfirmarCancelacionVuelo() {
+
+      var url = '/admin/confirmar_cancelacion_vuelo';
+
+      axios.post(url,{          
+          id: this.vuelo_seleccionado.id,                
+          form: this.vuelo_seleccionado,                
+          mensaje_cancelacion_vuelo: this.mensaje_cancelacion_vuelo,                
+          token         :   this.token
+      }).then(response=>{
+        
+        if(!response.data.result){
+          Swal.fire("Ha ocurrido algún error!", "Se le notificará al equipo de soporte!" +response.data.mensaje_error, "error");
+          this.$toasted.error('Ha ocurrido algún error!');           
+        }else{                 
+          this.$toasted.success('Vuelo cancelado Correctamente');
+          this.Buscar();
+    
+          $("#VueloRealizado .close").click(); 
+          $("#VueloRealizado .close2").click(); 
+          $('body').removeClass('modal-open');
+          $('.modal-backdrop').remove();
+    
+          $("#VerVuelo .close").click(); 
+          $("#VerVuelo .close2").click(); 
+          $('body').removeClass('modal-open');
+          $('.modal-backdrop').remove();
+
+        }
+
+      }).catch(error => {
+          console.log(error);
+          this.errors = error.response
+      });
+
+    },  
+
+
+    MarcaComoVoladoOld() {
+          var _this = this;
+
+          Swal.fire({
+            title: "Confirmar!",
+            text: "Confirme que desea marcar este vuelo como volado!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Si, Confirmar!",
+            cancelButtonText: "No, Cancelar!",
+            reverseButtons: true
+          }).then(function(result) {
+            if (result.value) {          
+              
+                var url = '/admin/vuelo_volado';
+
+                axios.post(url,{          
+                    id: _this.vuelo_seleccionado.id,                
+                    token         :   _this.token
+                }).then(response=>{
+                  
+                  if(!response.data.result){
+                    Swal.fire("Ha ocurrido algún error!", "Se le notificará al equipo de soporte!" +response.data.mensaje_error, "error");
+                    _this.$toasted.error('Ha ocurrido algún error!');           
+                  }else{                 
+                    _this.$toasted.success('Vuelo marcado como volado Correctamente');
+                    _this.Buscar();
+              
+                    $("#VerVuelo .close").click(); 
+                    $("#VerVuelo .close2").click(); 
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+
+                  }
+
+                }).catch(error => {
+                    console.log(error);
+                    this.errors = error.response
+                });
+            }
+          });
+
+    },  
+
+    EnterPin(evt) {          
+      evt.preventDefault();
+      if(this.PinValidate!="1"){
+        this.vista = 'validate_pin';
+      }else{
+        this.ValidarCamposMarcaComoVolado(evt);
+      }
+    }, 
+
+    ValidatePin(evt) {          
+      evt.preventDefault();
+      var url = '/admin/validate_pin';
+      axios.post(url,{          
+          id: this.vuelo_seleccionado.id,                
+          pin : this.pin,
+          token         :   this.token
+      }).then(response=>{            
+        if(response.data.result=='1'){
+          this.ValidarCamposMarcaComoVolado(evt);
+        }
+        this.PinValidate = response.data.result;
+
+
+      }).catch(error => {
+          console.log(error);
+          this.errors = error.response
+      });
+    },
+
+    RegistarVuelo(evt) {
+
+        evt.preventDefault();
+
+          this.GuardandoCambios = !this.GuardandoCambios;
+          var porc = 0;
+            
+          let formData = new FormData();
+
+          formData.append('zona_id', this.zona_id); 
+          formData.append('fecha', this.fecha); 
+          formData.append('pedido_id', this.cambiar_fecha_vuelo.id===undefined ? this.SeleccionarPedidoReserva.id : this.cambiar_fecha_vuelo.id); 
+
+            var url = '/admin/vuelos';
+
+          axios.post(url, formData,{
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }, 
+          }).then(response=>{ 
+              this.GuardandoCambios = !this.GuardandoCambios;
+              if(!response.data.result){
+                this.$toastr.error('Ocurrio un error al registrar registrar y cambiar fecha de reserva', 'Error en Proceso...');       
+              }else{                
+              this.$toasted.success('Vuelo Registrado y Pedido Actualizado Correctamente');                  
+              this.Buscar();
+              
+              $("#VerVuelo .close").click(); 
+              $("#registrarReserva .close").click(); 
+              $("#VerVuelo .close2").click(); 
+              $('body').removeClass('modal-open');
+              $('.modal-backdrop').remove();
+
+              this.cambiar_fecha_vuelo = '';
+            }     
+
 
           }).catch(error => {
-              console.log(error);
-              this.errors = error.response
-          });
-        },
- 
-        RegistarVuelo(evt) {
+              this.errors = error.response.data
+          });                
 
-            evt.preventDefault();
+    }, 
+
+    VuelosNextPrev(accion) {
+      var vuelo_seleccionado = this.vuelo_seleccionado.id;
+      var index_now = _.findIndex(this.Records, function(o) { return o.id == vuelo_seleccionado; });
+      if(accion=='prev'){
+        if(index_now>0){
+          var prev = index_now - 1;
+          this.vuelo_seleccionado = this.Records[prev];
+        }
+      }else{
+        var next = index_now + 1;  
+        if(this.Records[next]!==undefined){
+          this.vuelo_seleccionado = this.Records[next];
+        } 
+      }        
+    },
+
+    ActualizarContacto() {
+      
+      var url = '/admin/actualizar_contacto';
+
+      axios.post(url,{
+          pedido_id: this.SeleccionarPedidoReserva.id,    
+          nombre_contacto: this.SeleccionarPedidoReserva.nombre_contacto,
+          email_contacto: this.SeleccionarPedidoReserva.email_contacto,
+          telefono_contacto: this.SeleccionarPedidoReserva.telefono_contacto,
+          ciudad_contacto: this.SeleccionarPedidoReserva.ciudad_contacto,
+          lenguaje_contacto: this.SeleccionarPedidoReserva.lenguaje_contacto,
+          token         :   this.token
+      }).then(response=>{
+        
+        if(!response.data.result){
+          Swal.fire("Ha ocurrido algún error!", "Se le notificará al equipo de soporte!" +response.data.mensaje_error, "error");
+          this.$toasted.error('Ha ocurrido algún error!');           
+        }else{                 
+          this.$toasted.success('Datos de Contacto Actualizado Correctamente');
+          
+        }                           
+        
+      }).catch(error => {
+          console.log(error);
+          this.errors = error.response
+      });
+                
+
+    },  
     
-              this.GuardandoCambios = !this.GuardandoCambios;
-              var porc = 0;
+    BuscarListaEspera() {
+      
+      var url = '/admin/pedidos_lista_espera/'+this.vuelo_seleccionado.id;
+
+      axios.get(url).then(response=>{                                
+          this.pedidos_lista_espera = response.data.records;              
+      }).catch(error => {
+          console.log(error);
+          this.errors = error.response
+      });
                 
-              let formData = new FormData();
-    
-              formData.append('zona_id', this.zona_id); 
-              formData.append('fecha', this.fecha); 
-              formData.append('pedido_id', this.cambiar_fecha_vuelo.id===undefined ? this.SeleccionarPedidoReserva.id : this.cambiar_fecha_vuelo.id); 
-  
-               var url = '/admin/vuelos';
 
-              axios.post(url, formData,{
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }, 
-              }).then(response=>{ 
-                  this.GuardandoCambios = !this.GuardandoCambios;
-                  if(!response.data.result){
-                    this.$toastr.error('Ocurrio un error al registrar registrar y cambiar fecha de reserva', 'Error en Proceso...');       
-                  }else{                
-                  this.$toasted.success('Vuelo Registrado y Pedido Actualizado Correctamente');                  
-                  this.Buscar();
-                  
-                  $("#VerVuelo .close").click(); 
-                  $("#registrarReserva .close").click(); 
-                  $("#VerVuelo .close2").click(); 
-                  $('body').removeClass('modal-open');
-                  $('.modal-backdrop').remove();
+    },  
 
-                  this.cambiar_fecha_vuelo = '';
-                }     
+    validarChecklist(){
+      // var disabled = false;
+      // $('input:checkbox.check_list').each(function() {
+      //   if (!this.checked) {
+      //     disabled = true;
+      //     }
+      // });
+      // if (disabled) {
+      //     $('.validar_terminos').attr('disabled', 'disabled');
+      //     $('.validar_terminos').addClass('disabled');
+      // } else {
+      //     $('.validar_terminos').removeAttr('disabled');
+      //     $('.validar_terminos').removeClass('disabled');
+      // }
+    },
+
+    ResetDatosListaReserver(){
+      this.pedido_id = '';
+      this.zona_lista_espera = [];
+      this.dias_lista_espera = [];
+      this.fecha_inicio_disp = '';
+      this.fecha_fin_disp = '';
+      this.fecha_inicio_nodisp = '';
+      this.fecha_fin_nodisp = '';
+    },
+
+    ConfirmarRegistrarListaEspera() {
+      
+      var url = '/admin/pedidos_lista_espera';
+
+      axios.post(url,{
+          pedido_id: this.SeleccionarPedidoReserva.id,    
+          zonas_id: this.zona_lista_espera,
+          dias: this.dias_lista_espera,
+          fecha_inicio_disp: this.fecha_inicio_disp,
+          fecha_fin_disp: this.fecha_fin_disp,
+          fecha_inicio_nodisp: this.fecha_inicio_nodisp,
+          fecha_fin_nodisp: this.fecha_fin_nodisp,            
+          token         :   this.token
+      }).then(response=>{                            
+
+        if(!response.data.result){
+          Swal.fire("Ha ocurrido algún error!", "Se le notificará al equipo de soporte!" +response.data.mensaje_error, "error");
+          this.$toasted.error('Ha ocurrido algún error!');           
+        }else{                 
+          this.$toasted.success('Lista de Espera registrada Correctamente');
+          
+        }     
+
+        this.paso_reserva='seleccionar_reserva';
+        this.pedidos=[];
+        this.buscardor_numero_nombre_tlf='';
+        this.ResetDatosListaReserver();
 
 
-              }).catch(error => {
-                  this.errors = error.response.data
-              });                
+        // $("#registrarListaEspera .close").click(); 
+        // $('body').removeClass('modal-open');
+        // $('.modal-backdrop').remove();
 
-        }, 
-
-      VuelosNextPrev(accion) {
-        var vuelo_seleccionado = this.vuelo_seleccionado.id;
-        var index_now = _.findIndex(this.Records, function(o) { return o.id == vuelo_seleccionado; });
-        if(accion=='prev'){
-          if(index_now>0){
-            var prev = index_now - 1;
-            this.vuelo_seleccionado = this.Records[prev];
-          }
-        }else{
-          var next = index_now + 1;  
-          if(this.Records[next]!==undefined){
-            this.vuelo_seleccionado = this.Records[next];
-          } 
-        }        
-      },
-
-          ActualizarContacto() {
-            
-            var url = '/admin/actualizar_contacto';
-
-            axios.post(url,{
-                pedido_id: this.SeleccionarPedidoReserva.id,    
-                nombre_contacto: this.SeleccionarPedidoReserva.nombre_contacto,
-                email_contacto: this.SeleccionarPedidoReserva.email_contacto,
-                telefono_contacto: this.SeleccionarPedidoReserva.telefono_contacto,
-                ciudad_contacto: this.SeleccionarPedidoReserva.ciudad_contacto,
-                lenguaje_contacto: this.SeleccionarPedidoReserva.lenguaje_contacto,
-                token         :   this.token
-            }).then(response=>{
-              
-              if(!response.data.result){
-                Swal.fire("Ha ocurrido algún error!", "Se le notificará al equipo de soporte!" +response.data.mensaje_error, "error");
-                this.$toasted.error('Ha ocurrido algún error!');           
-              }else{                 
-                this.$toasted.success('Datos de Contacto Actualizado Correctamente');
+      }).catch(error => {
+          console.log(error);
+          this.errors = error.response
+      });
                 
-              }                           
-              
-            }).catch(error => {
-                console.log(error);
-                this.errors = error.response
-            });
-                      
 
-          },  
-          BuscarListaEspera() {
-            
-            var url = '/admin/pedidos_lista_espera/'+this.vuelo_seleccionado.id;
-
-            axios.get(url).then(response=>{                                
-               this.pedidos_lista_espera = response.data.records;              
-            }).catch(error => {
-                console.log(error);
-                this.errors = error.response
-            });
-                      
-
-          },  
-
-          validarChecklist(){
-            // var disabled = false;
-            // $('input:checkbox.check_list').each(function() {
-            //   if (!this.checked) {
-            //     disabled = true;
-            //     }
-            // });
-            // if (disabled) {
-            //     $('.validar_terminos').attr('disabled', 'disabled');
-            //     $('.validar_terminos').addClass('disabled');
-            // } else {
-            //     $('.validar_terminos').removeAttr('disabled');
-            //     $('.validar_terminos').removeClass('disabled');
-            // }
-          },
-
-          ResetDatosListaReserver(){
-            this.pedido_id = '';
-            this.zona_lista_espera = [];
-            this.dias_lista_espera = [];
-            this.fecha_inicio_disp = '';
-            this.fecha_fin_disp = '';
-            this.fecha_inicio_nodisp = '';
-            this.fecha_fin_nodisp = '';
-          },
-          ConfirmarRegistrarListaEspera() {
-            
-            var url = '/admin/pedidos_lista_espera';
-
-            axios.post(url,{
-                pedido_id: this.SeleccionarPedidoReserva.id,    
-                zonas_id: this.zona_lista_espera,
-                dias: this.dias_lista_espera,
-                fecha_inicio_disp: this.fecha_inicio_disp,
-                fecha_fin_disp: this.fecha_fin_disp,
-                fecha_inicio_nodisp: this.fecha_inicio_nodisp,
-                fecha_fin_nodisp: this.fecha_fin_nodisp,            
-                token         :   this.token
-            }).then(response=>{                            
- 
-              if(!response.data.result){
-                Swal.fire("Ha ocurrido algún error!", "Se le notificará al equipo de soporte!" +response.data.mensaje_error, "error");
-                this.$toasted.error('Ha ocurrido algún error!');           
-              }else{                 
-                this.$toasted.success('Lista de Espera registrada Correctamente');
-                
-              }     
-
-              this.paso_reserva='seleccionar_reserva';
-              this.pedidos=[];
-              this.buscardor_numero_nombre_tlf='';
-              this.ResetDatosListaReserver();
-
-
-              // $("#registrarListaEspera .close").click(); 
-              // $('body').removeClass('modal-open');
-              // $('.modal-backdrop').remove();
-
-            }).catch(error => {
-                console.log(error);
-                this.errors = error.response
-            });
-                      
-
-          },  
+    },  
   },
   computed: {
     ListRecords: function () {
@@ -2537,6 +2575,11 @@ console.log(pedido_id);
       return data.filter(
         (items) => items.fecha >= moment().format("YYYY-MM-DD")
       );
+    },
+
+    initialDate: function () {
+      var mes =localStorage.getItem('mes_seleccionado');
+      return ((mes!=null) ? mes : moment().format('YYYY-MM-DD'));
     },
 
     calendarOptions() {
@@ -2568,12 +2611,13 @@ console.log(pedido_id);
         displayEventTime: false,
         initialView: "dayGridMonth",
         defaultAllDay: true,
-        initialDate: TODAY,
+        initialDate: this.initialDate,
         eventClick: function (info) {
-          _this.vuelo_seleccionado = info.event.extendedProps.fullData; 
+          _this.vuelo_seleccionado = info.event.extendedProps.fullData;  
+          localStorage.setItem('vuelo_seleccionado', JSON.stringify(_this.vuelo_seleccionado)); 
           $(".BtnVerVuelo").click();   
           info.el.style.borderColor = "red";
-        },
+        }, 
         eventContent: function(info) {
           return { html: '<div class="fc-content">' + info.event.title + '</div>' };
         },
@@ -2581,8 +2625,7 @@ console.log(pedido_id);
     },
   },
   watch: {
-    'vuelo_seleccionado': function () {
-      console.log(this.vuelo_seleccionado);
+    'vuelo_seleccionado': function () { 
       if(this.vuelo_seleccionado.dataVueloCancelado!=false && this.vuelo_seleccionado.estatus != 'Cancelado Bitacora' ){
           this.vuelo_seleccionado = this.vuelo_seleccionado.dataVueloCancelado.vuelo;
           this.vuelo_seleccionado.estatus = 'Cancelado Bitacora';

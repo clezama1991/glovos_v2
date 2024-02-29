@@ -114,6 +114,11 @@
                       </b-form-checkbox>
                     </div>
                   </div>
+                  <div class="col-md-3">
+                    <button  type="button" class="btn btn-danger mt-10" @click="RemoverFiltros()">
+                      <i class="fa fa-times" aria-hidden="true"></i> Limpiar Filtros
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1211,6 +1216,24 @@
     this.BuscarZonas();
   },
   methods: {
+    SetValoresAnteriores() {
+      this.filtro.globo = localStorage.getItem('filtroglobos'); 
+      this.filtro.piloto = localStorage.getItem('filtropiloto'); 
+      this.filtro.zona = localStorage.getItem('filtrozona'); 
+      this.filtro.estado = localStorage.getItem('filtroestado'); 
+      this.filtro.inicio = localStorage.getItem('filtroinicio'); 
+      this.filtro.fin = localStorage.getItem('filtrofin'); 
+    },
+    RemoverFiltros() {
+      localStorage.clear();
+      this.filtro.globo = null;
+      this.filtro.piloto = null;
+      this.filtro.zona = null;
+      this.filtro.estado = null;
+      this.filtro.inicio = null;
+      this.filtro.fin = null;
+    },
+
     formatDay(value) {
       return moment(value).format("ddd");
     },
@@ -1622,6 +1645,9 @@
         .get(url)
         .then((response) => {
           this.records = response.data.records;
+          
+          this.SetValoresAnteriores();
+
         })
         .catch((error) => {
           this.errors = error.response.data;
@@ -1689,7 +1715,8 @@
       /******* GLOBOS  ************/
       var globo = this.filtro.globo;
 
-      if (globo != null) {
+      if (globo != null) {        
+        localStorage.setItem('filtroglobos', this.filtro.globo);
         data = _.filter(data, function (items) {
           if (items.globo) {
             return items.globo_id == globo;
@@ -1705,7 +1732,8 @@
       /******* PILOTOS  ************/
       var piloto = this.filtro.piloto;
 
-      if (piloto != null) {
+      if (piloto != null) {        
+        localStorage.setItem('filtropiloto', this.filtro.piloto);
         data = _.filter(data, function (items) {
           if (items.piloto) {
             return items.piloto_id == piloto;
@@ -1722,6 +1750,7 @@
       var zona = this.filtro.zona;
 
       if (zona != null) {
+        localStorage.setItem('filtrozona', this.filtro.zona);
         data = _.filter(data, function (items) {
           if (items.zona) {
             return items.zona_id == zona;
@@ -1738,6 +1767,7 @@
       var estado = this.filtro.estado;
 
       if (estado != null) {
+        localStorage.setItem('filtroestado', this.filtro.estado);
         data = _.filter(data, function (items) {
           if (items.estatus) {
             return items.estatus == estado;
@@ -1751,12 +1781,14 @@
       var fin = this.filtro.fin;
 
       if (inicio != null && inicio != "") {
+        localStorage.setItem('filtroinicio', this.filtro.inicio);
         data = _.filter(data, function (items) {
           return items.fecha >= inicio;
         });
       }
 
       if (fin != null && fin != "") {
+        localStorage.setItem('filtrofin', this.filtro.fin);
         data = _.filter(data, function (items) {
           return items.fecha <= fin;
         });
@@ -1888,7 +1920,7 @@
     
   },
   
-  watch: {
+  watch: { 
     'filtros.globos': function(newValues, oldValues){
       this.$nextTick(function(){ $('#selectpicker_globos').selectpicker('refresh'); });
     },
